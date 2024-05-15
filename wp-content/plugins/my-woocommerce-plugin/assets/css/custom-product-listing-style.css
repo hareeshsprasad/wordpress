@@ -1,0 +1,32 @@
+.custom-product-listing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.custom-product-listing ul {
+    list-style: none;
+    padding: 0;
+}
+
+.custom-product-listing li {
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: calc(25% - 20px);
+    box-sizing: border-box;
+}
+
+.custom-product-listing li img {
+    max-width: 100%;
+    height: auto;
+}
+
+.custom-product-listing h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.custom-product-listing span {
+    font-size: 1em;
+    color: #333;
+}
