@@ -10,7 +10,7 @@ $categories = Custom_Category_Listing::get_categories();
 
 <div class="container">
     <div class="container-form">
-        <h2>Select the depature store and date</h2>
+        <h2>Select the departure store and date</h2>
         <div class="form-group">
             <select id="main-category">
                 <option value="">Select Location</option>
