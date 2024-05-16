@@ -23,13 +23,13 @@
     max-width: 90%;
 }
 
-h2 {
+h4 {
     font-size: 16px;
     margin-bottom: 20px;
     position: relative;
 }
 
-h2::after {
+h4::after {
     content: "";
     display: block;
     width: 100%;
@@ -61,7 +61,9 @@ select.single {
     width: 100%;
 }
 
-
+input {
+    border-radius: 15px !important;
+}
 
 button {
     background-color: #444;
