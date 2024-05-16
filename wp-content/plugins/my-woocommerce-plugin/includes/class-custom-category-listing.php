@@ -23,3 +23,4 @@ class Custom_Category_Listing {
         return get_terms($args);
     }
 }
+
