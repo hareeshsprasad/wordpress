@@ -17,7 +17,7 @@ jQuery(document).ready(function ($) {
           $.each(subcategories, function (index, subcategory) {
             $subCategorySelect.append(
               '<option value="' +
-                subcategory.slug +
+                subcategory.term_id +
                 '">' +
                 subcategory.name +
                 "</option>"
