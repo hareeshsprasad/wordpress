@@ -27,7 +27,7 @@ body {
 
 .title {
     display: flex;
-    float: left;
+    /* float: left; */
 }
 
 h4 {
@@ -42,6 +42,25 @@ h4 {
 
 .form-group {
     margin-bottom: 20px;
+}
+
+.select-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+select {
+    width: calc(50% - 5px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    /* Combined into a single rule */
+}
+
+select.single {
+    width: 100%;
 }
 
 select,
@@ -149,13 +168,26 @@ hr {
     margin-top: 20px;
 }
 
-.details-button,
+.details-button {
+    background-color: #444;
+    color: #fff;
+    width: 150px;
+    height: 52px;
+    border: 1px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 .select-button {
     background-color: #444;
     color: #fff;
-    border: none;
+    width: 150px;
+    height: 52px;
+    border: 1px;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -192,47 +224,129 @@ hr {
 
 /* Modal styles */
 .modal {
-    display: none !important;
+    display: none;
     position: fixed;
     z-index: 1;
-    /* Sit on top */
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
     overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    /* 15% from the top and centered */
+    background-color: #fff;
+    margin: 5% auto;
     padding: 20px;
+    width: 70%;
+    max-width: 600px;
+    /* border-radius: 10px; */
+    /* border: 1px solid #ccc; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-header {
+    display: flex;
+    margin-left: 20px;
+    /* justify-content: center;
+    align-items: center; */
+    width: 100%;
+}
+
+.modal-header h2 {
+    margin: 0;
+}
+
+.modal-body {
     border: 1px solid #888;
-    width: 80%;
-    /* Could be more or less, depending on screen size */
+    text-align: center;
+    width: 100%;
 }
 
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.modal-body img {
+    max-width: 60%;
+    margin-right: 20px;
 }
 
-.close-button:hover,
-.close-button:focus {
-    color: black;
-    text-decoration: none;
+.modal-body .info {
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    margin: 15px 0;
+}
+
+.modal-body .info div {
+    margin: 0 15px;
+}
+
+.car-model {
+    margin-left: 20px;
+    border-bottom: 1px solid #000000;
+    width: 90%;
+}
+
+.car-model p {
+    margin: 5px 0;
+}
+
+.car-spec {
+    padding: 15px;
+    border-bottom: 1px solid #000000;
+}
+
+.car-spec p {
+    margin: 5px 0;
+}
+
+.modal-body .details {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.modal-body .details p {
+    font-size: 14px;
+    margin: 10px;
+    color: #000000;
+    padding: 5px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.modal-footer button {
+    padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    margin: 10px 10px;
+    width: 150px;
+}
+
+.modal-footer button:hover {
+    opacity: 0.9;
+}
+
+.back-btn {
+    background-color: #ccc;
+    color: #000000;
+}
+
+.select-btn {
+    background-color: #333;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .modal-body .info {
+        flex-direction: column;
+        align-items: center;
+    }
 }
