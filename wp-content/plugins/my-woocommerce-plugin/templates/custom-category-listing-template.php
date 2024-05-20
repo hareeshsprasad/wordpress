@@ -22,12 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'rent_to' => $rent_to,
     ];
     $response = Custom_Available_Product_Listing::availabe_Cars($data);
-    // print_r($response);
-    // echo "<pre> $response";
-    // exit;
 }
 ?>
-
 <div class="container">
     <div class="container-form">
         <div class="title">
@@ -35,22 +31,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="vertical-line"></span>
         </div>
         <hr style="margin-top:-10px;">
-        <form action="" method="post">
+        <form action="" method="post" id="car-select-form">
             <div class="select-group">
-                <select id="main-category" name="main_category">
+                <select id="main-category" name="main_category" required>
                     <option value="">Select Location</option>
                     <?php foreach ($categories as $category) : ?>
                         <?php if ($category->name !== 'Uncategorized') : ?>
-                            <option value="<?php echo $category->term_id; ?>"><?php echo $category->name; ?></option>
+                            <option value="<?php echo $category->term_id; ?>" <?php echo (isset($_POST['main_category']) && $_POST['main_category'] == $category->term_id) ? 'selected' : ''; ?>>
+                                <?php echo $category->name; ?>
+                            </option>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
-                <select id="sub-category" name="sub_category">
+                <select id="sub-category" name="sub_category" required>
                     <option value="">Select Store</option>
+                    <?php
+                    if (isset($_POST['main_category']) && isset($_POST['sub_category'])) {
+                        $subcategories = Custom_Category_Listing::get_subcategories(intval($_POST['main_category']));
+                        foreach ($subcategories as $subcategory) {
+                            echo '<option value="' . $subcategory->term_id . '" ' . ($_POST['sub_category'] == $subcategory->term_id ? 'selected' : '') . '>' . $subcategory->name . '</option>';
+                        }
+                    }
+                    ?>
                 </select>
             </div>
             <div class="form-group">
-                <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" min="">
+                <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" value="<?php echo $rent_from; ?>" required>
             </div>
             <div class="title">
                 <h4 class="return-date">Select the return date</h4>
@@ -58,7 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <hr style="margin-top:-15px;">
             <div class="form-group">
-                <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" min="">
+                <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" value="<?php echo $rent_to; ?>" required>
+                <div id="error-message" style="color: red; float:left; display: none">
+                    The end date cannot be earlier than the start date.
+                </div>
             </div>
             <?php if (!empty($response)) : ?>
                 <?php foreach ($response as $product_id) : ?>
@@ -103,8 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                 <?php endforeach; ?>
+            <?php else :  ?>
             <?php endif; ?>
-            <button id="select-car">choose a car</button>
+            <div style="margin-top:30px;">
+                <button id="select-car" type="submit">choose a car</button>
+            </div>
         </form>
         <!-- Modal Structure -->
         <div id="myModal" class="modal">
@@ -125,13 +137,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
                     <div class="car-spec">
-                        <p>
-                            <span style="padding: 2px 5px;font-size:14px;">Drive type: 4WD</span>
-                            <span style="background-color: #ccc; padding: 2px 5px;font-size:14px;">Hybrid fuel consumption WLTC model <br>16.4km/L(4WD)</span>
-                            <span style="background-color: #ccc; padding: 2px 5px;font-size:14px;">EV mileage conversion distance</span>
-                        </p>
+                        <span class="spec-item" style="padding: 2px 5px; font-size: 14px;">駆動方式: 4WD</span>
+                        <span class="spec-item" style="padding: 2px 17px; font-size: 14px;">ハイブリッド燃料消費率 WLTCモード<br>16.4km/L(4WD)</span>
+                        <span class="spec-item" style="padding: 2px 5px; font-size: 14px;">EV走行換算距離 WLTCモード<br>57km</span>
                     </div>
-
+                    <hr style="margin-top:-10px;max-width:90%;margin-left:25px;">
                     <div class="details">
                         <p>
                             A form sharpened by a depth that enhances the ordinary. A rugged
@@ -147,38 +157,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('rent_from').setAttribute('min', today);
-                document.getElementById('rent_to').setAttribute('min', today);
-
-                var modal = document.getElementById("myModal");
-                var backBtn = document.getElementsByClassName("back-btn")[0];
-
-                document.querySelectorAll('.details-button').forEach(button => {
-                    button.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        const productData = JSON.parse(this.getAttribute('data-product'));
-
-                        document.getElementById('modalProductName').innerText = productData.name;
-                        document.getElementById('modalProductImage').src = productData.image;
-                        document.getElementById('modalProductPrice').innerText = productData.price;
-
-                        modal.style.display = "block";
-                    });
-                });
-
-                backBtn.onclick = function() {
-                    modal.style.display = "none";
-                };
-
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                };
-            });
-        </script>
     </div>
 </div>

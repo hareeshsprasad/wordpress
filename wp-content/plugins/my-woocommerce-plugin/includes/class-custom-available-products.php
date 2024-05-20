@@ -73,8 +73,6 @@ class Custom_Available_Product_Listing
                 }
             }
             return $available_products;
-        } else {
-            return "No products found.";
         }
         wp_reset_postdata();
     }

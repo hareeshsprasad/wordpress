@@ -294,12 +294,17 @@ hr {
 }
 
 .car-spec {
+    display: flex;
     padding: 15px;
-    border-bottom: 1px solid #000000;
+    max-width: 100%;
+    /* border-bottom: 1px solid #000000; */
+    justify-content: space-between;
+
 }
 
-.car-spec p {
-    margin: 5px 0;
+.spec-item {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .modal-body .details {

@@ -37,6 +37,7 @@ class My_WC_Plugin
     public function enqueue_scripts()
     {
         wp_enqueue_script('custom-script', MY_WC_PLUGIN_URL . 'assets/js/custom-script.js', ['jquery'], null, true);
+        wp_enqueue_script('category-list-script', MY_WC_PLUGIN_URL . 'assets/js/category-list-script.js');
         wp_localize_script('custom-script', 'my_wc_plugin', [
             'ajax_url' => admin_url('admin-ajax.php')
         ]);
