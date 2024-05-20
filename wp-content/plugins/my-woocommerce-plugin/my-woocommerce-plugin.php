@@ -26,7 +26,7 @@ class My_WC_Plugin
         add_shortcode('custom', [$this, 'custom_product_list_shortcode']);
         add_action('wp_ajax_get_subcategories', [$this, 'get_subcategories']);
         add_action('wp_ajax_nopriv_get_subcategories', [$this, 'get_subcategories']);
-        add_filter('the_content', [$this, 'render_available_products_listing_on_page']);
+        // add_filter('the_content', [$this, 'render_available_products_listing_on_page']);
     }
 
     public function enqueue_styles()
@@ -37,6 +37,7 @@ class My_WC_Plugin
     public function enqueue_scripts()
     {
         wp_enqueue_script('custom-script', MY_WC_PLUGIN_URL . 'assets/js/custom-script.js', ['jquery'], null, true);
+        wp_enqueue_script('category-list-script', MY_WC_PLUGIN_URL . 'assets/js/category-list-script.js');
         wp_localize_script('custom-script', 'my_wc_plugin', [
             'ajax_url' => admin_url('admin-ajax.php')
         ]);
@@ -80,16 +81,16 @@ class My_WC_Plugin
         wp_send_json_success($subcategories);
     }
 
-    public function render_available_products_listing_on_page($content)
-    {
-        if (is_page('demo')) {
-            ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-available-product-list-template.php';
-            $available_product_listing = ob_get_clean();
-            return $content . $available_product_listing;
-        }
-        return $content;
-    }
+    // public function render_available_products_listing_on_page($content)
+    // {
+    //     if (is_page('demo')) {
+    //         ob_start();
+    //         include MY_WC_PLUGIN_PATH . 'templates/custom-available-product-list-template.php';
+    //         $available_product_listing = ob_get_clean();
+    //         return $content . $available_product_listing;
+    //     }
+    //     return $content;
+    // }
 }
 
 new My_WC_Plugin();

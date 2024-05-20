@@ -11,7 +11,6 @@ class Custom_Available_Product_Listing
         $sub_category = $data['sub_category'];
         $rent_from = $data['rent_from'];
         $rent_to = $data['rent_to'];
-
         $args = [
             "post_type" => "product",
             "tax_query" => [
@@ -39,7 +38,7 @@ class Custom_Available_Product_Listing
                 $product_id = get_the_ID();
                 $rental_stock = get_post_meta($product_id, '_wcrp_rental_products_rental_stock', true);
                 $sql = $wpdb->prepare(
-                    "SELECT DISTINCT(order_id), product_id, quantity FROM {$wpdb->prefix}wcrp_rental_products_rentals 
+                    "SELECT DISTINCT(order_item_id), product_id, quantity FROM {$wpdb->prefix}wcrp_rental_products_rentals 
                     WHERE product_id = %d AND reserved_date >= %s AND reserved_date <= %s",
                     $product_id,
                     $rent_from,
@@ -47,7 +46,6 @@ class Custom_Available_Product_Listing
                 );
                 $reserved_products = $wpdb->get_results($sql);
                 $total_quantity = [];
-
                 if ($reserved_products) {
                     foreach ($reserved_products as $reserved) {
                         $product_id = $reserved->product_id;
@@ -75,8 +73,6 @@ class Custom_Available_Product_Listing
                 }
             }
             return $available_products;
-        } else {
-            echo "No products found.";
         }
         wp_reset_postdata();
     }
