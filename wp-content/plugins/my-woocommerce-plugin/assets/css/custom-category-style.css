@@ -25,6 +25,58 @@ body {
     text-align: center;
 }
 
+.navigation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    /* To position the link */
+}
+
+.navigation-link {
+    position: absolute;
+    left: 0;
+    /* Align to the left */
+    top: 50%;
+    /* Align vertically */
+    transform: translateY(-50%);
+    color: #000;
+    text-decoration: none !important;
+    font-size: 16px;
+    margin-left: 15px;
+    /* Center vertically */
+}
+
+.navigation-link:visited {
+    color: #000;
+    text-decoration: none !important;
+}
+
+.navigation-link:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.navigation div {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    /* background-color: #eee; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.navigation div.active {
+    background-color: #ff9800;
+    color: white;
+}
+
 .title {
     display: flex;
     /* float: left; */

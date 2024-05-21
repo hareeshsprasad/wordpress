@@ -26,6 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <div class="container">
     <div class="container-form">
+        <div class="navigation">
+            <a href="#" class="navigation-link">
+                < Back</a>
+                    <div>1</div>
+                    <div>2</div>
+                    <div class="active">3</div>
+                    <div>4</div>
+                    <div>5</div>
+        </div>
         <div class="title">
             <h4>Select the departure store and date</h4>
             <span class="vertical-line"></span>
