@@ -13,7 +13,7 @@ jQuery(document).ready(function ($) {
           var subcategories = response.data;
           var $subCategorySelect = $("#sub-category");
           $subCategorySelect.empty();
-          $subCategorySelect.append('<option value="">Select Area</option>');
+          $subCategorySelect.append('<option value="">Select Store</option>');
           $.each(subcategories, function (index, subcategory) {
             $subCategorySelect.append(
               '<option value="' +

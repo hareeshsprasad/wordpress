@@ -7,11 +7,11 @@ require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-category-listing.php';
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-available-products.php';
 
 $categories = Custom_Category_Listing::get_categories();
-$link = "http://localhost/wordpress/index.php/demo/";
 $response = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $main_category = isset($_POST['main_category']) ? sanitize_text_field($_POST['main_category']) : '';
     $sub_category = isset($_POST['sub_category']) ? sanitize_text_field($_POST['sub_category']) : '';
+    echo $sub_category;
     $rent_from = isset($_POST['rent_from']) ? sanitize_text_field($_POST['rent_from']) : '';
     $rent_to = isset($_POST['rent_to']) ? sanitize_text_field($_POST['rent_to']) : '';
 
@@ -26,8 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <div class="container">
     <div class="container-form">
+        <div class="navigation">
+            <a href="#" class="navigation-link">
+                < Back</a>
+                    <div class="active">1</div>
+                    <div>2</div>
+                    <div>3</div>
+                    <div>4</div>
+                    <div>5</div>
+        </div>
         <div class="title">
-            <h4>Select the departure store and date</h4>
+            <h4>出発する店舗と日時を選ぶ</h4>
             <span class="vertical-line"></span>
         </div>
         <hr style="margin-top:-10px;">
@@ -36,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <select id="main-category" name="main_category" required>
                     <option value="">Select Location</option>
                     <?php foreach ($categories as $category) : ?>
-                        <?php if ($category->name !== 'Uncategorized') : ?>
+                        <?php if ($category->name !== 'Uncategorized' && $category->name !== 'Add-Ons' &&  $category->name !== 'camping-goods') : ?>
                             <option value="<?php echo $category->term_id; ?>" <?php echo (isset($_POST['main_category']) && $_POST['main_category'] == $category->term_id) ? 'selected' : ''; ?>>
                                 <?php echo $category->name; ?>
                             </option>
@@ -59,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" value="<?php echo $rent_from; ?>" required>
             </div>
             <div class="title">
-                <h4 class="return-date">Select the return date</h4>
+                <h4 class="return-date">返却する日時を選ぶ</h4>
                 <span class="vertical-line-2"></span>
             </div>
             <hr style="margin-top:-15px;">
@@ -69,55 +78,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     The end date cannot be earlier than the start date.
                 </div>
             </div>
-            <?php if (!empty($response)) : ?>
-                <?php foreach ($response as $product_id) : ?>
-
-                    <?php
-                    $product = wc_get_product($product_id);
-                    $product_data = [
-                        'name' => $product->get_name(),
-                        'image' => get_the_post_thumbnail_url($product_id),
-                        'price' => $product->get_price()
-                    ];
-                    ?>
-                    <div class="title">
-                        <h4 class="return-date">Car selection</h4>
-                        <span class="vertical-line-2"></span>
-                    </div>
-                    <hr style="margin-top:-15px;">
-                    <div class="car-container">
-                        <div class="car-card">
-                            <h3><?php echo $product->get_name(); ?></h3>
-                            <div class="car-content">
-                                <img src="<?php echo get_the_post_thumbnail_url($product_id); ?>" alt="Car Image">
-                                <div class="car-details">
-                                    <p>
-                                        PHEV model
-                                        <span class="vertical-line"></span>
-                                        Price : <?php echo $product->get_price(); ?>
-                                    </p>
-                                    <p>Number of passengers: 5 people</p>
-                                    <div class="car-features">
-                                        <span class="feature">禁煙車</span>
-                                        <span class="feature">カーナビ</span>
-                                        <span class="feature">ETC車載器</span>
-                                    </div>
-                                    <hr>
-                                    <div class="car-actions">
-                                        <button class="details-button" data-product='<?php echo json_encode($product_data); ?>'>Details</button>
-                                        <button class="select-button">Select</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else :  ?>
-            <?php endif; ?>
             <div style="margin-top:30px;">
                 <button id="select-car" type="submit">choose a car</button>
             </div>
         </form>
+        <?php if (!empty($response)) : ?>
+            <?php foreach ($response as $product_id) : ?>
+
+                <?php
+                $product = wc_get_product($product_id);
+                $product_data = [
+                    'name' => $product->get_name(),
+                    'image' => get_the_post_thumbnail_url($product_id),
+                    'price' => $product->get_price()
+                ];
+                $product_permalink = get_permalink($product_id);
+                ?>
+                <div class="title">
+                    <h4 class="return-date">Car selection</h4>
+                    <span class="vertical-line-2"></span>
+                </div>
+                <hr style="margin-top:-15px;">
+                <div class="car-container">
+                    <div class="car-card">
+                        <h3><?php echo $product->get_name(); ?></h3>
+                        <div class="car-content">
+                            <img src="<?php echo get_the_post_thumbnail_url($product_id); ?>" alt="Car Image">
+                            <div class="car-details">
+                                <p>
+                                    PHEV model
+                                    <span class="vertical-line"></span>
+                                    Price : <?php echo $product->get_price(); ?>
+                                </p>
+                                <p>Number of passengers: 5 people</p>
+                                <div class="car-features">
+                                    <span class="feature">禁煙車</span>
+                                    <span class="feature">カーナビ</span>
+                                    <span class="feature">ETC車載器</span>
+                                </div>
+                                <hr>
+                                <?php $link = "http://localhost/wordpress/index.php/product/$product_permalink?rent_from=$rent_from&rent_to=2024-05-31"; ?>
+                                <div class="car-actions">
+                                    <button class="details-button" data-product='<?php echo json_encode($product_data); ?>'>Details</button>
+                                    <button class="select-button" data-link="<?php echo esc_url($link); ?>">Select</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else :  ?>
+        <?php endif; ?>
         <!-- Modal Structure -->
         <div id="myModal" class="modal">
             <div class="modal-content">

@@ -26,6 +26,8 @@ class Custom_Available_Product_Listing
                     "terms" => $sub_category,
                 ],
             ],
+            "orderby" => "date",    // Sort by the date field
+            "order" => "ASC",       // Oldest products first
         ];
 
         // Execute the query to retrieve products
@@ -36,6 +38,7 @@ class Custom_Available_Product_Listing
             while ($products_query->have_posts()) {
                 $products_query->the_post();
                 $product_id = get_the_ID();
+                // echo "<pre> $product_id";
                 $rental_stock = get_post_meta($product_id, '_wcrp_rental_products_rental_stock', true);
                 $sql = $wpdb->prepare(
                     "SELECT DISTINCT(order_item_id), product_id, quantity FROM {$wpdb->prefix}wcrp_rental_products_rentals 
