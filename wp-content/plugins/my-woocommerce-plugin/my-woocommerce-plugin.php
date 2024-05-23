@@ -33,8 +33,12 @@ class My_WC_Plugin
     {
         wp_enqueue_style('custom-category-style', MY_WC_PLUGIN_URL . 'assets/css/custom-category-style.css');
         wp_enqueue_style('custom-available-product', MY_WC_PLUGIN_URL . 'assets/css/custom-available-product.css');
+
         if (is_page('car-add-ons')) { // Change 'demo' to your specific page slug
             wp_enqueue_style('car-add-ons', MY_WC_PLUGIN_URL . 'assets/css/car-add-ons.css');
+        }
+        if (is_page('camping-goods')) { // Change 'demo' to your specific page slug
+            wp_enqueue_style('custom-goods-style', MY_WC_PLUGIN_URL . 'assets/css/custom-goods-style.css');
         }
     }
     public function enqueue_scripts()
@@ -71,6 +75,14 @@ class My_WC_Plugin
             $category_listing = ob_get_clean();
             return $content . $category_listing;
         }
+
+        if (is_page('page-one')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-template.php';
+            $category_listing = ob_get_clean();
+            return $content . $category_listing;
+        }
+
         return $content;
     }
     public function get_subcategories()
