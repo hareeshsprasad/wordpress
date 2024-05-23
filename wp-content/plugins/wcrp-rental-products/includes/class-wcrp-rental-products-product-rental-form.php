@@ -147,6 +147,8 @@ if (!class_exists('WCRP_Rental_Products_Product_Rental_Form')) {
 
 			global $post;
 
+			$bookDate = $_REQUEST['rent_from'] . ' - ' . $_REQUEST['rent_to'];
+
 			$product = wc_get_product($post);
 
 			if (!empty($product)) {
@@ -697,7 +699,7 @@ if (!class_exists('WCRP_Rental_Products_Product_Rental_Form')) {
 									<?php echo esc_html(apply_filters('wcrp_rental_products_text_rental_dates', get_option('wcrp_rental_products_text_rental_dates'))); ?>
 								</label>
 								<div id="wcrp-rental-products-rental-dates-parent-<?php echo esc_html($this->rental_form_id); ?>" class="wcrp-rental-products-rental-dates-parent">
-									<input type="text" id="wcrp-rental-products-rental-dates-<?php echo esc_html($this->rental_form_id); ?>" class="wcrp-rental-products-rental-dates" name="wcrp_rental_products_rental_dates" placeholder="<?php echo esc_html(apply_filters('wcrp_rental_products_text_select_dates', get_option('wcrp_rental_products_text_select_dates'))); ?>" required>
+									<input type="text" id="wcrp-rental-products-rental-dates-<?php echo esc_html($this->rental_form_id); ?>" class="wcrp-rental-products-rental-dates" name="wcrp_rental_products_rental_dates" placeholder="<?php echo esc_html(apply_filters('wcrp_rental_products_text_select_dates', get_option('wcrp_rental_products_text_select_dates'))); ?>" value="<?php echo $bookDate ?>" required>
 								</div>
 							</div>
 							<?php

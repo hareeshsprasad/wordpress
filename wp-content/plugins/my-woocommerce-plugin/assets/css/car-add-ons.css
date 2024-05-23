@@ -169,10 +169,12 @@ button {
     height: 80px;
     border-radius: 15px;
     border: 1px solid #ccc;
+
 }
 
 .proceed-btn:hover {
     background-color: #ccc !important;
+    text-decoration: none !important;
 }
 
 .camp-goods-btn:hover {

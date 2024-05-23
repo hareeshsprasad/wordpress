@@ -65,4 +65,11 @@ document.addEventListener("DOMContentLoaded", function () {
       modal.style.display = "none";
     }
   };
+  document.querySelectorAll(".select-button").forEach((button) => {
+    button.addEventListener("click", function (event) {
+      // event.preventDefault();
+
+      window.location.href = this.getAttribute("data-link");
+    });
+  });
 });

@@ -33,7 +33,9 @@ class My_WC_Plugin
     {
         wp_enqueue_style('custom-category-style', MY_WC_PLUGIN_URL . 'assets/css/custom-category-style.css');
         wp_enqueue_style('custom-available-product', MY_WC_PLUGIN_URL . 'assets/css/custom-available-product.css');
-        wp_enqueue_style('car-add-ons', MY_WC_PLUGIN_URL . 'assets/css/car-add-ons.css');
+        if (is_page('demo')) { // Change 'demo' to your specific page slug
+            wp_enqueue_style('car-add-ons', MY_WC_PLUGIN_URL . 'assets/css/car-add-ons.css');
+        }
     }
     public function enqueue_scripts()
     {
