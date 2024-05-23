@@ -33,7 +33,7 @@ class My_WC_Plugin
     {
         wp_enqueue_style('custom-category-style', MY_WC_PLUGIN_URL . 'assets/css/custom-category-style.css');
         wp_enqueue_style('custom-available-product', MY_WC_PLUGIN_URL . 'assets/css/custom-available-product.css');
-        if (is_page('demo')) { // Change 'demo' to your specific page slug
+        if (is_page('car-add-ons')) { // Change 'demo' to your specific page slug
             wp_enqueue_style('car-add-ons', MY_WC_PLUGIN_URL . 'assets/css/car-add-ons.css');
         }
     }
@@ -86,7 +86,7 @@ class My_WC_Plugin
 
     public function render_add_ons($content)
     {
-        if (is_page('demo')) {
+        if (is_page('car-add-ons')) {
             ob_start();
             include MY_WC_PLUGIN_PATH . 'templates/car-add-ons-template.php';
             $available_product_listing = ob_get_clean();
