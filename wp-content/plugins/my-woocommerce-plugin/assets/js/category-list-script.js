@@ -46,12 +46,36 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function (event) {
       event.preventDefault();
       const productData = JSON.parse(this.getAttribute("data-product"));
+      let test = `wcrp-rental-products-cart-item-validation-${productData.rental_form_id}`;
 
+      let ttt = document.getElementById(test).value;
+
+      console.log(ttt);
       document.getElementById("modalProductName").innerText = productData.name;
       document.getElementById("modalProductImage").src = productData.image;
       document.getElementById("modalProductPrice").innerText =
         productData.price;
-
+      document.getElementById(
+        "wcrp-rental-products-cart-item-validation"
+      ).value = ttt;
+      document.getElementById(
+        "wcrp-rental-products-cart-item-timestamp"
+      ).value = productData.timestamp;
+      document.getElementById(`wcrp-rental-products-cart-item-price`).value =
+        productData.total_price;
+      document.getElementById(`wcrp-rental-products-rent-from`).value =
+        productData.rent_from;
+      document.getElementById(`wcrp-rental-products-rent-to`).value =
+        productData.rent_to;
+      document.getElementById(
+        `wcrp-rental-products-start-days-threshold`
+      ).value = productData.start_days_threshold;
+      document.getElementById(
+        `wcrp-rental-products-return-days-threshold`
+      ).value = productData.return_days_threshold;
+      document.getElementById(`wcrp-rental-products-advanced-pricing`).value =
+        productData.products_advanced_pricing;
+      document.getElementById(`product-id`).value = productData.product_id;
       modal.style.display = "block";
     });
   });
@@ -65,11 +89,4 @@ document.addEventListener("DOMContentLoaded", function () {
       modal.style.display = "none";
     }
   };
-  document.querySelectorAll(".select-button").forEach((button) => {
-    button.addEventListener("click", function (event) {
-      // event.preventDefault();
-
-      window.location.href = this.getAttribute("data-link");
-    });
-  });
 });
