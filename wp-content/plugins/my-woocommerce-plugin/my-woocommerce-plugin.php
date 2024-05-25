@@ -90,6 +90,21 @@ class My_WC_Plugin
             $category_listing = ob_get_clean();
             return $content . $category_listing;
         }
+
+        if (is_page('page-one')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-template.php';
+            $category_listing = ob_get_clean();
+            return $content . $category_listing;
+        }
+
+        if (is_page('goods-details')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-details.php';
+            $category_listing = ob_get_clean();
+            return $content . $category_listing;
+        }
+
         return $content;
     }
 
