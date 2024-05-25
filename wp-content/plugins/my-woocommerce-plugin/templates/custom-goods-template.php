@@ -101,6 +101,30 @@ function fetch_products($category_slug = "", $search_keyword = "", $tag_slug = "
     return $products;
 }
 
+goods_added_to_cart();
+
+function goods_added_to_cart()
+{
+    if (isset($_REQUEST['product_id']) && isset($_REQUEST['product_quanty'])) {
+        $product_id = intval($_REQUEST['product_id']);
+        $product_quantity = intval($_REQUEST['product_quanty']);
+
+        // Ensure WooCommerce is loaded
+        if (class_exists('WC_Cart')) {
+            $response = WC()->cart->add_to_cart($product_id, $product_quantity);
+
+            if ($response) {
+                function_alert('Product added to cart!');
+            }
+
+            // Redirect to the cart page after adding the product to the cart
+
+            // wp_safe_redirect(home_url('index.php/goods-details/'));
+            // exit;
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -113,8 +137,8 @@ function fetch_products($category_slug = "", $search_keyword = "", $tag_slug = "
 </head>
 
 <body>
-    <form action="" method="GET">
-        <div class="container">
+    <div class="container">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="navigation">
                 <div>1</div>
                 <div>2</div>
@@ -141,61 +165,65 @@ function fetch_products($category_slug = "", $search_keyword = "", $tag_slug = "
                 <button name="tag-search" value="" type="submit">車</button>
                 <button name="tag-search" value="" type="submit" class="more">季節</button> -->
             </div>
-            <?php
-            foreach ($mainCategories as $mCategories) {
+        </form>
+        <?php
+        foreach ($mainCategories as $mCategories) {
 
-                if ($mCategories->slug == GOODS_PURCHASE_CATEGORY) {
+            if ($mCategories->slug == GOODS_PURCHASE_CATEGORY) {
 
-                    $subCategories = Custom_Category_Listing::get_subcategories($mCategories->term_id);
+                $subCategories = Custom_Category_Listing::get_subcategories($mCategories->term_id);
 
-                    if (empty($subCategories)) {
-                        function_alert('Purchase sub category is empty!');
-                    }
+                if (empty($subCategories)) {
+                    function_alert('Purchase sub category is empty!');
+                }
 
-                    if (!empty($subCategories)) {
-                        foreach ($subCategories as $sCategories) {
+                if (!empty($subCategories)) {
+                    foreach ($subCategories as $sCategories) {
 
-            ?>
-                            <h4><?php echo $sCategories->name; ?></h4>
-                            <div class="product-list">
-                                <?php
+        ?>
+                        <h4><?php echo $sCategories->name; ?></h4>
+                        <div class="product-list">
+                            <?php
 
-                                $products = fetch_products($sCategories->slug, $search_keyword, $tag_slug);
+                            $products = fetch_products($sCategories->slug, $search_keyword, $tag_slug);
 
-                                foreach ($products as $product) {
+                            foreach ($products as $product) {
 
-                                ?>
+                            ?>
+                                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                                     <div class="product-item">
                                         <img src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="Car Image">
+                                        <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
                                         <div class="product-details">
                                             <div class="product-title"><?php echo $product->get_name(); ?></div>
                                             <div class="product-price"><?php echo $product->get_price(); ?></div>
                                             <div class="product-desc"><?php echo $product->get_description(); ?></div>
                                             <div class="product-actions">
-                                                <select>
+                                                <select name="product_quanty">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
                                                     <option value="4">4</option>
                                                     <option value="5">5</option>
                                                 </select>
-                                                <button type="button">カートに入れる</button>
+                                                <button type="submit">カートに入れる</button>
                                             </div>
                                         </div>
                                     </div>
-                                <?php } ?>
-                                <!-- Repeat product-item as needed -->
-                            </div>
-            <?php
-                        }
+                                </form>
+                            <?php } ?>
+                            <!-- Repeat product-item as needed -->
+                        </div>
+        <?php
                     }
-                } else {
-                    // echo "outsideeeeee";
                 }
+            } else {
+                // echo "outsideeeeee";
             }
-            ?>
+        }
+        ?>
 
-        </div>
+    </div>
     </form>
     <button class="cart-button">カートを見る</button>
 
