@@ -4,6 +4,22 @@ if (!defined('ABSPATH')) {
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
 $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['action'])) {
+        foreach ($_POST as $key => $value) {
+            if (!empty($value)) {
+                $product_id = intval($value);
+                WC()->cart->add_to_cart($product_id);
+            }
+        }
+    }
+    if ($_POST['action'] == 'select_camping_goods') {
+        // print_r($_POST);
+        ob_clean();
+        wp_redirect('http://localhost/wordpress/index.php/my-account/');
+        exit();
+    }
+}
 ?>
 <script>
     (function(d) {
@@ -55,50 +71,50 @@ $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
                 <li>5</li>
             </ul>
         </div>
-        <div class="sub_content_area">
-            <h2 class="sub_heading">オプション選択 <span style="font-weight: 200">|</span></h2>
-            <div class="w-100 hr_blck"></div>
-            <div class="container m-0 p-0 full_width">
-                <?php if (!empty($add_on_products)) : ?>
-                    <?php foreach ($add_on_products as $index => $product_post) :
-                        $product = wc_get_product($product_post->ID);
-                    ?>
-                        <div class="row">
-                            <div class="col-12 col-lg-6 mt-3">
-                                <div class="fnt15"><?php echo $product->get_name(); ?></div>
-                                <div class="mt-1">料金：　<?php echo wc_price($product->get_price()); ?> 円 ／ 1枚</div>
-                            </div>
-                            <div class="col-6 col-lg-3 mt-3">
-                                <div class="radio_box">
-                                    <div>希望する</div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_yes">
+        <form action="" method="POST">
+            <div class="sub_content_area">
+                <h2 class="sub_heading">オプション選択 <span style="font-weight: 200">|</span></h2>
+                <div class="w-100 hr_blck"></div>
+                <div class="container m-0 p-0 full_width">
+                    <?php if (!empty($add_on_products)) : ?>
+                        <?php foreach ($add_on_products as $index => $product_post) :
+                            $product = wc_get_product($product_post->ID);
+                        ?>
+                            <div class="row">
+                                <div class="col-12 col-lg-6 mt-3">
+                                    <div class="fnt15"><?php echo $product->get_name(); ?></div>
+                                    <div class="mt-1">料金：　<?php echo wc_price($product->get_price()); ?> 円 ／ 1枚</div>
+                                </div>
+                                <div class="col-6 col-lg-3 mt-3">
+                                    <div class="radio_box">
+                                        <div>希望する</div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_yes" value="<?php echo $product->get_id(); ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg-3 mt-3">
+                                    <div class="radio_box">
+                                        <div>希望しない</div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_no" value="" checked>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6 col-lg-3 mt-3">
-                                <div class="radio_box">
-                                    <div>希望しない</div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_no" checked>
-                                    </div>
-                                </div>
-                            </div>
+                        <?php endforeach; ?>
+                    <?php endif ?>
+                    <div class="row">
+                        <div class="col-md-12 text-center mt-4">
+                            <button type="submit" class="btn btn-secondary m_btm_btn_black shadow" name="action" value="select_camping_goods">キャンプグッズ選択へ</button>
                         </div>
-                    <?php endforeach; ?>
-                <?php endif ?>
-                <div class="row">
-                    <div class="col-md-12 text-center mt-4">
-                        <button type="button" class="btn btn-secondary m_btm_btn_black shadow">キャンプグッズ選択へ</button>
-                    </div>
-                    <div class="col-md-12 text-center mt-4">
-                        <button type="button" class="btn btn-outline-secondary m_btm_btn_line shadow">キャンプグッズ選択へ</button>
+                        <div class="col-md-12 text-center mt-4">
+                            <button type="submit" class="btn btn-outline-secondary m_btm_btn_line shadow" name="action">このまま決済へ進む</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
+        </form>
     </div>
 
 </body>
