@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="row">
                         <div class="col-md-12 text-center mt-5 ">
-                            <button type="submit" class="btn btn-secondary btndark_big shadow px-5">Search</button>
+                            <button type="submit" class="btn btn-secondary btndark_big shadow px-5">検索</button>
                         </div>
                     </div>
                     <input type="hidden" value="submitted" name="submitted">

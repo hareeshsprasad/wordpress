@@ -169,6 +169,10 @@ button {
   padding: 11px !important;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
 .sub-head1 {
   font-size: 22px !important;
 }
