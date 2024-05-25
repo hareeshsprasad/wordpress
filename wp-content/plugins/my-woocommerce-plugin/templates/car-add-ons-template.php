@@ -19,6 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         wp_redirect('http://localhost/wordpress/index.php/my-account/');
         exit();
     }
+    if ($_POST['action'] == 'proceed_to_checkout') {
+        // print_r($_POST);
+        ob_clean();
+        wp_redirect('http://localhost/wordpress/index.php/my-account/');
+        exit();
+    }
 }
 ?>
 <script>
@@ -109,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <button type="submit" class="btn btn-secondary m_btm_btn_black shadow" name="action" value="select_camping_goods">キャンプグッズ選択へ</button>
                         </div>
                         <div class="col-md-12 text-center mt-4">
-                            <button type="submit" class="btn btn-outline-secondary m_btm_btn_line shadow" name="action">このまま決済へ進む</button>
+                            <button type="submit" class="btn btn-outline-secondary m_btm_btn_line shadow" name="action" value="proceed_to_checkout">このまま決済へ進む</button>
                         </div>
                     </div>
                 </div>

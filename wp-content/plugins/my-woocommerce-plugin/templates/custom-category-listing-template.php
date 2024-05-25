@@ -264,7 +264,9 @@ function custom_add_to_cart()
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
                 echo 'Product added to cart!';
-                wp_safe_redirect('http://localhost/wordpress/index.php/car-add-ons/');
+                ob_clean();
+                wp_redirect('http://localhost/wordpress/index.php/my-account/');
+                exit();
             }
             exit();
         }
