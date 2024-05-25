@@ -53,7 +53,8 @@ class My_WC_Plugin
             wp_enqueue_style('custom-available-product', MY_WC_PLUGIN_URL . 'assets/css/custom-available-product.css');
         }
         if (is_page('car-add-ons')) {
-            wp_enqueue_style('car-add-ons', MY_WC_PLUGIN_URL . 'assets/css/car-add-ons.css');
+            wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
+            wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
     }
 

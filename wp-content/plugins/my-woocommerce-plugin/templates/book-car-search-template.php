@@ -149,6 +149,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $attributes = $product->get_attributes();
                 $model_attribute = $product->get_attribute('car-model');
                 $passenger_attribute = $product->get_attribute('number-of-passengers');
+                $drive_type = $product->get_attribute('drive-type');
+                $hybrid_fule_type = $product->get_attribute('hybri-fuel-consumption-rate');
+                $ev_mileage = $product->get_attribute('ev-milege');
+                $product_description = $product->get_description();
                 $car_features = wp_get_post_terms($product_id, 'car_features');
                 $rental_form_id = uniqid();
                 $rent_from_date = new DateTime($rent_from);
@@ -210,6 +214,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     'name' => $product->get_name(),
                                                     'image' => get_the_post_thumbnail_url($product_id),
                                                     'price' => $product->get_price(),
+                                                    'model' => $model_attribute,
+                                                    'number_of_passengers' => $passenger_attribute,
+                                                    'car_features' => $car_features,
+                                                    'hybrid_fule_type' => $hybrid_fule_type,
+                                                    'ev_mileage' => $ev_mileage,
+                                                    'product_description' => $product_description,
+                                                    'drive_type' => $drive_type,
                                                     'rental_form_id' => $rental_form_id,
                                                     'cart-item-validation' => $product,
                                                     'timestamp' => current_time('timestamp', false),
@@ -219,73 +230,145 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     'start_days_threshold' => "0",
                                                     'return_days_threshold' => "0",
                                                     'products_advanced_pricing' => "off"
-                                                ]; ?>
+                                                ];
+                                                ?>
                                                 <div class="row mt-3">
                                                     <div class="col-6 text-center ">
-                                                        <button type="button" class="btn btn-outline-secondary line_btns  w-100 shadow">詳細</button>
+                                                        <button type="button" class="btn btn-outline-secondary line_btns  w-100 shadow details-button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-product='<?php echo json_encode($product_data); ?>'>詳細</button>
                                                     </div>
                                                     <div class="col-6 text-center">
                                                         <!-- <button type="button" class="btn btn-secondary btndark w-100 shadow">選択する</button> -->
                                                         <input type="submit" name="hidden_form" value="選択する" class="btn btn-secondary btndark w-100 shadow">
                                                     </div>
-                                                </div>
                                             </form>
-                                            <script>
-                                                var cartItemValidationString = document.getElementById("wcrp-rental-products-cart-item-timestamp-<?php echo esc_html($rental_form_id); ?>").value;
-                                                cartItemValidationString += document.getElementById("wcrp-rental-products-cart-item-price-<?php echo esc_html($rental_form_id); ?>").value;
-                                                cartItemValidationString += document.getElementById("wcrp-rental-products-rent-from-<?php echo esc_html($rental_form_id); ?>").value;
-                                                cartItemValidationString += document.getElementById("wcrp-rental-products-rent-to-<?php echo esc_html($rental_form_id); ?>").value;
-                                                cartItemValidationString += document.getElementById("wcrp-rental-products-start-days-threshold-<?php echo esc_html($rental_form_id); ?>").value;
-                                                cartItemValidationString += document.getElementById("wcrp-rental-products-advanced-pricing-<?php echo esc_html($rental_form_id); ?>").value;
-                                                cartItemValidationString = btoa(cartItemValidationString);
-                                                document.getElementById("wcrp-rental-products-cart-item-validation-<?php echo esc_html($rental_form_id); ?>").value = cartItemValidationString;
-                                            </script>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <div class="modal-border p-3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <h4 class="txt-center" id="modalProductName"></h4>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12 text-center"> <img id="modalProductImage" src=""> </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6 sub-head1 border-end text-end txt-center" id="productModel"></div>
+                                                                    <div class="col-md-6 sub-head2 text-start txt-center"><span>料金：</span> <span id="modalProductPrice"></span>円<span>(税込)</span></div>
+                                                                </div>
+                                                                <div class="row mt-3">
+                                                                    <div class="col-md-12">
+                                                                        <div class="d-flex justify-content-center col_dir">
+                                                                            <div class="text16 txt-center" id="number-of-passengers"></div>
+                                                                            <div class="txt_highlight ul-auto">
+                                                                                <ul id="carFeaturesList">
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="hr_blck mt-1"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <div class="col-md-2 txt-center" id="drive-type"></div>
+                                                                    <div class="col-md-5">
+                                                                        <div class="txt-center" id="hybrid">ハイブリッド燃料消費率 WLTCモー 16.4km/L（4WD)</div>
+                                                                    </div>
+                                                                    <div class="col-md-5">
+                                                                        <div class="txt-center" id="ev">EV走行換算距離 WLTCモード 57km</div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="hr_blck mt-2"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12 mt-2" id="description"> 上質感を高めながらいっそう流麗で洗練されたフォルム。精悍でスポーティな表情。そして、SUVとしての機動性とスタビリティの高さを表現した、シャープで立体的な六角形のリヤデザイン。走りへの欲求を掻き立てる、新たな造形に辿り着きました。 </div>
+                                                                </div>
+                                                                <div class="row mt-3">
+                                                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                                                                        <input type="hidden" id="wcrp-rental-products-cart-item-validation" name="wcrp_rental_products_cart_item_validation">
+                                                                        <input type="hidden" id="wcrp-rental-products-cart-item-timestamp" name="wcrp_rental_products_cart_item_timestamp">
+                                                                        <input type="hidden" id="wcrp-rental-products-cart-item-price" name="wcrp_rental_products_cart_item_price">
+                                                                        <input type="hidden" id="wcrp-rental-products-rent-from" name="wcrp_rental_products_rent_from">
+                                                                        <input type="hidden" id="wcrp-rental-products-rent-to" name="wcrp_rental_products_rent_to">
+                                                                        <input type="hidden" id="wcrp-rental-products-start-days-threshold" name="wcrp_rental_products_start_days_threshold">
+                                                                        <input type="hidden" id="wcrp-rental-products-return-days-threshold" name="wcrp_rental_products_return_days_threshold">
+                                                                        <input type="hidden" id="wcrp-rental-products-advanced-pricing" name="wcrp_rental_products_advanced_pricing">
+                                                                        <input type="hidden" name="product_id" id="product-id">
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-6 text-end">
+                                                                                <button type="button" class="btn btn-outline-secondary line_btns shadow btn-wdth" data-bs-toggle="modal" data-bs-target="#exampleModal">戻る</button>
+                                                                            </div>
+                                                                            <div class="col-6 text-start">
+                                                                                <input type="submit" name="model_form" value="選択する" class="btn btn-secondary btndark  shadow btn-wdth">
+                                                                                <!-- <button type="button" class="btn btn-secondary btndark  shadow btn-wdth">選択する</button> -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <script>
+                                            var cartItemValidationString = document.getElementById("wcrp-rental-products-cart-item-timestamp-<?php echo esc_html($rental_form_id); ?>").value;
+                                            cartItemValidationString += document.getElementById("wcrp-rental-products-cart-item-price-<?php echo esc_html($rental_form_id); ?>").value;
+                                            cartItemValidationString += document.getElementById("wcrp-rental-products-rent-from-<?php echo esc_html($rental_form_id); ?>").value;
+                                            cartItemValidationString += document.getElementById("wcrp-rental-products-rent-to-<?php echo esc_html($rental_form_id); ?>").value;
+                                            cartItemValidationString += document.getElementById("wcrp-rental-products-start-days-threshold-<?php echo esc_html($rental_form_id); ?>").value;
+                                            cartItemValidationString += document.getElementById("wcrp-rental-products-advanced-pricing-<?php echo esc_html($rental_form_id); ?>").value;
+                                            cartItemValidationString = btoa(cartItemValidationString);
+                                            document.getElementById("wcrp-rental-products-cart-item-validation-<?php echo esc_html($rental_form_id); ?>").value = cartItemValidationString;
+                                        </script>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
-            <div class="row">
-                <div class="col-md-12 text-center mt-5 ">
-                    <!-- <button type="button" class="btn btn-secondary btndark_big shadow px-5">選択する</button> -->
-                </div>
-            </div>
-        <?php endif ?>
     </div>
-    <?php
-    function custom_add_to_cart()
-    {
-        $cart_item_data = [];
-        $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
-        $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
-        $cart_item_data['wcrp_rental_products_cart_item_price'] = !empty($_REQUEST['wcrp_rental_products_cart_item_price']) ? $_REQUEST['wcrp_rental_products_cart_item_price'] : "";
-        $cart_item_data['wcrp_rental_products_rent_from'] = !empty($_REQUEST['wcrp_rental_products_rent_from']) ? $_REQUEST['wcrp_rental_products_rent_from'] : "";
-        $cart_item_data['wcrp_rental_products_rent_to'] = !empty($_REQUEST['wcrp_rental_products_rent_to']) ? $_REQUEST['wcrp_rental_products_rent_to'] : "";
-        $cart_item_data['wcrp_rental_products_start_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_start_days_threshold']) ? $_REQUEST['wcrp_rental_products_start_days_threshold'] : 0;
-        $cart_item_data['wcrp_rental_products_return_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_return_days_threshold']) ? $_REQUEST['wcrp_rental_products_return_days_threshold'] : 0;
-        $cart_item_data['wcrp_rental_products_advanced_pricing'] = !empty($_REQUEST['wcrp_rental_products_advanced_pricing']) ? $_REQUEST['wcrp_rental_products_advanced_pricing'] : "off";
+<?php endforeach; ?>
+<div class="row">
+    <div class="col-md-12 text-center mt-5 ">
+        <!-- <button type="button" class="btn btn-secondary btndark_big shadow px-5">選択する</button> -->
+    </div>
+</div>
+<?php endif ?>
+</div>
+<?php
+function custom_add_to_cart()
+{
+    $cart_item_data = [];
+    $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
+    $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
+    $cart_item_data['wcrp_rental_products_cart_item_price'] = !empty($_REQUEST['wcrp_rental_products_cart_item_price']) ? $_REQUEST['wcrp_rental_products_cart_item_price'] : "";
+    $cart_item_data['wcrp_rental_products_rent_from'] = !empty($_REQUEST['wcrp_rental_products_rent_from']) ? $_REQUEST['wcrp_rental_products_rent_from'] : "";
+    $cart_item_data['wcrp_rental_products_rent_to'] = !empty($_REQUEST['wcrp_rental_products_rent_to']) ? $_REQUEST['wcrp_rental_products_rent_to'] : "";
+    $cart_item_data['wcrp_rental_products_start_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_start_days_threshold']) ? $_REQUEST['wcrp_rental_products_start_days_threshold'] : 0;
+    $cart_item_data['wcrp_rental_products_return_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_return_days_threshold']) ? $_REQUEST['wcrp_rental_products_return_days_threshold'] : 0;
+    $cart_item_data['wcrp_rental_products_advanced_pricing'] = !empty($_REQUEST['wcrp_rental_products_advanced_pricing']) ? $_REQUEST['wcrp_rental_products_advanced_pricing'] : "off";
 
+    if (!empty($_REQUEST['hidden_form']) || !empty($_REQUEST['model_form'])) {
+        $product_id = $_REQUEST['product_id'];
+        $quantity = 1;
 
-        if (!empty($_REQUEST['hidden_form']) || !empty($_REQUEST['model_form'])) {
-            $product_id = $_REQUEST['product_id'];
-            $quantity = 1;
-
-            // Ensure WooCommerce is loaded
-            if (class_exists('WC_Cart')) {
-                $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
-                if ($response) {
-                    echo 'Product added to cart!';
-                    // wp_safe_redirect($link);
-                }
-                // Redirect to the cart page after adding the product to the cart
-                // $link = home_url('/index.php/demo/');
+        // Ensure WooCommerce is loaded
+        if (class_exists('WC_Cart')) {
+            $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
+            if ($response) {
+                // echo $response;
+                echo 'Product added to cart!';
+                // wp_safe_redirect($link);
             }
+            // Redirect to the cart page after adding the product to the cart
+            // $link = home_url('/index.php/demo/');
         }
     }
-    ?>
+}
+?>
 </body>
 
 </html>

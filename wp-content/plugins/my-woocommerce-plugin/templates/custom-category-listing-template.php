@@ -188,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endforeach; ?>
 
         <!-- Modal Structure -->
-        <div id="myModal" class="modal">
+        <div id="exampleModal" class="modal">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="modal-header">
@@ -267,8 +267,8 @@ function custom_add_to_cart()
                 // wp_safe_redirect($link);
             }
             // Redirect to the cart page after adding the product to the cart
-            $link = "http://localhost/wordpress/index.php/demo/";
-            wp_safe_redirect($link);
+            header('Location: http://localhost/wordpress/index.php/car-add-ons/');
+            exit();
         }
     }
 }
