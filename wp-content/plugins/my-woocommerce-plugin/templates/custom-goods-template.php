@@ -192,7 +192,7 @@ function goods_added_to_cart()
                             ?>
                                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                                     <div class="product-item">
-                                        <img src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="Car Image">
+                                        <a href="<?php echo home_url("index.php/goods-details/?product_id={$product->get_id()}"); ?>"><img src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="Car Image"></a>
                                         <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
                                         <div class="product-details">
                                             <div class="product-title"><?php echo $product->get_name(); ?></div>

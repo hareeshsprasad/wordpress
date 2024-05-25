@@ -77,6 +77,13 @@ class My_WC_Plugin
             return $content . $category_listing;
         }
 
+        if (is_page('goods-details')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-details.php';
+            $category_listing = ob_get_clean();
+            return $content . $category_listing;
+        }
+
         return $content;
     }
     public function get_subcategories()
