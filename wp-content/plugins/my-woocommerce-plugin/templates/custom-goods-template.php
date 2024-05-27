@@ -2,7 +2,9 @@
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
-
+if (!session_id()) {
+    session_start();
+}
 // Function definition 
 function function_alert($message)
 {

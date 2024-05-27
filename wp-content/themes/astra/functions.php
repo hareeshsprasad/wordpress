@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Astra functions and definitions
  *
@@ -8,23 +9,23 @@
  * @since 1.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
 /**
  * Define Constants
  */
-define( 'ASTRA_THEME_VERSION', '4.6.15' );
-define( 'ASTRA_THEME_SETTINGS', 'astra-settings' );
-define( 'ASTRA_THEME_DIR', trailingslashit( get_template_directory() ) );
-define( 'ASTRA_THEME_URI', trailingslashit( esc_url( get_template_directory_uri() ) ) );
+define('ASTRA_THEME_VERSION', '4.6.15');
+define('ASTRA_THEME_SETTINGS', 'astra-settings');
+define('ASTRA_THEME_DIR', trailingslashit(get_template_directory()));
+define('ASTRA_THEME_URI', trailingslashit(esc_url(get_template_directory_uri())));
 
 /**
  * Minimum Version requirement of the Astra Pro addon.
  * This constant will be used to display the notice asking user to update the Astra addon to the version defined below.
  */
-define( 'ASTRA_EXT_MIN_VER', '4.6.10' );
+define('ASTRA_EXT_MIN_VER', '4.6.10');
 
 /**
  * Setup helper functions of Astra.
@@ -34,8 +35,8 @@ require_once ASTRA_THEME_DIR . 'inc/core/class-theme-strings.php';
 require_once ASTRA_THEME_DIR . 'inc/core/common-functions.php';
 require_once ASTRA_THEME_DIR . 'inc/core/class-astra-icons.php';
 
-define( 'ASTRA_PRO_UPGRADE_URL', astra_get_pro_url( 'https://wpastra.com/pro/', 'dashboard', 'free-theme', 'upgrade-now' ) );
-define( 'ASTRA_PRO_CUSTOMIZER_UPGRADE_URL', astra_get_pro_url( 'https://wpastra.com/pro/', 'customizer', 'free-theme', 'upgrade' ) );
+define('ASTRA_PRO_UPGRADE_URL', astra_get_pro_url('https://wpastra.com/pro/', 'dashboard', 'free-theme', 'upgrade-now'));
+define('ASTRA_PRO_CUSTOMIZER_UPGRADE_URL', astra_get_pro_url('https://wpastra.com/pro/', 'customizer', 'free-theme', 'upgrade'));
 
 /**
  * Update theme
@@ -47,7 +48,7 @@ require_once ASTRA_THEME_DIR . 'inc/theme-update/class-astra-theme-background-up
  * Fonts Files
  */
 require_once ASTRA_THEME_DIR . 'inc/customizer/class-astra-font-families.php';
-if ( is_admin() ) {
+if (is_admin()) {
 	require_once ASTRA_THEME_DIR . 'inc/customizer/class-astra-fonts-data.php';
 }
 
@@ -108,7 +109,7 @@ require_once ASTRA_THEME_DIR . 'inc/schema/class-astra-schema.php';
 /* Setup API */
 require_once ASTRA_THEME_DIR . 'admin/includes/class-astra-api-init.php';
 
-if ( is_admin() ) {
+if (is_admin()) {
 	/**
 	 * Admin Menu Settings
 	 */
@@ -164,14 +165,14 @@ require_once ASTRA_THEME_DIR . 'inc/addons/heading-colors/class-astra-heading-co
 require_once ASTRA_THEME_DIR . 'inc/builder/class-astra-builder-loader.php';
 
 // Elementor Compatibility requires PHP 5.4 for namespaces.
-if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+if (version_compare(PHP_VERSION, '5.4', '>=')) {
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-elementor.php';
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-elementor-pro.php';
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-web-stories.php';
 }
 
 // Beaver Themer compatibility requires PHP 5.3 for anonymous functions.
-if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+if (version_compare(PHP_VERSION, '5.3', '>=')) {
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-beaver-themer.php';
 }
 

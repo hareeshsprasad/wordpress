@@ -27,18 +27,18 @@ class My_WC_Plugin
         add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
 
-        // Register shortcodes
-        add_shortcode('custom_category_select', [$this, 'custom_category_select_shortcode']);
-        add_shortcode('custom', [$this, 'custom_product_list_shortcode']);
-
         // Add content filters
         add_filter('the_content', [$this, 'render_custom_category_listing_on_page']);
         add_filter('the_content', [$this, 'render_add_ons']);
         add_filter('the_content', [$this, 'search_cars']);
-
+        add_filter('the_content', [$this, 'custom_cart_details']);
+        add_filter('the_content', [$this, 'change_reservation_details']);
         // Handle AJAX requests
         add_action('wp_ajax_get_subcategories', [$this, 'get_subcategories']);
         add_action('wp_ajax_nopriv_get_subcategories', [$this, 'get_subcategories']);
+
+        add_action('wp_ajax_update_cart_quantity', [$this, 'update_cart_quantity']);
+        add_action('wp_ajax_nopriv_update_cart_quantity', [$this, 'update_cart_quantity']);
     }
 
     public function enqueue_styles()
@@ -48,13 +48,16 @@ class My_WC_Plugin
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
-        if (is_page('sample-page')) {
-            wp_enqueue_style('custom-category-style', MY_WC_PLUGIN_URL . 'assets/css/custom-category-style.css');
-            wp_enqueue_style('custom-available-product', MY_WC_PLUGIN_URL . 'assets/css/custom-available-product.css');
+        if (is_page('change-reservation-details')) {
+            wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
+            wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
         if (is_page('car-add-ons')) {
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
+        }
+        if (is_page('custom-cart-details')) {
+            wp_enqueue_style('custom-category-style', MY_WC_PLUGIN_URL . 'assets/css/cartstyles.css');
         }
         if (is_page('goods')) {
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
@@ -74,34 +77,26 @@ class My_WC_Plugin
         wp_localize_script('custom-script', 'my_wc_plugin', [
             'ajax_url' => admin_url('admin-ajax.php')
         ]);
+        wp_enqueue_script('custom-cart', MY_WC_PLUGIN_URL . 'assets/js/custom-cart.js', ['jquery'], null, true);
+        wp_localize_script('custom-cart', 'my_wc_plugin', [
+            'ajax_url' => admin_url('admin-ajax.php')
+        ]);
     }
 
-    public function custom_category_select_shortcode()
-    {
-        ob_start();
-        include MY_WC_PLUGIN_PATH . 'templates/custom-category-listing-template.php';
-        return ob_get_clean();
-    }
-
-    public function custom_product_list_shortcode()
-    {
-        ob_start();
-        include MY_WC_PLUGIN_PATH . 'templates/custom-product-list.php';
-        return ob_get_clean();
-    }
 
     public function render_custom_category_listing_on_page($content)
     {
-        if (is_page('sample-page')) {
+
+        if (is_page('camping-goods')) {
             ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-category-listing-template.php';
+            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-template.php';
             $category_listing = ob_get_clean();
             return $content . $category_listing;
         }
 
-        if (is_page('page-one')) {
+        if (is_page('goods-details')) {
             ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-template.php';
+            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-details.php';
             $category_listing = ob_get_clean();
             return $content . $category_listing;
         }
@@ -154,6 +149,51 @@ class My_WC_Plugin
         }
         return $content;
     }
+    public function custom_cart_details($content)
+    {
+        if (is_page('custom-cart-details')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/custom-cart-template.php';
+            $cart_details = ob_get_clean();
+            return $content . $cart_details;
+        }
+        return $content;
+    }
+    public function change_reservation_details($content)
+    {
+        if (is_page('change-reservation-details')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/change-reservation-details-template.php';
+            $cart_details = ob_get_clean();
+            return $content . $cart_details;
+        }
+        return $content;
+    }
+    public function update_cart_quantity()
+    {
+        if (!isset($_POST['cart_item_key']) || !isset($_POST['quantity'])) {
+            wp_send_json_error('Invalid request');
+        }
+
+        $cart_item_key = sanitize_text_field($_POST['cart_item_key']);
+        $quantity = intval($_POST['quantity']);
+
+        $cart = WC()->cart;
+        $cart->set_quantity($cart_item_key, $quantity);
+
+        $cart_total = $cart->get_cart_total();
+        $cart_item = $cart->get_cart_item($cart_item_key);
+        $item_price = wc_price($cart_item['line_total']);
+
+        wp_send_json_success(array(
+            'message' => 'Cart updated successfully',
+            'cart_total' => $cart_total,
+            'item_price' => $item_price // Return updated item price
+        ));
+    }
+
+
+
     public function create_custom_taxonomy()
     {
         $labels = array(

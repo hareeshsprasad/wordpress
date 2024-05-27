@@ -14,18 +14,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     if ($_POST['action'] == 'select_camping_goods') {
-        // print_r($_POST);
-        ob_clean();
-        wp_redirect('http://localhost/wordpress/index.php/my-account/');
-        exit();
+?>
+        <script>
+            window.location.href = "http://localhost/wordpress/index.php/camping-goods/";
+        </script>
+    <?php
+        // wp_redirect('http://localhost/wordpress/index.php/my-account/'); //not working with astra theme
+        // exit();
     }
     if ($_POST['action'] == 'proceed_to_checkout') {
-        // print_r($_POST);
-        ob_clean();
-        wp_redirect('http://localhost/wordpress/index.php/my-account/');
-        exit();
+    ?>
+        <script>
+            window.location.href = "http://localhost/wordpress/index.php/checkout/";
+        </script>
+<?php
     }
 }
+
 ?>
 <script>
     (function(d) {
@@ -65,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h1 class="top_title-small">プラグインアウトドア<br>
             予約フォー</h1>
 
-        <div class="back back_hide"><a href="#">
+        <div class="back back_hide"><a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
                 < Back</a>
         </div>
         <div class="stepper mt-3">

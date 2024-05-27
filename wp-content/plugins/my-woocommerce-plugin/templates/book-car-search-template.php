@@ -2,7 +2,6 @@
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly 
 }
-
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-category-listing.php';
 $categories = Custom_Category_Listing::get_categories();
 $response = [];
@@ -341,6 +340,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php
 function custom_add_to_cart()
 {
+    $has_etc_device = false;
+    $car_features = wp_get_post_terms($_REQUEST['product_id'], 'car_features');
+    foreach ($car_features as $feature) {
+        if ($feature->slug === 'etc-on-board-device') {
+            $has_etc_device = true;
+        }
+    }
     $cart_item_data = [];
     $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
     $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
@@ -359,15 +365,25 @@ function custom_add_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
-                // echo $response;
-                echo 'Product added to cart!';
-                // wp_safe_redirect($link);
+                if ($has_etc_device) {
+?>
+                    <script>
+                        window.location.href = "http://localhost/wordpress/index.php/car-add-ons/";
+                    </script>
+                <?php
+                } else {
+                ?>
+                    <script>
+                        window.location.href = "http://localhost/wordpress/index.php/camping-goods/";
+                    </script>
+<?php
+                }
+                // wp_safe_redirect($redirect_url);
             }
-            // Redirect to the cart page after adding the product to the cart
-            // $link = home_url('/index.php/demo/');
         }
     }
 }
+
 ?>
 </body>
 
