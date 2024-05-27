@@ -169,14 +169,6 @@ function goods_added_to_cart()
 </head>
 
 <body>
-    <div style="background-image: url('images/top-image.png'); background-repeat: no-repeat; background-size: cover; height: 335px; color: #ffffff;">
-        <div class="sp_container">
-            <div style="height: 335px" class="d-flex justify-content-end align-items-center">
-                <h1 class="top_title">プラグインアウトドア<br>
-                    予約フォー</h1>
-            </div>
-        </div>
-    </div>
     <div class="sp_container">
         <div class="back_show"><a href="#"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>"></a></div>
         <h1 class="top_title-small">プラグインアウトドア<br>
@@ -252,49 +244,57 @@ function goods_added_to_cart()
 
                                     ?>
                                         <div class="col-md-6">
-                                            <div class="product_box">
-                                                <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
-                                                <a href="<?php echo home_url("index.php/goods-details/?product_id={$product->get_id()}"); ?>"><img class="w-100" src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="Car Image"></a>
-                                                <h2 class="min_sub mt-2"><?php echo $product->get_name(); ?><span style="font-weight: 200"></span></h2>
-                                                <div class="w-100 hr_blck"></div>
-                                                <div class="d-flex justify-content-between mt-2">
-                                                    <div><b>¥<?php echo $product->get_price(); ?></b> (税込)</div>
-                                                    <div>
-                                                        <div class="txt_highlight ul-auto">
-                                                            <?php
-                                                            $tgs = get_the_terms($product->get_id(), 'product_tag');
-                                                            ?>
-                                                            <ul>
+                                            <form method="POST" action="">
+                                                <div class="product_box">
+                                                    <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
+                                                    <a href="<?php echo home_url("index.php/goods-details/?product_id={$product->get_id()}"); ?>"><img class="w-100" src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="Car Image"></a>
+                                                    <h2 class="min_sub mt-2"><?php echo $product->get_name(); ?><span style="font-weight: 200"></span></h2>
+                                                    <div class="w-100 hr_blck"></div>
+                                                    <div class="d-flex justify-content-between mt-2">
+                                                        <div><b>¥<?php echo $product->get_price(); ?></b> (税込)</div>
+                                                        <div>
+                                                            <div class="txt_highlight ul-auto">
                                                                 <?php
-                                                                if (!empty($tgs)) {
-                                                                    foreach ($tgs as $tag) {
-                                                                        if (!empty($tag->slug) && !in_array($tag->slug, $displayed_tags = [])) {
-                                                                            $displayed_tags[] = $tag->slug;
+                                                                $tgs = get_the_terms($product->get_id(), 'product_tag');
                                                                 ?>
-                                                                            <li><?php echo $tag->slug; ?></li>
-                                                                <?php }
+                                                                <ul>
+                                                                    <?php
+                                                                    if (!empty($tgs)) {
+                                                                        foreach ($tgs as $tag) {
+                                                                            if (!empty($tag->slug) && !in_array($tag->slug, $displayed_tags = [])) {
+                                                                                $displayed_tags[] = $tag->slug;
+                                                                    ?>
+                                                                                <li><?php echo $tag->slug; ?></li>
+                                                                    <?php }
+                                                                        }
                                                                     }
-                                                                }
-                                                                ?>
-                                                            </ul>
+                                                                    ?>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div>
-                                                    <?php echo $product->get_description(); ?>
-                                                </div>
+                                                    <div>
+                                                        <?php echo $product->get_description(); ?>
+                                                    </div>
 
-                                                <div class="row">
-                                                    <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                                            <option selected value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                        </select></div>
-                                                    <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
+                                                    <div class="row">
+                                                        <div class="col-4"> <select name="product_quanty" class="form-select mt-3" aria-label="Default select example">
+                                                                <option selected value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                                <option value="10">10</option>
+                                                            </select></div>
+                                                        <div class="col-8 mt-3"> <button type="submit" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     <?php  } ?>
                                 </div>
@@ -309,6 +309,9 @@ function goods_added_to_cart()
             </section>
         </div>
     </div>
+    <a href="<?php echo home_url("index.php/cart"); ?>">
+        <button class="cart-button">カートを見る</button>
+    </a>
 </body>
 
 </html>
