@@ -30,6 +30,7 @@ $product_good_tags = get_tags_by_good_category($mainCategories);
 
 function get_tags_by_good_category($mainCategories)
 {
+    $product_good_tags = [];
     foreach ($mainCategories as $mCategories) {
 
         if ($mCategories->slug == GOODS_PURCHASE_CATEGORY) {
@@ -42,24 +43,24 @@ function get_tags_by_good_category($mainCategories)
 
             if (!empty($subCategories)) {
                 foreach ($subCategories as $sCategories) {
-
                     $products = fetch_products($sCategories->slug);
 
                     foreach ($products as $product) {
                         $product_tags = wp_get_post_terms($product->get_id(), 'product_tag');
 
                         if (!empty($product_tags)) {
+                            foreach ($product_tags as $product_tag) {
 
-                            $product_tag = $product_tags[0]->slug;
-
-                            $product_good_tags[] = $product_tag;
+                                if (!empty($product_tag->name) && !in_array($product_tag->name, $product_good_tags)) {
+                                    $product_good_tags[] = $product_tag->name;
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-
     return $product_good_tags;
 }
 
@@ -194,19 +195,13 @@ function goods_added_to_cart()
         <div class="sub_content_area">
             <form action="" method="POST">
                 <div class="row">
-
-
-
                     <div class="col-md-4 fnt15"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/search.png'; ?>">キーワード検索 </div>
                     <div class="col-md-8">
                         <div class="d-flex justify-content-between">
-                            <div class="w-65"><input type="email" class="form-control txt-box-curve" id="exampleFormControlInput1" placeholder="xxxxxx"></div>
-                            <div class="w-30"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
+                            <div class="w-65"><input type="text" class="form-control txt-box-curve" name="keyword-search" id="keyword-search" value="<?php echo $search_keyword; ?>" placeholder="キャンプグッズ"></div>
+                            <div class="w-30"> <button type="submit" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="row mt-3">
@@ -215,555 +210,104 @@ function goods_added_to_cart()
                         <div class="btn_box">
                             <div class="txt_highlight2 ul-auto ">
                                 <ul>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
-                                    <li>禁煙車</li>
+                                    <?php foreach ($product_good_tags as $value) { ?>
+                                        <li><button name="tag-search" value="<?php echo $value; ?>" type="submit"><?php echo $value; ?></button></li>
+                                    <?php } ?>
                                 </ul>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </form>
             <section>
-                <div class="row mt-4 mb-4">
-                    <div class="col-md-12">
-                        <h2 class="sub_heading">手ぶらキャンプセット <span style="font-weight: 200">|</span></h2>
-                        <div class="w-100 hr_blck"></div>
-                    </div>
-                </div>
+                <?php
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/product.png'; ?>" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
+                foreach ($mainCategories as $mCategories) {
+
+                    if ($mCategories->slug == GOODS_PURCHASE_CATEGORY) {
+
+                        $subCategories = Custom_Category_Listing::get_subcategories($mCategories->term_id);
+
+                        if (empty($subCategories)) {
+                            function_alert('Purchase sub category is empty!');
+                        }
+
+                        if (!empty($subCategories)) {
+                            foreach ($subCategories as $sCategories) {
+
+
+                ?>
+                                <div class="row mt-4 mb-4">
+                                    <div class="col-md-12">
+                                        <h2 class="sub_heading"><?php echo $sCategories->name; ?><span style="font-weight: 200"> |</span></h2>
+                                        <div class="w-100 hr_blck"></div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="row">
+                                    <?php
 
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
+                                    $products = fetch_products($sCategories->slug, $search_keyword, $tag_slug);
 
-                            </div>
+                                    foreach ($products as $product) {
 
+                                    ?>
+                                        <div class="col-md-6">
+                                            <div class="product_box">
+                                                <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
+                                                <a href="<?php echo home_url("index.php/goods-details/?product_id={$product->get_id()}"); ?>"><img class="w-100" src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="Car Image"></a>
+                                                <h2 class="min_sub mt-2"><?php echo $product->get_name(); ?><span style="font-weight: 200"></span></h2>
+                                                <div class="w-100 hr_blck"></div>
+                                                <div class="d-flex justify-content-between mt-2">
+                                                    <div><b>¥<?php echo $product->get_price(); ?></b> (税込)</div>
+                                                    <div>
+                                                        <div class="txt_highlight ul-auto">
+                                                            <?php
+                                                            $tgs = get_the_terms($product->get_id(), 'product_tag');
+                                                            ?>
+                                                            <ul>
+                                                                <?php
+                                                                if (!empty($tgs)) {
+                                                                    foreach ($tgs as $tag) {
+                                                                        if (!empty($tag->slug) && !in_array($tag->slug, $displayed_tags = [])) {
+                                                                            $displayed_tags[] = $tag->slug;
+                                                                ?>
+                                                                            <li><?php echo $tag->slug; ?></li>
+                                                                <?php }
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
+                                                <div>
+                                                    <?php echo $product->get_description(); ?>
+                                                </div>
 
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/product.png'; ?>" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
+                                                <div class="row">
+                                                    <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
+                                                            <option selected value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                        </select></div>
+                                                    <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php  } ?>
                                 </div>
-                            </div>
+                <?php
 
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-
+                            }
+                        }
+                    } else {
+                    }
+                }
+                ?>
             </section>
-
-
-            <section>
-                <div class="row mt-5 mb-4">
-                    <div class="col-md-12">
-                        <h2 class="sub_heading">プラグイン道具 <span style="font-weight: 200">|</span></h2>
-                        <div class="w-100 hr_blck"></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-            </section>
-
-
-            <section>
-                <div class="row mt-5 mb-4">
-                    <div class="col-md-12">
-                        <h2 class="sub_heading">プラグイン道具 <span style="font-weight: 200">|</span></h2>
-                        <div class="w-100 hr_blck"></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="product_box">
-                            <img src="images/product.png" class="w-100">
-                            <h2 class="min_sub mt-2">2人用キャンプセット <span style="font-weight: 200">|</span></h2>
-                            <div class="w-100 hr_blck"></div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <div><b>¥9,000</b> (税込)</div>
-                                <div>
-                                    <div class="txt_highlight ul-auto">
-                                        <ul>
-                                            <li>食事</li>
-                                            <li>料理</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                基本一式セットのビギナーセットを軸に、キャンプを楽しむために欠かせないアイテムを盛り込みました。基本的な寝泊まりから、食事、焚き火...
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-4"> <select class="form-select mt-3" aria-label="Default select example">
-                                        <option selected>1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select></div>
-                                <div class="col-8 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-            </section>
-
         </div>
-
     </div>
 </body>
 
