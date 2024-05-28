@@ -39,6 +39,8 @@ class My_WC_Plugin
 
         add_action('wp_ajax_update_cart_quantity', [$this, 'update_cart_quantity']);
         add_action('wp_ajax_nopriv_update_cart_quantity', [$this, 'update_cart_quantity']);
+
+        add_shortcode('child_seat_count', 'child_seat_count');
     }
 
     public function enqueue_styles()
@@ -219,6 +221,11 @@ class My_WC_Plugin
             'rewrite'           => array('slug' => 'car-features'),
         ));
     }
+}
+
+function child_seat_count()
+{
+    include MY_WC_PLUGIN_PATH . 'templates/custom-seat-count.php';
 }
 
 // Initialize the plugin
