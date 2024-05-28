@@ -226,22 +226,19 @@ function goods_added_to_cart()
 
                         if (!empty($subCategories)) {
                             foreach ($subCategories as $sCategories) {
-
-
+                                $products = fetch_products($sCategories->slug, $search_keyword, $tag_slug);
+                                if (count($products)) {
                 ?>
-                                <div class="row mt-4 mb-4">
-                                    <div class="col-md-12">
-                                        <h2 class="sub_heading"><?php echo $sCategories->name; ?><span style="font-weight: 200"> |</span></h2>
-                                        <div class="w-100 hr_blck"></div>
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col-md-12">
+                                            <h2 class="sub_heading"><?php echo $sCategories->name; ?><span style="font-weight: 200"> |</span></h2>
+                                            <div class="w-100 hr_blck"></div>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php } ?>
                                 <div class="row">
                                     <?php
-
-                                    $products = fetch_products($sCategories->slug, $search_keyword, $tag_slug);
-
                                     foreach ($products as $product) {
-
                                     ?>
                                         <div class="col-md-6">
                                             <form method="POST" action="">
