@@ -94,9 +94,14 @@ function add_or_update_cart_item()
 </html>
 
 <script>
+    let seat_count = localStorage.getItem("child_count");
+    if (seat_count) {
+        document.getElementById("child_count").value = seat_count;
+    }
+
     document.getElementById('child_count').addEventListener('change', function() {
         var selectedValue = this.value;
-
+        localStorage.setItem("child_count", selectedValue);
         // Make a fetch request to the same page
         fetch(window.location.pathname + "?child_count=" + selectedValue)
             .then(response => {
