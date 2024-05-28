@@ -22,7 +22,6 @@ class My_WC_Plugin
     {
         // Hook into the 'init' action
         add_action('init', [$this, 'create_custom_taxonomy'], 0);
-
         // Enqueue styles and scripts
         add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
@@ -31,8 +30,9 @@ class My_WC_Plugin
         add_filter('the_content', [$this, 'render_custom_category_listing_on_page']);
         add_filter('the_content', [$this, 'render_add_ons']);
         add_filter('the_content', [$this, 'search_cars']);
-        add_filter('the_content', [$this, 'custom_cart_details']);
+        // add_filter('the_content', [$this, 'custom_cart_details']);
         add_filter('the_content', [$this, 'change_reservation_details']);
+        add_filter('the_content', [$this, 'custom_cart_details']);
         // Handle AJAX requests
         add_action('wp_ajax_get_subcategories', [$this, 'get_subcategories']);
         add_action('wp_ajax_nopriv_get_subcategories', [$this, 'get_subcategories']);
@@ -40,7 +40,6 @@ class My_WC_Plugin
         add_action('wp_ajax_update_cart_quantity', [$this, 'update_cart_quantity']);
         add_action('wp_ajax_nopriv_update_cart_quantity', [$this, 'update_cart_quantity']);
     }
-
     public function enqueue_styles()
     {
         wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
@@ -56,16 +55,12 @@ class My_WC_Plugin
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
-        if (is_page('custom-cart-details')) {
-            wp_enqueue_style('custom-category-style', MY_WC_PLUGIN_URL . 'assets/css/cartstyles.css');
-        }
         if (is_page('goods')) {
-            wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
-            wp_enqueue_style('custom-style-goods', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/goods-style.css');
+            wp_enqueue_style('custom-goods-style', MY_WC_PLUGIN_URL . 'assets/css/custom-goods-style.css');
         }
-        if (is_page('goods-details')) {
+        if (is_page('custom-cart-details')) {
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
-            wp_enqueue_style('custom-style-goods', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/goods-details-style.css');
+            wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
     }
 
@@ -82,28 +77,12 @@ class My_WC_Plugin
             'ajax_url' => admin_url('admin-ajax.php')
         ]);
     }
-
-
     public function render_custom_category_listing_on_page($content)
     {
 
-        if (is_page('camping-goods')) {
-            ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-template.php';
-            $category_listing = ob_get_clean();
-            return $content . $category_listing;
-        }
-
-        if (is_page('goods-details')) {
-            ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-details.php';
-            $category_listing = ob_get_clean();
-            return $content . $category_listing;
-        }
-
         if (is_page('goods')) {
             ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-goods.php';
+            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-template.php';
             $category_listing = ob_get_clean();
             return $content . $category_listing;
         }

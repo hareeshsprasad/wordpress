@@ -1,11 +1,13 @@
 <?php
+
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly 
 }
+
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-category-listing.php';
 $categories = Custom_Category_Listing::get_categories();
-$response = [];
 custom_add_to_cart();
+$data = null;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $main_category = isset($_POST['main_category']) ? sanitize_text_field($_POST['main_category']) : '';
     $sub_category = isset($_POST['sub_category']) ? sanitize_text_field($_POST['sub_category']) : '';
@@ -18,9 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'rent_from' => $rent_from,
         'rent_to' => $rent_to,
     ];
+    set_transient('special_query_results', $data, 60 * 60);
+    // print_r($data);
+} else {
+    $data = get_transient('special_query_results');
+    // print_r($data);
+}
+if ($data !== null) {
     $response = Custom_Available_Product_Listing::availabe_Cars($data);
 }
 ?>
+
 <!doctype html>
 <html>
 
@@ -85,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <select class="form-select mt-4" aria-label="Default select example" id="main-category" name="main_category" required>
                                 <option selected disabled>都道府県</option>
                                 <?php foreach ($categories as $category) : ?>
-                                    <?php if ($category->name !== 'Uncategorized' && $category->name !== 'Add-Ons') : ?>
+                                    <?php if ($category->name !== 'Uncategorized' && $category->name !== 'Add-Ons'  && $category->name !==  'camping-goods') : ?>
                                         <option value="<?php echo $category->term_id; ?>" <?php echo (isset($_POST['main_category']) && $_POST['main_category'] == $category->term_id) ? 'selected' : ''; ?>>
                                             <?php echo $category->name; ?>
                                         </option>
@@ -366,9 +376,11 @@ function custom_add_to_cart()
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
                 if ($has_etc_device) {
+                    // wp_safe_redirect("http://localhost/wordpress/index.php/car-add-ons/");
+                    // exit();
 ?>
                     <script>
-                        window.location.href = "http://localhost/wordpress/index.php/car-add-ons/";
+                        location.href = 'http://localhost/wordpress/index.php/car-add-ons/';
                     </script>
                 <?php
                 } else {
