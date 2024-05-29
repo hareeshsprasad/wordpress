@@ -19,6 +19,7 @@ function add_or_update_cart_item()
     $product_id = CHILD_SEAT_ID;
 
     $product_quantity = isset($_REQUEST['child_count']) ? $_REQUEST['child_count'] : 0;
+    $response = null;
 
     if ($product_quantity) {
 
@@ -95,7 +96,8 @@ function add_or_update_cart_item()
 
 <script>
     let seat_count = localStorage.getItem("child_count");
-    if (seat_count) {
+
+    if (seat_count != null) {
         document.getElementById("child_count").value = seat_count;
     }
 
