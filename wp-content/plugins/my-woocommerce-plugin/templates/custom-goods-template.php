@@ -5,6 +5,7 @@ if (!defined('ABSPATH')) {
 if (!session_id()) {
     session_start();
 }
+// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 // Function definition 
 function function_alert($message)
 {
@@ -228,7 +229,9 @@ function goods_added_to_cart()
     </div>
     </form>
     <button class="cart-button">カートを見る</button>
-
+    <?php
+    // require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+    ?>
 </body>
 
 </html>

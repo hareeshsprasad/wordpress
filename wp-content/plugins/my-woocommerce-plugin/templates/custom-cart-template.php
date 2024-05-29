@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-cart-details.php';
+require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $cart_details = Custom_Cart_Details::cart_details();
 $has_rental_product = false;
 $has_non_rental_product = false;
@@ -130,7 +131,7 @@ foreach ($cart_details as $cart_item) {
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-4 text-center"> <img src="<?php echo  $product_image ?>"> </div>
+                                            <div class="col-md-4 text-center"> <img class="responsive-img" src="<?php echo  $product_image ?>"> </div>
                                             <div class="col-md-8">
                                                 <div class="row">
                                                     <div class="col-md-6 sub-head1 border-end txt-center"><?php echo $model_attribute ?></div>
@@ -352,4 +353,7 @@ foreach ($cart_details as $cart_item) {
             </div>
         </div>
     </div>
+    <?php
+    require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+    ?>
 </body>

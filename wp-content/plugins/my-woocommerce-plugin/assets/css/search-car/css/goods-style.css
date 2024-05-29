@@ -169,6 +169,7 @@ button {
     -moz-appearance: none !important;
     appearance: none !important;
     padding: 11px !important;
+    padding-left: 40px !important;
 }
 
 .sub-head1 {
@@ -197,7 +198,8 @@ button {
     margin-left: 5px !important;
     display: inline-block !important;
     margin-bottom: 10px !important;
-
+    min-width: 50px;
+    text-align: center;
 }
 
 .txt_highlight ul {
@@ -383,7 +385,7 @@ button {
 }
 
 .m_btm_btn_black {
-    width: 250px !important;
+    width: 250px;
     border-radius: 15px !important;
     border: 1px solid #5c636a !important;
     color: #ffffff !important;
@@ -660,6 +662,7 @@ button {
     background-color: #ff9800;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
+    width: 15%;
 }

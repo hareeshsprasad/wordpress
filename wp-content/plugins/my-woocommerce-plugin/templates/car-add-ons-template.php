@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
+// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['action'])) {
@@ -16,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'select_camping_goods') {
 ?>
         <script>
-            window.location.href = "http://localhost/wordpress/index.php/camping-goods/";
+            window.location.href = "http://52.195.235.189/goods/";
         </script>
     <?php
         // wp_redirect('http://localhost/wordpress/index.php/my-account/'); //not working with astra theme
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'proceed_to_checkout') {
     ?>
         <script>
-            window.location.href = "http://localhost/wordpress/index.php/checkout/";
+            window.location.href = "http://52.195.235.189/custom-cart-details/";
         </script>
 <?php
     }
@@ -93,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         ?>
                             <div class="row">
                                 <div class="col-12 col-lg-6 mt-3">
-                                    <div class="fnt15"><?php echo $product->get_name(); ?></div>
+                                    <div class="fn-17"><?php echo $product->get_name(); ?></div>
                                     <div class="mt-1">料金：　<?php echo wc_price($product->get_price()); ?> 円 ／ 1枚</div>
                                 </div>
                                 <div class="col-6 col-lg-3 mt-3">
@@ -127,5 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </form>
     </div>
-
+    <?php
+    // require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+    ?>
 </body>
