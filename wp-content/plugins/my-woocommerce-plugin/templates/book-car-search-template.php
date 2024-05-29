@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly 
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-category-listing.php';
+// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $categories = Custom_Category_Listing::get_categories();
 $response = [];
 custom_add_to_cart();
@@ -85,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <select class="form-select mt-4" aria-label="Default select example" id="main-category" name="main_category" required>
                                 <option selected disabled>都道府県</option>
                                 <?php foreach ($categories as $category) : ?>
-                                    <?php if ($category->name !== 'Uncategorized' && $category->name !== 'Add-Ons') : ?>
+                                    <?php if ($category->name !== 'Uncategorized' && $category->name !== 'Add-Ons' && $category->name !== 'camping-goods') : ?>
                                         <option value="<?php echo $category->term_id; ?>" <?php echo (isset($_POST['main_category']) && $_POST['main_category'] == $category->term_id) ? 'selected' : ''; ?>>
                                             <?php echo $category->name; ?>
                                         </option>
@@ -173,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4 text-center"> <img src="<?php echo get_the_post_thumbnail_url($product_id); ?>"> </div>
+                                        <div class="col-md-4 text-center"> <img class="responsive-img" src="<?php echo get_the_post_thumbnail_url($product_id); ?>"> </div>
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-6 sub-head1 border-end txt-center"><?php echo $model_attribute; ?></div>
@@ -250,14 +251,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                         <h4 class="txt-center" id="modalProductName"></h4>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12 text-center"> <img id="modalProductImage" src=""> </div>
+                                                                <div class="row center-flex">
+                                                                    <div class="col-md-6 text-center"> <img class="responsive-img" id="modalProductImage" src=""> </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                <div class="row margin-addition">
                                                                     <div class="col-md-6 sub-head1 border-end text-end txt-center" id="productModel"></div>
                                                                     <div class="col-md-6 sub-head2 text-start txt-center"><span>料金：</span> <span id="modalProductPrice"></span>円<span>(税込)</span></div>
                                                                 </div>
-                                                                <div class="row mt-3">
+                                                                <div class="row mt-3 m-25">
                                                                     <div class="col-md-12">
                                                                         <div class="d-flex justify-content-center col_dir">
                                                                             <div class="text16 txt-center" id="number-of-passengers"></div>
@@ -269,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                         <div class="hr_blck mt-1"></div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row mt-2">
+                                                                <div class="row mt-2 m-25">
                                                                     <div class="col-md-2 txt-center" id="drive-type"></div>
                                                                     <div class="col-md-5">
                                                                         <div class="txt-center" id="hybrid">ハイブリッド燃料消費率 WLTCモー 16.4km/L（4WD)</div>
@@ -282,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-md-12 mt-2" id="description"> 上質感を高めながらいっそう流麗で洗練されたフォルム。精悍でスポーティな表情。そして、SUVとしての機動性とスタビリティの高さを表現した、シャープで立体的な六角形のリヤデザイン。走りへの欲求を掻き立てる、新たな造形に辿り着きました。 </div>
+                                                                    <div class="col-md-12 mt-2 p-45" id="description"> 上質感を高めながらいっそう流麗で洗練されたフォルム。精悍でスポーティな表情。そして、SUVとしての機動性とスタビリティの高さを表現した、シャープで立体的な六角形のリヤデザイン。走りへの欲求を掻き立てる、新たな造形に辿り着きました。 </div>
                                                                 </div>
                                                                 <div class="row mt-3">
                                                                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
@@ -368,13 +369,13 @@ function custom_add_to_cart()
                 if ($has_etc_device) {
 ?>
                     <script>
-                        window.location.href = "http://localhost/wordpress/index.php/car-add-ons/";
+                        window.location.href = "http://52.195.235.189/car-add-ons/";
                     </script>
                 <?php
                 } else {
                 ?>
                     <script>
-                        window.location.href = "http://localhost/wordpress/index.php/camping-goods/";
+                        window.location.href = "http://52.195.235.189/goods/";
                     </script>
 <?php
                 }
@@ -383,6 +384,8 @@ function custom_add_to_cart()
         }
     }
 }
+
+// require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
 
 ?>
 </body>

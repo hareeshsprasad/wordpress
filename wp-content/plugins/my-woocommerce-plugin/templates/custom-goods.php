@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
-
+// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 // Function definition 
 function function_alert($message)
 {
@@ -196,7 +196,7 @@ function goods_added_to_cart()
                     </div>
                 </div>
 
-                <div class="row mt-3">
+                <div class="row mt-3 p-60">
                     <div class="col-md-4 fnt15"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/discount.png'; ?>">タグで絞る </div>
                     <div class="col-md-8">
                         <div class="btn_box">
@@ -306,9 +306,12 @@ function goods_added_to_cart()
             </section>
         </div>
     </div>
-    <a href="<?php echo home_url("index.php/cart"); ?>">
+    <a href="<?php echo home_url("index.php/custom-cart-details"); ?>">
         <button class="cart-button">カートを見る</button>
     </a>
+    <?php
+    // require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+    ?>
 </body>
 
 </html>

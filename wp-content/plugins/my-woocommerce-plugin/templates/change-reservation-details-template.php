@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-cart-details.php';
+// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $cart_details = Custom_Cart_Details::cart_details();
 ?>
 
@@ -204,5 +205,7 @@ $cart_details = Custom_Cart_Details::cart_details();
                         </div>
                     </div>
                 </div>
-
+                <?php
+                // require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+                ?>
 </body>
