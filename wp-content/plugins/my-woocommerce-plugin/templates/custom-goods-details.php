@@ -23,9 +23,9 @@ function goods_added_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $product_quantity);
 
-            if ($response) {
-                function_alert('Product added to cart!');
-            }
+            // if ($response) {
+            //     function_alert('Product added to cart!');
+            // }
 
             // Redirect to the cart page after adding the product to the cart
 
@@ -217,10 +217,10 @@ function goods_added_to_cart()
                 </div>
         <?php
             } else {
-                echo '<p>Product not found.</p>';
+                echo '<p>製品が見つかりません。</p>';
             }
         } else {
-            echo '<p>No product selected.</p>';
+            echo '<p>製品が選択されていません。</p>';
         }
         ?>
     </div>
