@@ -58,11 +58,21 @@ foreach ($cart_details as $cart_item) {
         </div>
         <div class="stepper mt-3">
             <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li class="active">4</li>
-                <li>5</li>
+                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
+                    <li>1</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>">
+                    <li>2</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
+                    <li>3</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/custom-cart-details/')); ?>">
+                    <li class="active">4</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/checkout/')); ?>">
+                    <li>5</li>
+                </a>
             </ul>
         </div>
         <div class="sub_content_area">
@@ -164,7 +174,7 @@ foreach ($cart_details as $cart_item) {
                                                 </div>
                                                 <div class="row mt-3">
                                                     <div class="col-12 text-left_center">
-                                                        <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>"><button type="button" class="btn btn-secondary btndark_big shadow px-5">変更する</button></a>
+                                                        <a href="<?php echo esc_url(add_query_arg(['change_car' => $cart_item_key], home_url('/index.php/book-your-car/'))); ?>"><button type="button" class="btn btn-secondary btndark_big shadow px-5">変更する</button></a>
                                                     </div>
                                                 </div>
                                             </div>

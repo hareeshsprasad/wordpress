@@ -3,7 +3,7 @@
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
-// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 // Function definition 
 function function_alert($message)
 {
@@ -177,11 +177,21 @@ function goods_added_to_cart()
         <div class="back back_hide"><a href="#"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
         <div class="stepper mt-3">
             <ul>
-                <li>1</li>
-                <li>2</li>
-                <li class="active">3</li>
-                <li>4</li>
-                <li>5</li>
+                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
+                    <li>1</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>">
+                    <li>2</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
+                    <li class="active">3</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/custom-cart-details/')); ?>">
+                    <li>4</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/checkout/')); ?>">
+                    <li>5</li>
+                </a>
             </ul>
         </div>
         <div class="sub_content_area">

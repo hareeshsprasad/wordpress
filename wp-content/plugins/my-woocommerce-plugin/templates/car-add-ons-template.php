@@ -1,9 +1,10 @@
 <?php
+session_start();
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
-// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['action'])) {
@@ -72,15 +73,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             予約フォー</h1>
 
         <div class="back back_hide"><a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
-                < Back</a>
+                <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>"> Back</a>
         </div>
         <div class="stepper mt-3">
             <ul>
-                <li>1</li>
-                <li class="active">2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
+                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
+                    <li>1</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>">
+                    <li class="active">2</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
+                    <li>3</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/custom-cart-details/')); ?>">
+                    <li>4</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/checkout/')); ?>">
+                    <li>5</li>
+                </a>
             </ul>
         </div>
         <form action="" method="POST">
@@ -129,6 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
     <?php
-    // require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+    require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
     ?>
 </body>

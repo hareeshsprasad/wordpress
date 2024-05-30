@@ -1,11 +1,16 @@
 <?php
+session_start();
+if (isset($_GET['change_car'])) {
+    $_SESSION['change_car_key'] = sanitize_text_field($_GET['change_car']);
+}
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly 
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-category-listing.php';
-// require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $categories = Custom_Category_Listing::get_categories();
 $response = [];
+$data = null;
 custom_add_to_cart();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $main_category = isset($_POST['main_category']) ? sanitize_text_field($_POST['main_category']) : '';
@@ -19,6 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'rent_from' => $rent_from,
         'rent_to' => $rent_to,
     ];
+    $_SESSION['data'] = $data;
+} else {
+    $data = $_SESSION['data'];
+    $rent_from = $_SESSION['data']['rent_from'];
+    $rent_to  = $_SESSION['data']['rent_to'];
+}
+if ($data != null) {
     $response = Custom_Available_Product_Listing::availabe_Cars($data);
 }
 ?>
@@ -69,11 +81,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             予約フォー</h1>
         <div class="stepper">
             <ul>
-                <li class="active">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
+                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
+                    <li class="active">1</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>">
+                    <li>2</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
+                    <li>3</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/custom-cart-details/')); ?>">
+                    <li>4</li>
+                </a>
+                <a href="<?php echo esc_url(home_url('/index.php/checkout/')); ?>">
+                    <li>5</li>
+                </a>
             </ul>
         </div>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="car-select-form">
@@ -121,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4" aria-label="Default select example" value="<?php echo $rent_from; ?>" style="height:50px" required>
                         </div>
                         <div id="error-message" style="color: red; float:left; display: none">
-                            The end date cannot be earlier than the start date.
+                            終了日を開始日より早くすることはできません。
                         </div>
                     </div>
 
@@ -134,12 +156,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
         </form>
-        <?php if ($_REQUEST['submitted'] && empty($response)) :
-            echo "<script>alert('No cars are available in the selected date range at the chosen store.');</script>";
-        ?>
+        <?php if ($_REQUEST['submitted'] && empty($response)) : ?>
+            <div style="color: red; float:left;margin-top:20px;">
+                選択した店舗では、選択した日付範囲に利用できる車がありません。
+            </div>
         <?php endif ?>
         <?php if (!empty($response)) : ?>
-            <!-- <div class="sub_content_area2">
+            <!-- <div class=" sub_content_area2">
                 <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>
                 <div class="w-100 hr_blck"></div>
             </div> -->
@@ -349,34 +372,48 @@ function custom_add_to_cart()
         }
     }
     $cart_item_data = [];
-    $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
-    $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
-    $cart_item_data['wcrp_rental_products_cart_item_price'] = !empty($_REQUEST['wcrp_rental_products_cart_item_price']) ? $_REQUEST['wcrp_rental_products_cart_item_price'] : "";
-    $cart_item_data['wcrp_rental_products_rent_from'] = !empty($_REQUEST['wcrp_rental_products_rent_from']) ? $_REQUEST['wcrp_rental_products_rent_from'] : "";
-    $cart_item_data['wcrp_rental_products_rent_to'] = !empty($_REQUEST['wcrp_rental_products_rent_to']) ? $_REQUEST['wcrp_rental_products_rent_to'] : "";
-    $cart_item_data['wcrp_rental_products_start_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_start_days_threshold']) ? $_REQUEST['wcrp_rental_products_start_days_threshold'] : 0;
-    $cart_item_data['wcrp_rental_products_return_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_return_days_threshold']) ? $_REQUEST['wcrp_rental_products_return_days_threshold'] : 0;
-    $cart_item_data['wcrp_rental_products_advanced_pricing'] = !empty($_REQUEST['wcrp_rental_products_advanced_pricing']) ? $_REQUEST['wcrp_rental_products_advanced_pricing'] : "off";
+    $change_car_key = isset($_SESSION['change_car_key']) ? $_SESSION['change_car_key'] : null;
+    if ($change_car_key && isset(WC()->cart->cart_contents[$change_car_key])) {
+        $cart_item_data = &WC()->cart->cart_contents[$change_car_key];
+        $cart_item_data['product_id'] = $_REQUEST['product_id'];
+        $cart_item_data['quantity'] = 1;
+        WC()->cart->set_session();
 
+        unset($_SESSION['change_car_key']);
+    } else {
+        $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
+        $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
+        $cart_item_data['wcrp_rental_products_cart_item_price'] = !empty($_REQUEST['wcrp_rental_products_cart_item_price']) ? $_REQUEST['wcrp_rental_products_cart_item_price'] : "";
+        $cart_item_data['wcrp_rental_products_rent_from'] = !empty($_REQUEST['wcrp_rental_products_rent_from']) ? $_REQUEST['wcrp_rental_products_rent_from'] : "";
+        $cart_item_data['wcrp_rental_products_rent_to'] = !empty($_REQUEST['wcrp_rental_products_rent_to']) ? $_REQUEST['wcrp_rental_products_rent_to'] : "";
+        $cart_item_data['wcrp_rental_products_start_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_start_days_threshold']) ? $_REQUEST['wcrp_rental_products_start_days_threshold'] : 0;
+        $cart_item_data['wcrp_rental_products_return_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_return_days_threshold']) ? $_REQUEST['wcrp_rental_products_return_days_threshold'] : 0;
+        $cart_item_data['wcrp_rental_products_advanced_pricing'] = !empty($_REQUEST['wcrp_rental_products_advanced_pricing']) ? $_REQUEST['wcrp_rental_products_advanced_pricing'] : "off";
+    }
     if (!empty($_REQUEST['hidden_form']) || !empty($_REQUEST['model_form'])) {
         $product_id = $_REQUEST['product_id'];
         $quantity = 1;
-
         // Ensure WooCommerce is loaded
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
                 if ($has_etc_device) {
+                    // wp_safe_redirect("http://52.195.235.189/car-add-ons/");
+                    wp_safe_redirect("http://localhost/wordpress/index.php/car-add-ons/");
+                    exit;
 ?>
-                    <script>
+                    <!-- <script>
                         window.location.href = "http://52.195.235.189/car-add-ons/";
-                    </script>
+                    </script> -->
                 <?php
                 } else {
+                    // wp_safe_redirect("http://52.195.235.189/goods/");
+                    wp_safe_redirect("http://localhost/wordpress/index.php/goods/");
+                    exit;
                 ?>
-                    <script>
+                    <!-- <script>
                         window.location.href = "http://52.195.235.189/goods/";
-                    </script>
+                    </script> -->
 <?php
                 }
                 // wp_safe_redirect($redirect_url);
@@ -385,7 +422,7 @@ function custom_add_to_cart()
     }
 }
 
-// require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
 
 ?>
 </body>
