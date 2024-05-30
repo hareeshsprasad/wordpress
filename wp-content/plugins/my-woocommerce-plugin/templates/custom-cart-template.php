@@ -86,7 +86,7 @@ foreach ($cart_details as $cart_item) {
                                 <div class="row">
                                     <div class="col-md-12 text-center">
                                         <h4>カートは空です</h4>
-                                        <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>"><button type="button" class="btn btn-secondary m_btm_btn_black shadow">キャンプグッズ選択へ</button></a>
+                                        <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>"><button type="button" class="btn btn-secondary m_btm_btn_black shadow">キャンプグッズ選択へ</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@ foreach ($cart_details as $cart_item) {
                                                 </div>
                                             </div>
                                             <div class="col-md-3 text-center">
-                                                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>"><button type="button" class="btn btn-secondary btndark_big shadow fnt15 px-4">変更する</button></a>
+                                                <a href="<?php echo esc_url(add_query_arg(['change_car' => $cart_item_key], home_url('/index.php/book-your-car/'))); ?>"><button type="button" class="btn btn-secondary btndark_big shadow fnt15 px-4">変更する</button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -351,8 +351,12 @@ foreach ($cart_details as $cart_item) {
 
                     <div class="row">
                         <div class="col-md-12 text-center mt-4">
-                            <a href="<?php echo wc_get_checkout_url(); ?>"><button type="button" class="btn btn-secondary m_btm_btn_black shadow ">支払い情報の入力</button></a>
-
+                            <a href="<?php echo wc_get_checkout_url(); ?>" id="checkout-button-link">
+                                <button type="button" class="btn btn-secondary m_btm_btn_black shadow" <?php echo $has_rental_product ? '' : 'disabled'; ?> id="checkout-button">
+                                    支払い情報の入力
+                                </button>
+                            </a>
+                            <div id="popoverContent" class="popover">車を追加して支払いに進みます。</div>
                         </div>
                         <div class="col-md-12 text-center mt-4">
                             <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>"><button type="button" class="btn btn-outline-secondary m_btm_btn_line shadow ">戻る</button></a>

@@ -44,3 +44,25 @@ jQuery(document).ready(function ($) {
     });
   });
 });
+
+// script for disabling the proceed to payment button if the cart has no rental product //
+
+document.addEventListener("DOMContentLoaded", function () {
+  var checkoutButtonLink = document.getElementById("checkout-button-link");
+  var popover = document.getElementById("popoverContent");
+  var checkoutButton = document.getElementById("checkout-button");
+  function showPopover() {
+    popover.style.display = "block";
+  }
+
+  function hidePopover() {
+    popover.style.display = "none";
+  }
+  if (checkoutButton.hasAttribute("disabled")) {
+    checkoutButtonLink.addEventListener("mouseenter", showPopover);
+    checkoutButtonLink.addEventListener("mouseleave", hidePopover);
+    checkoutButtonLink.addEventListener("click", function (event) {
+      event.preventDefault();
+    });
+  }
+});

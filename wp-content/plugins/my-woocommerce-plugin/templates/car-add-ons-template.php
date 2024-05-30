@@ -3,6 +3,7 @@ session_start();
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
+$data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
 require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
@@ -11,25 +12,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($_POST as $key => $value) {
             if (!empty($value)) {
                 $product_id = intval($value);
+                // $product = wc_get_product($product_id);
+                // $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
+                // $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
+                // $rent_from_date = new DateTime($rent_from);
+                // $rent_to_date = new DateTime($rent_to);
+                // $interval = $rent_from_date->diff($rent_to_date);
+                // $interval = $interval->days + 1;
+                // $total_rent_amount = $product->get_price() * $interval;
+                // $product->set_price($total_rent_amount);
+                // $cart_item_data = array(
+                //     'custom_price' => $total_rent_amount
+                // );
+                // WC()->cart->add_to_cart($product_id, 1, 0, array(), $cart_item_data);
                 WC()->cart->add_to_cart($product_id);
             }
         }
     }
     if ($_POST['action'] == 'select_camping_goods') {
-?>
-        <script>
-            window.location.href = "http://52.195.235.189/goods/";
-        </script>
-    <?php
-        // wp_redirect('http://localhost/wordpress/index.php/my-account/'); //not working with astra theme
-        // exit();
+        wp_safe_redirect(home_url('/index.php/goods/'));
+        exit;
     }
     if ($_POST['action'] == 'proceed_to_checkout') {
-    ?>
-        <script>
-            window.location.href = "http://52.195.235.189/custom-cart-details/";
-        </script>
-<?php
+        wp_safe_redirect(home_url('/index.php/custom-cart-details/'));
+        exit;
     }
 }
 
