@@ -806,3 +806,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .p-60 {
   padding-bottom: 60px;
 }
+
+.wp-block-template-part {
+  display: none !important;
+}
+
+.has-global-padding {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+body .is-layout-constrained> :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+  max-width: 100%;
+}
+
+.wp-block-spacer {
+  display: none !important;
+}
+
+.wp-block-post-title {
+  display: none !important;
+}
