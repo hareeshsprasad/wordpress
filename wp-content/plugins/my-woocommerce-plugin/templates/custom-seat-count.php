@@ -1,18 +1,11 @@
 <?php
 
-// Function definition 
-function function_alert($message)
-{
-    // Display the alert box  
-    echo "<script>alert('$message');</script>";
-}
-
 const CHILD_SEAT_ID = 139;
 
 // Call the function to add or update the cart item
 $cart_response = add_or_update_cart_item();
 
-// Function to add or update the cart item
+// // Function to add or update the cart item
 function add_or_update_cart_item()
 {
     // Set product ID and quantity
@@ -50,49 +43,60 @@ function add_or_update_cart_item()
 }
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Example</title>
-</head>
 
 <body style="font-family: Arial, sans-serif;">
+    <div class=" br-add">
+        <div class="child-seat-heading">
+            <h2 style="font-weight: 1000; font-size: 28px !important;">お客様情報 <span style="font-weight: 900">|</span></h2>
+        </div>
+        <div style="line-height: 35px; padding-left: 25px; margin-top: 20px;" class="child-seat"> 安田 直樹 <br>
+            ヤスタ ナオキ<br>
+            naokiyasuta@gmail.com<br>
+            090-1234-5678<br>
+            〒153-0022<br>
+            東京都 世田谷区 下馬1-23-2<br>
+        </div>
+        <div class="child-seat">
+            <div style="display: flex; align-items: center; margin-bottom: 30px;">
+                <div class="col-md-3 d-flex align-items-center">
+                    <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
+                    <span style="margin-left: 10px; font-size: 20px;">大人</span>
+                </div>
+                <div class="col-md-3 ">
+                    <select name="adult_count" id="adult_count" style="margin-left: 10px;padding: 5px;width: 40%;height: 40px;">
+                        <option value="1">1人</option>
+                        <option value="2">2人</option>
+                        <option value="3">3人</option>
+                        <option value="4">4人</option>
+                        <option value="5">5人</option>
+                    </select>
+                </div>
+            </div>
 
-    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-        <span style="background-color: red; color: white; padding: 5px;">必須</span>
-        <span style="margin-left: 10px; font-size: 20px;">大人</span>
-        <select name="adult_count" id="adult_count" style="margin-left: 10px; padding: 5px; width: 80px;">
-            <option value="1">1人</option>
-            <option value="2">2人</option>
-            <option value="3">3人</option>
-            <option value="4">4人</option>
-            <option value="5">5人</option>
-        </select>
+            <div style="display: flex; align-items: center; margin-bottom: 30px;">
+                <div class="col-md-3 d-flex align-items-center">
+                    <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
+                    <span style="margin-left: 10px; font-size: 20px;">子供（6歳以下）</span>
+                </div>
+                <div class="col-md-3">
+                    <select name="child_count" id="child_count" style="margin-left: 10px;padding: 5px;width: 40%;height: 40px;">
+                        <option value="0">0人</option>
+                        <option value="1">1人</option>
+                        <option value="2">2人</option>
+                        <option value="3">3人</option>
+                        <option value="4">4人</option>
+                        <option value="5">5人</option>
+                    </select>
+                </div>
+            </div>
+            <ul style="list-style-type: disc; margin-left: 20px;">
+                <li>6歳未満の幼児を同乗させる場合、チャイルドシートの使用が義務付けられています。</li>
+                <li>オプション料金1台当たり1,100円（税込）</li>
+            </ul>
+        </div>
     </div>
-
-    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-        <span style="background-color: red; color: white; padding: 5px;">必須</span>
-        <span style="margin-left: 10px; font-size: 20px;">子供（6歳以下）</span>
-        <select name="child_count" id="child_count" style="margin-left: 10px; padding: 5px; width: 80px;">
-            <option value="0">0人</option>
-            <option value="1">1人</option>
-            <option value="2">2人</option>
-            <option value="3">3人</option>
-            <option value="4">4人</option>
-            <option value="5">5人</option>
-        </select>
-    </div>
-    <ul style="list-style-type: disc; margin-left: 20px;">
-        <li>6歳未満の幼児を同乗させる場合、チャイルドシートの使用が義務付けられています。</li>
-        <li>オプション料金1台当たり1,100円（税込）</li>
-    </ul>
-
 </body>
-
-</html>
 
 <script>
     let seat_count = localStorage.getItem("child_count");

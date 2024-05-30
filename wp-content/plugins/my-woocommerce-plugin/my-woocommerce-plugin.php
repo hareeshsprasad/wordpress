@@ -40,7 +40,9 @@ class My_WC_Plugin
         add_action('wp_ajax_update_cart_quantity', [$this, 'update_cart_quantity']);
         add_action('wp_ajax_nopriv_update_cart_quantity', [$this, 'update_cart_quantity']);
 
+        add_shortcode('checkout_page_header', 'checkout_page_header');
         add_shortcode('child_seat_count', 'child_seat_count');
+        add_shortcode('checkout_page_footer', 'checkout_page_footer');
     }
 
     public function enqueue_styles()
@@ -69,6 +71,11 @@ class My_WC_Plugin
         if (is_page('goods-details')) {
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-goods', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/goods-details-style.css');
+        }
+
+        if (is_page('checkout')) {
+            wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
+            wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
     }
 
@@ -224,9 +231,19 @@ class My_WC_Plugin
     }
 }
 
+function checkout_page_header()
+{
+    include MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+}
+
 function child_seat_count()
 {
     include MY_WC_PLUGIN_PATH . 'templates/custom-seat-count.php';
+}
+
+function checkout_page_footer()
+{
+    include MY_WC_PLUGIN_PATH . 'templates/checkout-footer.php';
 }
 
 // Initialize the plugin

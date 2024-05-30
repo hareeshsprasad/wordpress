@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
-// Function definition 
+// Function definition
 function function_alert($message)
 {
     // Display the alert box  
@@ -142,7 +142,7 @@ function goods_added_to_cart()
                                 <h4 class="mt-4">デイキャンプデビューにぴったりのセット！<br>
                                     気軽にキャンプに出かけましょう！</h4>
                                 <div class="mt-2">Coleman(コールマン)</div>
-                                <div class="sub-head2 mt-2"><b>¥</b><?php echo $product->get_price(); ?><span>(税込)</span> / 1泊2日</div>
+                                <div class="sub-head2 mt-2"><b>¥</b><?php echo $product->get_price(); ?><span>(税込)</span> / 1泊2日</div>
                                 <div class="txt_highlight ul-auto mt-3 mb-3">
                                     <?php
                                     $tgs = get_the_terms($product->get_id(), 'product_tag');
@@ -166,21 +166,23 @@ function goods_added_to_cart()
                                 <div>数量を選ぶ</div>
                                 <div class="row">
                                     <form action="" method="POST">
-                                        <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
-                                        <div class="col-2"> <select name="product_quanty" class="form-select mt-3" aria-label="Default select example">
-                                                <option selected>1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                            </select>
+                                        <div style="display:flex;">
+                                            <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
+                                            <div class="col-md-2 col-sm-2"> <select name="product_quanty" class="form-select mt-3" aria-label="Default select example">
+                                                    <option selected>1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 mt-3"> <button type="submit" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
                                         </div>
-                                        <div class="col-3 mt-3"> <button type="submit" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
                                     </form>
                                 </div>
 

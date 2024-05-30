@@ -320,7 +320,7 @@ function goods_added_to_cart()
         <button class="cart-button">カートを見る</button>
     </a>
     <?php
-    // require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+    require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
     ?>
 </body>
 
