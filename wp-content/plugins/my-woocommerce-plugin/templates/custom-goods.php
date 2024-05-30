@@ -43,7 +43,7 @@ function get_tags_by_good_category($mainCategories)
 
             if (!empty($subCategories)) {
                 foreach ($subCategories as $sCategories) {
-                    $products = fetch_products($sCategories->slug);
+                    $products = fetch_products($sCategories->name);
 
                     foreach ($products as $product) {
                         $product_tags = wp_get_post_terms($product->get_id(), 'product_tag');
@@ -115,9 +115,9 @@ function goods_added_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $product_quantity);
 
-            if ($response) {
-                function_alert('Product added to cart!');
-            }
+            // if ($response) {
+            //     function_alert('Product added to cart!');
+            // }
 
             // Redirect to the cart page after adding the product to the cart
 
@@ -268,10 +268,10 @@ function goods_added_to_cart()
                                                                     <?php
                                                                     if (!empty($tgs)) {
                                                                         foreach ($tgs as $tag) {
-                                                                            if (!empty($tag->slug) && !in_array($tag->slug, $displayed_tags = [])) {
-                                                                                $displayed_tags[] = $tag->slug;
+                                                                            if (!empty($tag->name) && !in_array($tag->name, $displayed_tags = [])) {
+                                                                                $displayed_tags[] = $tag->name;
                                                                     ?>
-                                                                                <li><?php echo $tag->slug; ?></li>
+                                                                                <li><?php echo $tag->name; ?></li>
                                                                     <?php }
                                                                         }
                                                                     }
@@ -320,7 +320,7 @@ function goods_added_to_cart()
         <button class="cart-button">カートを見る</button>
     </a>
     <?php
-    // require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
+    require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
     ?>
 </body>
 
