@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
         </div>
     </nav>
 </header>
-<div style="background-image: url('<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/top-image.png'); ?>'); background-repeat: no-repeat; background-size: cover; height: 335px; color: #ffffff;">
+<div style="background-image: url('<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/top-image.png'); ?>'); background-repeat: no-repeat; background-size: cover; height: 335px; color: #ffffff;margin-top:0px">
     <div class="sp_container">
         <div style="height: 335px" class="d-flex justify-content-end align-items-center">
             <h1 class="top_title">プラグインアウトドア<br>

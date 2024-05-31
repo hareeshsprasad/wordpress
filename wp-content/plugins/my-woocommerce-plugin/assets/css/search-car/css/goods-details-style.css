@@ -663,3 +663,49 @@ body .is-layout-constrained> :where(:not(.alignleft):not(.alignright):not(.align
     color: #000 !important;
     text-decoration: none !important;
 }
+
+.sns {
+    margin: auto !important;
+}
+
+.sns ul {
+    display: flex !important;
+    list-style: none !important;
+    padding: 0 !important;
+    justify-content: space-evenly !important;
+    margin: 0 auto !important;
+}
+
+.sns ul li a {
+    display: flex !important;
+    align-items: center !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    text-decoration: none !important;
+    color: #000000 !important;
+    font-size: 13px !important;
+}
+
+.bottom_link ul {
+    display: flex !important;
+    list-style: none !important;
+    padding: 0 !important;
+    justify-content: space-evenly !important;
+    margin: 0 auto !important;
+}
+
+.bottom_link ul li a {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    text-decoration: none !important;
+    color: #000000 !important;
+    font-size: 13px !important;
+}
+
+.mt-20 {
+    margin-top: 20px !important;
+}
+
+.mt-10 {
+    margin-top: 10px !important;
+}

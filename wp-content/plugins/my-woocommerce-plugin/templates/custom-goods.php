@@ -239,7 +239,7 @@ function goods_added_to_cart()
                                 $products = fetch_products($sCategories->slug, $search_keyword, $tag_slug);
                                 if (count($products)) {
                 ?>
-                                    <div class="row mt-4 mb-4">
+                                    <div class="row mb-4 add-mt">
                                         <div class="col-md-12">
                                             <h2 class="sub_heading"><?php echo $sCategories->name; ?><span style="font-weight: 200"> |</span></h2>
                                             <div class="w-100 hr_blck"></div>
