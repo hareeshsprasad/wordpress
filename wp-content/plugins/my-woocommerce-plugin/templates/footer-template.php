@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-20">
         <div class="col-md-12">
             <div class="bottom_link">
                 <ul>
@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-10">
         <div class="col-md-12 text-center">
             <div class="mt-3 mb-3">© MITSUBISHI MOTORS CORPORATION. All rights reserved.</div>
         </div>

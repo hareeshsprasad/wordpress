@@ -321,7 +321,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex !important;
   list-style: none !important;
   padding: 0 !important;
-  justify-content: center !important;
+  justify-content: space-evenly !important;
   margin: 0 auto !important;
 }
 
@@ -897,4 +897,11 @@ header .wp-block-group {
   top: 79% !important;
   transform: translateY(-54%) !important;
   font-size: 20px !important;
+}
+.mt-20 {
+  margin-top: 20px !important;
+}
+
+.mt-10 {
+  margin-top: 10px !important;
 }
