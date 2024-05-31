@@ -1,6 +1,6 @@
 <?php
 
-const CHILD_SEAT_ID = 139;
+const CHILD_SEAT_ID = 331;
 
 // Call the function to add or update the cart item
 $cart_response = add_or_update_cart_item();
@@ -12,31 +12,27 @@ function add_or_update_cart_item()
     $product_id = CHILD_SEAT_ID;
 
     $product_quantity = isset($_REQUEST['child_count']) ? $_REQUEST['child_count'] : 0;
-    $response = null;
 
-    if ($product_quantity) {
+    // Get the cart items
+    $cart = WC()->cart->get_cart();
 
-        // Get the cart items
-        $cart = WC()->cart->get_cart();
+    // Initialize a variable to track if the product is found in the cart
+    $found = false;
 
-        // Initialize a variable to track if the product is found in the cart
-        $found = false;
-
-        // Loop through the cart items
-        foreach ($cart as $cart_item_key => $cart_item) {
-            // Check if the product is already in the cart
-            if ($cart_item['product_id'] === $product_id) {
-                // If the product is found, update its quantity
-                $response = WC()->cart->set_quantity($cart_item_key, $product_quantity);
-                $found = true;
-                break;
-            }
+    // Loop through the cart items
+    foreach ($cart as $cart_item_key => $cart_item) {
+        // Check if the product is already in the cart
+        if ($cart_item['product_id'] === $product_id) {
+            // If the product is found, update its quantity
+            $response = WC()->cart->set_quantity($cart_item_key, $product_quantity);
+            $found = true;
+            break;
         }
+    }
 
-        // If the product is not found in the cart, add it to the cart
-        if (!$found) {
-            $response = WC()->cart->add_to_cart($product_id, $product_quantity);
-        }
+    // If the product is not found in the cart, add it to the cart
+    if (!$found) {
+        $response = WC()->cart->add_to_cart($product_id, $product_quantity);
     }
 
     return $response;
@@ -46,17 +42,17 @@ function add_or_update_cart_item()
 
 
 <body style="font-family: Arial, sans-serif;">
-    <div class=" br-add">
-        <div class="child-seat-heading">
-            <h2 style="font-weight: 1000; font-size: 28px !important;">お客様情報 <span style="font-weight: 900">|</span></h2>
-        </div>
-        <div style="line-height: 35px; padding-left: 25px; margin-top: 20px;" class="child-seat"> 安田 直樹 <br>
-            ヤスタ ナオキ<br>
-            naokiyasuta@gmail.com<br>
-            090-1234-5678<br>
-            〒153-0022<br>
-            東京都 世田谷区 下馬1-23-2<br>
-        </div>
+    <div class="back back_hide"><a href="<?php echo home_url("index.php/custom-cart-details"); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
+    <div class="stepper mt-3">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li class="active">5</li>
+        </ul>
+    </div>
+    <div class="br-add">
         <div class="child-seat">
             <div style="display: flex; align-items: center; margin-bottom: 30px;">
                 <div class="col-md-3 d-flex align-items-center">
