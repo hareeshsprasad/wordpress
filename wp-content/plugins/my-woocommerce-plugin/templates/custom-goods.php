@@ -4,6 +4,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-price-calculation.php';
 // Function definition 
 function function_alert($message)
 {
@@ -109,11 +110,14 @@ function goods_added_to_cart()
 {
     if (isset($_REQUEST['product_id']) && isset($_REQUEST['product_quanty'])) {
         $product_id = intval($_REQUEST['product_id']);
+        $product = wc_get_product($product_id);
         $product_quantity = intval($_REQUEST['product_quanty']);
-
+        $cart_item_data = [];
+        $total_rent_amount = Custom_Price_calculation::set_rent_amount($product->get_price());
+        $cart_item_data['wcrp_rental_products_cart_item_price'] = $total_rent_amount;
         // Ensure WooCommerce is loaded
         if (class_exists('WC_Cart')) {
-            $response = WC()->cart->add_to_cart($product_id, $product_quantity);
+            $response = WC()->cart->add_to_cart($product_id, $product_quantity, 0, array(), $cart_item_data);
 
             // if ($response) {
             //     function_alert('Product added to cart!');
@@ -170,28 +174,18 @@ function goods_added_to_cart()
 
 <body>
     <div class="sp_container">
-        <div class="back_show"><a href="#"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>"></a></div>
+        <div class="back_show"><a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>"></a></div>
         <h1 class="top_title-small">プラグインアウトドア<br>
             予約フォー</h1>
 
-        <div class="back back_hide"><a href="#"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
+        <div class="back back_hide"><a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
         <div class="stepper mt-3">
             <ul>
-                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
-                    <li>1</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>">
-                    <li>2</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
-                    <li class="active">3</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/custom-cart-details/')); ?>">
-                    <li>4</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/checkout/')); ?>">
-                    <li>5</li>
-                </a>
+                <li>1</li>
+                <li>2</li>
+                <li class="active">3</li>
+                <li>4</li>
+                <li>5</li>
             </ul>
         </div>
         <div class="sub_content_area">

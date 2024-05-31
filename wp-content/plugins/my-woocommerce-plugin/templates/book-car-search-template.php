@@ -84,21 +84,11 @@ if ($data != null) {
             予約フォー</h1>
         <div class="stepper">
             <ul>
-                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
-                    <li class="active">1</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>">
-                    <li>2</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
-                    <li>3</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/custom-cart-details/')); ?>">
-                    <li>4</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/checkout/')); ?>">
-                    <li>5</li>
-                </a>
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
             </ul>
         </div>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="car-select-form">
@@ -143,7 +133,7 @@ if ($data != null) {
                         <div class="col-md-12">
                             <h2 class="sub_heading">返却する日時を選ぶ <span style="font-weight: 200">|</span></h2>
                             <div class="w-100 hr_blck"></div>
-                            <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" value="<?php echo $rent_from; ?>" style="height:50px" required>
+                            <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" value="<?php echo $rent_to; ?>" style="height:50px" required>
                         </div>
                         <div id="error-message" style="color: red; float:left; display: none">
                             終了日を開始日より早くすることはできません.
