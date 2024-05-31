@@ -6,26 +6,34 @@ if (!defined('ABSPATH')) {
 $data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
 require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-price-calculation.php';
 $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['action'])) {
         foreach ($_POST as $key => $value) {
             if (!empty($value)) {
+                $cart_item_data = [];
                 $product_id = intval($value);
-                // $product = wc_get_product($product_id);
-                // $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
-                // $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
-                // $rent_from_date = new DateTime($rent_from);
-                // $rent_to_date = new DateTime($rent_to);
-                // $interval = $rent_from_date->diff($rent_to_date);
-                // $interval = $interval->days + 1;
-                // $total_rent_amount = $product->get_price() * $interval;
-                // $product->set_price($total_rent_amount);
-                // $cart_item_data = array(
-                //     'custom_price' => $total_rent_amount
-                // );
-                // WC()->cart->add_to_cart($product_id, 1, 0, array(), $cart_item_data);
-                WC()->cart->add_to_cart($product_id);
+                if ($product_id > 0) {
+                    $product = wc_get_product($product_id);
+
+                    if ($product && is_a($product, 'WC_Product')) {
+                        $product_price = $product->get_price();
+                    } else {
+                        echo "Error: Product not found or invalid product ID: " . $product_id;
+                    }
+                } else {
+                    echo "Error: Invalid product ID.";
+                }
+                $quantity = 1;
+                $total_rent_amount = Custom_Price_calculation::set_rent_amount($product_price);
+                $cart_item_data['wcrp_rental_products_cart_item_price'] = $total_rent_amount;
+                if (class_exists('WC_Cart')) {
+                    $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
+                    // if ($response) {
+                    //     echo "<script> alert('message successfully sent')</script>";
+                    // }
+                }
             }
         }
     }
@@ -83,21 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="stepper mt-3">
             <ul>
-                <a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>">
-                    <li>1</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/car-add-ons/')); ?>">
-                    <li class="active">2</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
-                    <li>3</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/custom-cart-details/')); ?>">
-                    <li>4</li>
-                </a>
-                <a href="<?php echo esc_url(home_url('/index.php/checkout/')); ?>">
-                    <li>5</li>
-                </a>
+                <li>1</li>
+                <li class="active">2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
             </ul>
         </div>
         <form action="" method="POST">

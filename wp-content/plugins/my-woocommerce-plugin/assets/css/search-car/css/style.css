@@ -872,3 +872,29 @@ header .wp-block-group {
   padding-top: 50px !important;
   border-bottom: 1px solid #000 !important;
 }
+
+.date-picker-input {
+  padding-left: 40px !important;
+  height: 50px !important;
+}
+
+.date-picker-input::-webkit-calendar-picker-indicator {
+  position: absolute !important;
+  left: 20px !important;
+  top: 67% !important;
+  transform: translateY(-54%) !important;
+  font-size: 20px !important;
+}
+
+.date-picker-input2 {
+  padding-left: 40px !important;
+  height: 50px !important;
+}
+
+.date-picker-input2::-webkit-calendar-picker-indicator {
+  position: absolute !important;
+  left: 20px !important;
+  top: 79% !important;
+  transform: translateY(-54%) !important;
+  font-size: 20px !important;
+}
