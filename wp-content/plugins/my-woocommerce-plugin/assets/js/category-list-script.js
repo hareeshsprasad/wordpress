@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function (event) {
       event.preventDefault();
       const productData = JSON.parse(this.getAttribute("data-product"));
-      console.log(productData, "productData");
+      // console.log(productData, "productData");
       let test = `wcrp-rental-products-cart-item-validation-${productData.rental_form_id}`;
 
       let ttt = document.getElementById(test).value;
