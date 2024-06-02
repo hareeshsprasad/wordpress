@@ -6,12 +6,47 @@ if (!defined('ABSPATH')) {
 $data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
 require_once MY_WC_PLUGIN_PATH . 'includes/class-cart-details.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+// removing car and associated add-ons //
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_item_key'])) {
+    $cart = WC()->cart;
+    $cart_items = $cart->get_cart();
     $remove_item_key = sanitize_text_field($_POST['remove_item_key']);
-    WC()->cart->remove_cart_item($remove_item_key);
+    $associated_items_slugs = ['etc-card', 'insurance'];
+    // foreach ($cart_items as $cart_item_key => $cart_item) {
+    //     $product = $cart_item['data'];
+    //     $product_slug = $product->get_slug();
+    //     if (in_array($product_slug, $associated_items_slugs)) {
+    //         $current_quantity = $cart_item['quantity'];
+    //         if ($current_quantity > 1) {
+    //             // Decrease the quantity by 1
+    //             $cart->set_quantity($cart_item_key, $current_quantity - 1);
+    //         } else {
+    //             // If the quantity is 1, remove the item
+    //             $cart->remove_cart_item($cart_item_key);
+    //         }
+    //     }
+    // }
+    $unique_car_id = '';
+    foreach ($cart_items as $cart_item_key => $cart_item) {
+        if ($cart_item_key === $remove_item_key && isset($cart_item['unique_car_id'])) {
+            $unique_car_id = $cart_item['unique_car_id'];
+            break;
+        }
+    }
+    $cart->remove_cart_item($remove_item_key);
+    if ($unique_car_id) {
+        foreach ($cart_items as $cart_item_key => $cart_item) {
+            if (isset($cart_item['unique_car_id']) && $cart_item['unique_car_id'] === $unique_car_id) {
+                $cart->remove_cart_item($cart_item_key);
+            }
+        }
+    }
+
     wp_safe_redirect(home_url('/index.php/custom-cart-details/'));
     exit;
 }
+
+
 $cart_details = Custom_Cart_Details::cart_details();
 $car_details = [];
 $goods_details = [];
@@ -314,7 +349,6 @@ foreach ($cart_details as $cart_item_key => $cart_item) {
                         </div>
 
                     </div>
-
                     <?php foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) : ?>
                         <div class="row mt-3" data-cart-item-key="<?php echo $cart_item_key; ?>">
                             <div class="col-8 cart-item-name"><?php echo $cart_item['data']->get_name(); ?></div>

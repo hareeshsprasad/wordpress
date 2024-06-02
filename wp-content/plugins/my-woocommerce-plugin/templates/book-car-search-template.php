@@ -101,8 +101,8 @@ if ($data != null) {
                             <select class="form-select mt-4" aria-label="Default select example" id="main-category" name="main_category" required>
                                 <option selected disabled>都道府県</option>
                                 <?php foreach ($categories as $category) : ?>
-                                    <?php if ($category->name !== 'Uncategorized' && $category->name !== 'Add-Ons' && $category->name !== 'camping-goods') : ?>
-                                        <option value="<?php echo $category->term_id; ?>" <?php echo (isset($_POST['main_category']) && $_POST['main_category'] == $category->term_id) ? 'selected' : ''; ?>>
+                                    <?php if ($category->slug !== 'uncategorized' && $category->slug !== 'add-ons' && $category->slug !== 'camping-goods') : ?>
+                                        <option value="<?php echo $category->term_id; ?>" <?php echo ($main_category == $category->term_id) ? 'selected' : ''; ?>>
                                             <?php echo $category->name; ?>
                                         </option>
                                     <?php endif; ?>
@@ -113,10 +113,10 @@ if ($data != null) {
                             <select class="form-select mt-4" aria-label="Default select example" id="sub-category" name="sub_category" required>
                                 <option selected disabled>店舗</option>
                                 <?php
-                                if (isset($_POST['main_category']) && isset($_POST['sub_category'])) {
-                                    $subcategories = Custom_Category_Listing::get_subcategories(intval($_POST['main_category']));
+                                if ($main_category) {
+                                    $subcategories = Custom_Category_Listing::get_subcategories(intval($main_category));
                                     foreach ($subcategories as $subcategory) {
-                                        echo '<option value="' . $subcategory->term_id . '" ' . ($_POST['sub_category'] == $subcategory->term_id ? 'selected' : '') . '>' . $subcategory->name . '</option>';
+                                        echo '<option value="' . $subcategory->term_id . '" ' . ($sub_category == $subcategory->term_id ? 'selected' : '') . '>' . $subcategory->name . '</option>';
                                     }
                                 }
                                 ?>
@@ -158,26 +158,27 @@ if ($data != null) {
             <div class=" sub_content_area2">
                 <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>
                 <div class="w-100 hr_blck"></div>
-                <?php foreach ($response as $product_id) : ?>
-                    <?php
-                    $product = wc_get_product($product_id);
-                    $attributes = $product->get_attributes();
-                    $model_attribute = $product->get_attribute('car-model');
-                    $passenger_attribute = $product->get_attribute('number-of-passengers');
-                    $drive_type = $product->get_attribute('drive-type');
-                    $hybrid_fule_type = $product->get_attribute('hybri-fuel-consumption-rate');
-                    $ev_mileage = $product->get_attribute('ev-milege');
-                    $product_description = $product->get_description();
-                    $car_features = wp_get_post_terms($product_id, 'car_features');
-                    $rental_form_id = uniqid();
-                    $rent_from_date = new DateTime($rent_from);
-                    $rent_to_date = new DateTime($rent_to);
-                    $interval = $rent_from_date->diff($rent_to_date);
-                    $interval = $interval->days + 1;
-                    $total_rent_amount = $product->get_price() * $interval;
-                    ?>
-                    <!-- <div class="sub_content_area2">
-                    <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>
+            </div>
+            <?php foreach ($response as $product_id) : ?>
+                <?php
+                $product = wc_get_product($product_id);
+                $attributes = $product->get_attributes();
+                $model_attribute = $product->get_attribute('car-model');
+                $passenger_attribute = $product->get_attribute('number-of-passengers');
+                $drive_type = $product->get_attribute('drive-type');
+                $hybrid_fule_type = $product->get_attribute('hybri-fuel-consumption-rate');
+                $ev_mileage = $product->get_attribute('ev-milege');
+                $product_description = $product->get_description();
+                $car_features = wp_get_post_terms($product_id, 'car_features');
+                $rental_form_id = uniqid();
+                $rent_from_date = new DateTime($rent_from);
+                $rent_to_date = new DateTime($rent_to);
+                $interval = $rent_from_date->diff($rent_to_date);
+                $interval = $interval->days + 1;
+                $total_rent_amount = $product->get_price() * $interval;
+                ?>
+                <div class="sub_content_area2">
+                    <!-- <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>
                     <div class="w-100 hr_blck"></div> -->
                     <div class="container m-0 p-0 full_width">
                         <div class="row">
@@ -343,7 +344,7 @@ if ($data != null) {
                             </div>
                         </div>
                     </div>
-            </div>
+                </div>
     </div>
 <?php endforeach; ?>
 <div class="row">
@@ -357,10 +358,14 @@ if ($data != null) {
 function custom_add_to_cart()
 {
     $has_etc_device = false;
+    $has_insurance = false;
     $car_features = wp_get_post_terms($_REQUEST['product_id'], 'car_features');
     foreach ($car_features as $feature) {
         if ($feature->slug === 'etc-on-board-device') {
             $has_etc_device = true;
+        }
+        if ($feature->slug === 'insurance') {
+            $has_insurance = true;
         }
     }
     $cart_item_data = [];
@@ -381,10 +386,32 @@ function custom_add_to_cart()
         $cart_item_data['wcrp_rental_products_start_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_start_days_threshold']) ? $_REQUEST['wcrp_rental_products_start_days_threshold'] : 0;
         $cart_item_data['wcrp_rental_products_return_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_return_days_threshold']) ? $_REQUEST['wcrp_rental_products_return_days_threshold'] : 0;
         $cart_item_data['wcrp_rental_products_advanced_pricing'] = !empty($_REQUEST['wcrp_rental_products_advanced_pricing']) ? $_REQUEST['wcrp_rental_products_advanced_pricing'] : "off";
+        $unique_id = uniqid('car_');
+        $cart_item_data['unique_car_id'] = $unique_id;
+        $_SESSION['unique_car_id'] = $unique_id;
     }
     if (!empty($_REQUEST['hidden_form']) || !empty($_REQUEST['model_form'])) {
+        $_SESSION['car_id'] = $_REQUEST['product_id'];
+        // Removing the exisiting car and associated add -ons and replace the exisiting car//
         if ($change_car_key && isset(WC()->cart->cart_contents[$change_car_key])) {
+            $cart = WC()->cart;
+            $cart_items = $cart->get_cart();
+            $associated_items_slugs = ['etc-card', 'insurance'];
             WC()->cart->remove_cart_item($change_car_key);
+            foreach ($cart_items as $cart_item_key => $cart_item) {
+                $product = $cart_item['data'];
+                $product_slug = $product->get_slug();
+                if (in_array($product_slug, $associated_items_slugs)) {
+                    $current_quantity = $cart_item['quantity'];
+                    print_r($current_quantity);
+                    if ($current_quantity > 1) {
+                        print_r("inside if");
+                        $cart->set_quantity($cart_item_key, $current_quantity - 1);
+                    } else {
+                        $cart->remove_cart_item($cart_item_key);
+                    }
+                }
+            }
             unset($_SESSION['change_car_key']);
         }
         $product_id = $_REQUEST['product_id'];
@@ -393,7 +420,7 @@ function custom_add_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
-                if ($has_etc_device) {
+                if ($has_etc_device || $has_insurance) {
                     wp_safe_redirect(home_url('/index.php/car-add-ons/'));
                     exit;
                 } else {

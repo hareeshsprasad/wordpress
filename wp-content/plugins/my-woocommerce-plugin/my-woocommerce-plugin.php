@@ -124,6 +124,11 @@ class My_WC_Plugin
             $category_listing = ob_get_clean();
             return $content . $category_listing;
         }
+        if (is_page('cart')) {
+            ob_start();
+            wp_safe_redirect(home_url('/index.php/custom-cart-details/'));
+            exit;
+        }
 
         return $content;
     }
