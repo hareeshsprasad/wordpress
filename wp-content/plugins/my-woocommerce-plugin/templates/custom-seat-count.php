@@ -1,6 +1,8 @@
 <?php
 
-const CHILD_SEAT_ID = 331;
+const CHILD_SEAT_ID = 141;
+
+const ADULT_SEAT_ID = 192;
 
 // Call the function to add or update the cart item
 $cart_response = add_or_update_cart_item();
@@ -8,10 +10,20 @@ $cart_response = add_or_update_cart_item();
 // // Function to add or update the cart item
 function add_or_update_cart_item()
 {
-    // Set product ID and quantity
-    $product_id = CHILD_SEAT_ID;
+    $product_id = 0;
 
-    $product_quantity = isset($_REQUEST['child_count']) ? $_REQUEST['child_count'] : 0;
+    if (isset($_REQUEST['child_count'])) {
+        // Set product ID and quantity
+        $product_id = CHILD_SEAT_ID;
+
+        $product_quantity = isset($_REQUEST['child_count']) ? $_REQUEST['child_count'] : 0;
+    } elseif (isset($_REQUEST['adult_count'])) {
+        // Set product ID and quantity
+        $product_id = ADULT_SEAT_ID;
+
+        $product_quantity = isset($_REQUEST['adult_count']) ? $_REQUEST['adult_count'] : 0;
+    }
+
 
     // Get the cart items
     $cart = WC()->cart->get_cart();
@@ -60,7 +72,8 @@ function add_or_update_cart_item()
                     <span style="margin-left: 10px; font-size: 20px;">大人</span>
                 </div>
                 <div class="col-md-3 ">
-                    <select name="adult_count" id="adult_count" style="margin-left: 10px;padding: 5px;width: 40%;height: 40px;">
+                    <select name="adult_count" id="adult_count" style="margin-left: 10px;padding: 5px;width: 90%;height: 40px;">
+                        <option value="">オプションを選択してください</option>
                         <option value="1">1人</option>
                         <option value="2">2人</option>
                         <option value="3">3人</option>
@@ -76,7 +89,8 @@ function add_or_update_cart_item()
                     <span style="margin-left: 10px; font-size: 20px;">子供（6歳以下）</span>
                 </div>
                 <div class="col-md-3">
-                    <select name="child_count" id="child_count" style="margin-left: 10px;padding: 5px;width: 40%;height: 40px;">
+                    <select name="child_count" id="child_count" style="margin-left: 10px;padding: 5px;width: 90%;height: 40px;">
+                        <option value="">オプションを選択してください</option>
                         <option value="0">0人</option>
                         <option value="1">1人</option>
                         <option value="2">2人</option>
@@ -95,17 +109,45 @@ function add_or_update_cart_item()
 </body>
 
 <script>
-    let seat_count = localStorage.getItem("child_count");
+    let child_count = localStorage.getItem("child_count");
 
-    if (seat_count != null) {
-        document.getElementById("child_count").value = seat_count;
+    if (child_count != null) {
+        document.getElementById("child_count").value = child_count;
     }
 
     document.getElementById('child_count').addEventListener('change', function() {
-        var selectedValue = this.value;
+        let selectedValue = this.value;
         localStorage.setItem("child_count", selectedValue);
         // Make a fetch request to the same page
         fetch(window.location.pathname + "?child_count=" + selectedValue)
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Network response was not ok.');
+                }
+            })
+            .then(data => {
+                // Reload the page after fetch
+                location.reload();
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    });
+
+    let adult_count = localStorage.getItem("adult_count");
+
+    if (adult_count != null) {
+        document.getElementById("adult_count").value = adult_count;
+    }
+
+    document.getElementById('adult_count').addEventListener('change', function() {
+        let selectedValue = this.value;
+        localStorage.setItem("adult_count", selectedValue);
+        // Make a fetch request to the same page
+        fetch(window.location.pathname + "?adult_count=" + selectedValue)
             .then(response => {
                 if (response.ok) {
                     return response.text();
