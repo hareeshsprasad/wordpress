@@ -119,14 +119,23 @@ function goods_added_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $product_quantity, 0, array(), $cart_item_data);
 
-            // if ($response) {
-            //     function_alert('Product added to cart!');
-            // }
-
-            // Redirect to the cart page after adding the product to the cart
-
-            // wp_safe_redirect(home_url('index.php/goods-details/'));
-            // exit;
+            if ($response) {
+?>
+                <script>
+                    var message = '商品をカートに追加しました！';
+                    var type = 'success';
+                    notification(message, type);
+                </script>
+            <?php
+            } else {
+            ?>
+                <script>
+                    var message = '問題が発生しました！';
+                    var type = 'error';
+                    notification(message, type);
+                </script>
+<?php
+            }
         }
     }
 }
@@ -139,7 +148,7 @@ function goods_added_to_cart()
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Company info</title>
+    <title></title>
     <script>
         (function(d) {
             var config = {

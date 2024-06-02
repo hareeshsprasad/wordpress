@@ -27,14 +27,23 @@ function goods_added_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $product_quantity, 0, array(), $cart_item_data);
 
-            // if ($response) {
-            //     function_alert('Product added to cart!');
-            // }
-
-            // Redirect to the cart page after adding the product to the cart
-
-            // wp_safe_redirect(home_url('index.php/goods-details/'));
-            // exit;
+            if ($response) {
+?>
+                <script>
+                    var message = '商品をカートに追加しました！';
+                    var type = 'success';
+                    notification(message, type);
+                </script>
+            <?php
+            } else {
+            ?>
+                <script>
+                    var message = '問題が発生しました！';
+                    var type = 'error';
+                    notification(message, type);
+                </script>
+<?php
+            }
         }
     }
 }
@@ -221,12 +230,27 @@ function goods_added_to_cart()
                         </div>
                     </div>
                 </div>
-        <?php
+            <?php
             } else {
                 echo '<p>製品が見つかりません。</p>';
+            ?>
+                <script>
+                    var message = '製品が見つかりません。！';
+                    var type = 'warning';
+                    notification(message, type);
+                </script>
+            <?php
             }
         } else {
             echo '<p>製品が選択されていません。</p>';
+
+            ?>
+            <script>
+                var message = '製品が見つかりません。！';
+                var type = 'warning';
+                notification(message, type);
+            </script>
+        <?php
         }
         ?>
     </div>
