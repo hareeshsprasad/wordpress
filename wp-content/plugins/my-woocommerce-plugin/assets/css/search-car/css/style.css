@@ -219,6 +219,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   list-style: none !important;
   flex-wrap: wrap !important;
   padding: 0 !important;
+  margin: auto !important;
 }
 
 .txt_highlight2 ul li {
@@ -923,4 +924,17 @@ header .wp-block-group {
 
 .ast-primary-header-bar {
   display: none !important;
+}
+
+.btndark {
+  height: 41px !important;
+  padding: 0px !important;
+}
+
+.entry-header {
+  display: none !important;
+}
+
+.content-area {
+  margin-top: 0px !important;
 }

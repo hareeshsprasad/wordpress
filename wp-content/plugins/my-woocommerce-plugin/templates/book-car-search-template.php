@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['visited_index'] = true;
 if (isset($_GET['change_car'])) {
     $_SESSION['change_car_key'] = sanitize_text_field($_GET['change_car']);
 }
@@ -136,7 +137,7 @@ if ($data != null) {
                             <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" value="<?php echo $rent_to; ?>" style="height:50px" required>
                         </div>
                         <div id="error-message" style="color: red; float:left; display: none">
-                            終了日を開始日より早くすることはできません.
+
                         </div>
                     </div>
 
@@ -375,6 +376,8 @@ function custom_add_to_cart()
     }
     $cart_item_data = [];
     $change_car_key = isset($_SESSION['change_car_key']) ? $_SESSION['change_car_key'] : null;
+    $cart = WC()->cart;
+    $cart_items = $cart->get_cart();
     if ($change_car_key && isset(WC()->cart->cart_contents[$change_car_key])) {
         $cart_item_data = &WC()->cart->cart_contents[$change_car_key];
         $cart_item_data['product_id'] = $_REQUEST['product_id'];
@@ -395,32 +398,39 @@ function custom_add_to_cart()
         $cart_item_data['unique_car_id'] = $unique_id;
         $_SESSION['unique_car_id'] = $unique_id;
     }
+
     if (!empty($_REQUEST['hidden_form']) || !empty($_REQUEST['model_form'])) {
         $_SESSION['car_id'] = $_REQUEST['product_id'];
-        // Removing the exisiting car and associated add -ons and replace the exisiting car//
+        $_SESSION['visited_index'] = true;
+        // Removing the existing car and associated add-ons and replace the existing car
         if ($change_car_key && isset(WC()->cart->cart_contents[$change_car_key])) {
             $cart = WC()->cart;
             $cart_items = $cart->get_cart();
-            $associated_items_slugs = ['etc-card', 'insurance'];
-            WC()->cart->remove_cart_item($change_car_key);
+            $unique_car_id = '';
+
             foreach ($cart_items as $cart_item_key => $cart_item) {
-                $product = $cart_item['data'];
-                $product_slug = $product->get_slug();
-                if (in_array($product_slug, $associated_items_slugs)) {
-                    $current_quantity = $cart_item['quantity'];
-                    print_r($current_quantity);
-                    if ($current_quantity > 1) {
-                        print_r("inside if");
-                        $cart->set_quantity($cart_item_key, $current_quantity - 1);
-                    } else {
+                if ($cart_item_key === $change_car_key && isset($cart_item['unique_car_id'])) {
+                    $unique_car_id = $cart_item['unique_car_id'];
+                    break;
+                }
+            }
+            $cart->remove_cart_item($change_car_key);
+            if ($unique_car_id) {
+                foreach ($cart_items as $cart_item_key => $cart_item) {
+                    if (isset($cart_item['unique_car_id']) && $cart_item['unique_car_id'] === $unique_car_id) {
                         $cart->remove_cart_item($cart_item_key);
                     }
                 }
             }
             unset($_SESSION['change_car_key']);
+            // $unique_id = uniqid('car_');
+            // $cart_item_data['unique_car_id'] = $unique_id;
+            // $_SESSION['unique_car_id'] = $unique_id;
         }
+
         $product_id = $_REQUEST['product_id'];
         $quantity = 1;
+
         // Ensure WooCommerce is loaded
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
