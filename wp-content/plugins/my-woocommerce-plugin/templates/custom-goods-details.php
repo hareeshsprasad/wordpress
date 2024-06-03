@@ -125,7 +125,7 @@ function goods_added_to_cart()
                     <div class="container m-0 p-0 full_width">
                         <div class="row">
                             <div class="col-md-12">
-                                <img class="responsive-img" id="primary-image" src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="<?php echo $product->get_name(); ?>">
+                                <img class="responsive-img mb-img" id="primary-image" src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="<?php echo $product->get_name(); ?>">
                             </div>
                             <div class="col-md-12">
                                 <div class="sm-images">

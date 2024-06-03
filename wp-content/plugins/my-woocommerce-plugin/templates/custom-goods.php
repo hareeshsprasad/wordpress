@@ -183,6 +183,29 @@ function goods_added_to_cart()
             };
             s.parentNode.insertBefore(tk, s)
         })(document);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnBox = document.querySelector('.btn_box');
+            const toggleButton = document.querySelector('.toggle-button');
+
+            toggleButton.addEventListener('click', function() {
+                if (btnBox.scrollHeight > 100) {
+                    btnBox.classList.toggle('expanded');
+                    if (btnBox.classList.contains('expanded')) {
+                        toggleButton.textContent = '\u2715'; // Close icon (×)
+                    } else {
+                        toggleButton.textContent = '\u2261'; // Hamburger icon (≡)
+                    }
+                }
+            });
+
+            // Initially check the height and add 'collapsed' class if needed
+            if (btnBox.scrollHeight <= 60) {
+                toggleButton.style.display = 'none';
+            } else {
+                btnBox.classList.add('collapsed');
+            }
+        });
     </script>
 </head>
 
@@ -217,13 +240,18 @@ function goods_added_to_cart()
                 <div class="row mt-3 p-60">
                     <div class="col-md-4 fnt15"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/discount.png'; ?>">タグで絞る </div>
                     <div class="col-md-8">
-                        <div class="btn_box">
-                            <div class="txt_highlight2 ul-auto ">
-                                <ul>
-                                    <?php foreach ($product_good_tags as $value) { ?>
-                                        <li><button name="tag-search" value="<?php echo $value; ?>" type="submit"><?php echo $value; ?></button></li>
-                                    <?php } ?>
-                                </ul>
+                        <div class="expandable_box">
+                            <div class="btn_box" style="border:none !important;">
+                                <div class="txt_highlight2 ul-auto">
+                                    <ul>
+                                        <?php foreach ($product_good_tags as $value) { ?>
+                                            <li style="display:inline-block;"><button name="tag-search" value="<?php echo $value; ?>" type="submit"><?php echo $value; ?></button></li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="toggle-button-container">
+                                <button class="toggle-button" type="button">&#x2261;</button> <!-- Unicode character for the "hamburger" icon -->
                             </div>
                         </div>
                     </div>
