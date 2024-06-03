@@ -124,7 +124,7 @@ if (!defined('ABSPATH')) {
         snackbar.className = "show";
         snackbar.innerHTML = message;
         snackbar.style.position = "absolute";
-        snackbar.style.top = "50px";
+        snackbar.style.top = "800px";
         snackbar.style.right = "0px";
         snackbar.style.height = "fit-content";
 
