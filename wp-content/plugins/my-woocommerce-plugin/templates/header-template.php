@@ -35,7 +35,7 @@ if (!defined('ABSPATH')) {
     #snackbar {
         visibility: hidden;
         /* Hidden by default. Visible on click */
-        min-width: 250px;
+        width: fit-content;
         /* Set a default minimum width */
         margin-left: -125px;
         /* Center the snackbar */
@@ -52,11 +52,6 @@ if (!defined('ABSPATH')) {
         position: fixed;
         /* Sit on top of the screen */
         z-index: 1;
-        /* Sit on top */
-        left: 50%;
-        /* Center the snackbar */
-        bottom: 30px;
-        /* 30px from the bottom */
         font-size: 17px;
         /* Increase font size */
     }
@@ -127,6 +122,11 @@ if (!defined('ABSPATH')) {
         var snackbar = document.getElementById("snackbar");
         snackbar.className = "show";
         snackbar.innerHTML = message;
+        snackbar.style.position = "absolute";
+        snackbar.style.top = "50px";
+        snackbar.style.right = "0px";
+        snackbar.style.height = "fit-content";
+
 
         if (type === 'error') {
             snackbar.style.backgroundColor = "#ff4d4d"; // Red background for error

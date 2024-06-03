@@ -195,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php endif ?>
                     <div class="row">
                         <input type="hidden" name="car_id" value="<?php echo $unique_car_id; ?>">
-                        <div class="col-md-12 text-center mt-4">
+                        <div class="col-md-12 text-center mt-6">
                             <button type="submit" class="btn btn-secondary m_btm_btn_black shadow" name="action" value="select_camping_goods">キャンプグッズ選択へ</button>
                         </div>
                         <div class="col-md-12 text-center mt-4">
