@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
+    // If not, redirect them to the index page
+    wp_safe_redirect(home_url('/index.php/'));
+    exit();
+}
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
@@ -11,21 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_item_key'])) {
     $cart = WC()->cart;
     $cart_items = $cart->get_cart();
     $remove_item_key = sanitize_text_field($_POST['remove_item_key']);
-    $associated_items_slugs = ['etc-card', 'insurance'];
-    // foreach ($cart_items as $cart_item_key => $cart_item) {
-    //     $product = $cart_item['data'];
-    //     $product_slug = $product->get_slug();
-    //     if (in_array($product_slug, $associated_items_slugs)) {
-    //         $current_quantity = $cart_item['quantity'];
-    //         if ($current_quantity > 1) {
-    //             // Decrease the quantity by 1
-    //             $cart->set_quantity($cart_item_key, $current_quantity - 1);
-    //         } else {
-    //             // If the quantity is 1, remove the item
-    //             $cart->remove_cart_item($cart_item_key);
-    //         }
-    //     }
-    // }
     $unique_car_id = '';
     foreach ($cart_items as $cart_item_key => $cart_item) {
         if ($cart_item_key === $remove_item_key && isset($cart_item['unique_car_id'])) {
@@ -63,7 +53,7 @@ foreach ($cart_details as $cart_item_key => $cart_item) {
             if ($category->slug === 'camping-goods') {
                 $is_camping_good = true;
             }
-            if ($category->slug === 'add-ons') {
+            if ($category->slug === 'add-ons' || $category->slug === 'uncategorized') {
                 $is_add_on = true;
             }
         }

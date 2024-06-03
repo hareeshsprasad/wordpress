@@ -20,8 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const rentTo = document.getElementById("rent_to").value;
     const errorMessage = document.getElementById("error-message");
     if (rentFrom && rentTo && rentTo < rentFrom) {
-      errorMessage.style.display = "block";
-      return false;
+      var message = " 終了日を開始日より早くすることはできません.";
+      var type = "error";
+      notification(message, type);
     } else {
       errorMessage.style.display = "none";
       return true;
@@ -115,3 +116,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 });
+function notification(message, type = "success") {
+  var snackbar = document.getElementById("snackbar");
+  snackbar.className = "show";
+  snackbar.innerHTML = message;
+
+  if (type === "error") {
+    snackbar.style.backgroundColor = "#ff4d4d"; // Red background for error
+  } else {
+    snackbar.style.backgroundColor = "#4CAF50"; // Green background for success
+  }
+
+  switch (type) {
+    case "success":
+      snackbar.style.backgroundColor = "#4CAF50";
+      break;
+    case "error":
+      snackbar.style.backgroundColor = "#ff4d4d";
+      break;
+    case "warning":
+      snackbar.style.backgroundColor = "#ffc107";
+  }
+
+  setTimeout(function () {
+    snackbar.className = snackbar.className.replace("show", "");
+  }, 3000);
+}

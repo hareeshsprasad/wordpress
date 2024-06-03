@@ -14,9 +14,17 @@ if (!defined('ABSPATH')) {
                     <li class="nav-item"><a href="#">利用規約</a></li>
                     <li class="nav-item"><a href="#">お知らせ</a></li>
                     <li class="nav-item"><a href="#">お問い合わせ</a></li>
-                    <li>
-                        <a href="<?php echo wp_login_url() ?>"><button type="button" class="btn btn-outline-secondary curve_button">login</button></a>
-                    </li>
+                    <?php
+                    if (is_user_logged_in()) {
+                    ?>
+                        <a href="<?php echo esc_url(home_url('/index.php/my-account')); ?>"><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/user.png'); ?>" alt="" style="height:20px;"></a>
+                    <?php
+                    } else {
+                    ?> <li>
+                            <a href="<?php echo wp_login_url() ?>"><button type="button" class="btn btn-outline-secondary curve_button">login</button></a>
+                        </li><?php
+                            }
+                                ?>
                 </ul>
             </div>
         </div>
