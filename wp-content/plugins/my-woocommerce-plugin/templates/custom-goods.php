@@ -232,7 +232,7 @@ function goods_added_to_cart()
                     <div class="col-md-8">
                         <div class="d-flex justify-content-between">
                             <div class="w-65"><input type="text" class="form-control txt-box-curve" name="keyword-search" id="keyword-search" value="<?php echo $search_keyword; ?>" placeholder="キャンプグッズ"></div>
-                            <div class="w-30"> <button type="submit" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
+                            <div class="w-30"> <button type="submit" class="btn btn-secondary m_btm_btn_blacked shadow w-100">検索する</button></div>
                         </div>
                     </div>
                 </div>
@@ -334,7 +334,7 @@ function goods_added_to_cart()
                                                                 <option value="9">9</option>
                                                                 <option value="10">10</option>
                                                             </select></div>
-                                                        <div class="col-8 mt-3"> <button type="submit" class="btn btn-secondary m_btm_btn_black shadow w-100">検索する</button></div>
+                                                        <div class="col-8 mt-3"> <button type="submit" class="btn btn-secondary m_btm_btn_blacked shadow w-100">検索する</button></div>
                                                     </div>
                                                 </div>
                                             </form>
