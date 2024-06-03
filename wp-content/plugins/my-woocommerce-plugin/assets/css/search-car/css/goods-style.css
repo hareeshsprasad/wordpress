@@ -391,15 +391,16 @@ button {
 }
 
 .m_btm_btn_black {
-    width: 250px;
+    width: 100% !important;
     border-radius: 15px !important;
     border: 1px solid #5c636a !important;
     color: #ffffff !important;
     padding: 10px 5px !important;
+    background: #474747 !important;
 }
 
 .m_btm_btn_line {
-    width: 250px !important;
+    width: 100% !important;
     border-radius: 15px !important;
     border: 1px solid #000000 !important;
     color: #000000 !important;
@@ -432,13 +433,66 @@ button {
     width: 30% !important;
 }
 
-.btn_box {
+.expandable_box {
     border: 1px solid #000000 !important;
     border-radius: 15px !important;
+    max-height: fit-content !important;
+
+}
+
+.txt_highlight2 {
+    max-height: fit-content !important;
+    height: fit-content !important;
+}
+
+.btn_box {
+    border: 0px solid #fff !important;
     padding: 15px !important;
-    /* height: 85px !important; */
+    max-height: fit-content !important;
+    height: 60px !important;
     overflow: hidden !important;
+    transition: max-height 0.3s ease-in-out;
     width: 100%
+}
+
+.btn_box.collapsed {
+    height: 60px !important;
+    ;
+}
+
+.btn_box.expanded {
+    height: fit-content !important;
+    ;
+}
+
+
+.toggle-button-container {
+    text-align: center;
+}
+
+.toggle-button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    font-size: 30px;
+    line-height: 1;
+    color: grey;
+}
+
+.toggle-button:active {
+    background-color: transparent !important;
+    color: grey !important;
+}
+
+.toggle-button:hover {
+    background-color: transparent !important;
+    color: grey !important;
+}
+
+.toggle-button:focus {
+    background-color: transparent !important;
+    color: grey !important;
 }
 
 .product_box {
@@ -490,7 +544,7 @@ button {
 }
 
 .m_btm_btn_black2:hover {
-    width: 200px !important;
+    width: 100% !important;
     border-radius: 15px !important;
     border: 1px solid #5c636a !important;
     color: #ffffff !important;
@@ -499,7 +553,7 @@ button {
 }
 
 .orange-btn {
-    width: 200px !important;
+    width: 100% !important;
     border-radius: 15px !important;
     border: 1px solid #FF9635 !important;
     color: #ffffff !important;
@@ -759,4 +813,11 @@ body .is-layout-constrained> :where(:not(.alignleft):not(.alignright):not(.align
 
 .ast-primary-header-bar {
     display: none !important;
+}
+
+.stepper ul li:hover {
+    background: transparent !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+    cursor: default !important;
 }

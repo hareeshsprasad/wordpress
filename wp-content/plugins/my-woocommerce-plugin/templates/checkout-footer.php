@@ -73,8 +73,8 @@
                 </div>
             `;
 
-        // Insert the footer after the element with id "wp--skip-link--target"
-        const targetElement = document.getElementById('wp--skip-link--target');
+        // Insert the footer after the element with id "colophon"
+        const targetElement = document.getElementById('colophon');
         targetElement.insertAdjacentElement('afterend', footer);
     });
 </script>
