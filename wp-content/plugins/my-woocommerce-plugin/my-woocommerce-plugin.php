@@ -33,6 +33,7 @@ class My_WC_Plugin
         add_filter('the_content', [$this, 'search_cars']);
         add_filter('the_content', [$this, 'custom_cart_details']);
         add_filter('the_content', [$this, 'change_reservation_details']);
+        add_filter('the_content', [$this, 'show_custom_thankyou_page']);
         // Handle AJAX requests
         add_action('wp_ajax_get_subcategories', [$this, 'get_subcategories']);
         add_action('wp_ajax_nopriv_get_subcategories', [$this, 'get_subcategories']);
@@ -43,8 +44,9 @@ class My_WC_Plugin
         add_shortcode('checkout_page_header', 'checkout_page_header');
         add_shortcode('child_seat_count', 'child_seat_count');
         add_shortcode('checkout_page_footer', 'checkout_page_footer');
-    }
 
+        add_action('template_redirect', [$this, 'redirect_to_custom_thankyou']);
+    }
     public function enqueue_styles()
     {
         wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
@@ -74,6 +76,10 @@ class My_WC_Plugin
         }
 
         if (is_page('checkout')) {
+            wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
+            wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
+        }
+        if (is_page('order-confirmation')) {
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
@@ -207,8 +213,33 @@ class My_WC_Plugin
         ));
     }
 
+    public function redirect_to_custom_thankyou()
+    {
+        if (is_wc_endpoint_url('order-received') && !is_admin()) {
+            global $wp;
 
+            if (isset($wp->query_vars['order-received'])) {
+                $order_id = absint($wp->query_vars['order-received']);
+                $order = wc_get_order($order_id);
 
+                if ($order && $order->get_id() === $order_id) {
+                    wp_safe_redirect(home_url('/index.php/order-confirmation/'));
+                    exit;
+                }
+            }
+        }
+    }
+
+    public function show_custom_thankyou_page($content)
+    {
+        if (is_page('order-confirmation')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/order-confirmation-template.php';
+            $cart_details = ob_get_clean();
+            return $content . $cart_details;
+        }
+        return $content;
+    }
     public function create_custom_taxonomy()
     {
         $labels = array(
