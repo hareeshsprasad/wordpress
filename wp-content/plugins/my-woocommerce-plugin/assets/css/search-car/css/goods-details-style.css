@@ -3,6 +3,7 @@
 /* CSS Document */
 
 body {
+    background: #fff !important;
     font-family: "a-otf-gothic-mb101-pr6n", sans-serif !important;
     font-weight: 300 !important;
     font-size: 13px !important;
@@ -719,4 +720,21 @@ body .is-layout-constrained> :where(:not(.alignleft):not(.alignright):not(.align
     border: 1px solid #000 !important;
     color: #000 !important;
     cursor: default !important;
+}
+
+.ast-container {
+    max-width: 100%;
+    padding: 0px;
+}
+
+.ast-primary-header-bar {
+    display: none
+}
+
+.woocommerce-Reviews {
+    display: none
+}
+
+.ast-primary-header-bar {
+    display: none !important;
 }

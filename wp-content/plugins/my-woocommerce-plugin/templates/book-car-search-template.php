@@ -150,9 +150,14 @@ if ($data != null) {
             </div>
         </form>
         <?php if ($_REQUEST['submitted'] && empty($response)) : ?>
-            <div style="color: red; float:left;margin-top:20px;">
+            <!-- <div style="color: red; float:left;margin-top:20px;">
                 選択した店舗では、選択した日付範囲に利用できる車がありません。
-            </div>
+            </div> -->
+            <script>
+                var message = '選択した日付範囲では利用可能な車がありません。';
+                var type = 'error';
+                notification(message, type);
+            </script>
         <?php endif ?>
         <?php if (!empty($response)) : ?>
             <div class=" sub_content_area2">
