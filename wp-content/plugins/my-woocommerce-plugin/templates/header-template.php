@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 ?>
-<header>
+<header style="max-width:100% !important;">
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
         <div class="container-fluid head_w"> <a class="navbar-brand" href="<?php echo esc_url(home_url('/index.php/book-your-car')); ?>"><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/BLK logo.png'); ?>" alt="BLK Logo"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
@@ -22,7 +22,8 @@ if (!defined('ABSPATH')) {
         </div>
     </nav>
 </header>
-<div style="background-image: url('<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/top-image.png'); ?>'); background-repeat: no-repeat; background-size: cover; height: 335px; color: #ffffff;margin-top:0px">
+<div style="background-image: url('<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/top-image.png'); ?>'); background-repeat: no-repeat; background-size: cover; height: 335px; color: #ffffff;margin-top:0px;max-width:100% !important;
+">
     <div class="sp_container">
         <div style="height: 335px" class="d-flex justify-content-end align-items-center">
             <h1 class="top_title">プラグインアウトドア<br>
