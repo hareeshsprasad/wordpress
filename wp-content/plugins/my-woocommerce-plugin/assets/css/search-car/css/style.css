@@ -111,13 +111,12 @@ button {
 }
 
 
-.stepper ul li:hover {
+/* .stepper ul li:hover {
   border: 1px solid #ff9634 !important;
   background-color: #ff9634 !important;
-  /* Change background color on hover */
   color: #ffffff !important;
   cursor: pointer !important;
-}
+} */
 
 .stepper ul li.active {
   border: 1px solid #ff9634 !important;
