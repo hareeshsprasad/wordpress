@@ -155,21 +155,21 @@ if (is_user_logged_in()) {
         let selectedValue = this.value;
         localStorage.setItem("adult_count", selectedValue);
         // Make a fetch request to the same page
-        fetch(window.location.pathname + "?adult_count=" + selectedValue)
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                } else {
-                    throw new Error('Network response was not ok.');
-                }
-            })
-            .then(data => {
-                // Reload the page after fetch
-                location.reload();
-            })
-            .catch(error => {
-                // Handle errors
-                console.error('There was a problem with the fetch operation:', error);
-            });
+        // fetch(window.location.pathname + "?adult_count=" + selectedValue)
+        //     .then(response => {
+        //         if (response.ok) {
+        //             return response.text();
+        //         } else {
+        //             throw new Error('Network response was not ok.');
+        //         }
+        //     })
+        //     .then(data => {
+        //         // Reload the page after fetch
+        //         location.reload();
+        //     })
+        //     .catch(error => {
+        //         // Handle errors
+        //         console.error('There was a problem with the fetch operation:', error);
+        //     });
     });
 </script>
