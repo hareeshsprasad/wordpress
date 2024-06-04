@@ -79,7 +79,13 @@ class My_WC_Plugin
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
+
         if (is_page('order-confirmation')) {
+            wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
+            wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
+        }
+
+        if (is_page('registration-login')) {
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
@@ -103,20 +109,6 @@ class My_WC_Plugin
     public function render_custom_category_listing_on_page($content)
     {
 
-        if (is_page('camping-goods')) {
-            ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-template.php';
-            $category_listing = ob_get_clean();
-            return $content . $category_listing;
-        }
-
-        if (is_page('goods-details')) {
-            ob_start();
-            include MY_WC_PLUGIN_PATH . 'templates/custom-goods-details.php';
-            $category_listing = ob_get_clean();
-            return $content . $category_listing;
-        }
-
         if (is_page('goods')) {
             ob_start();
             include MY_WC_PLUGIN_PATH . 'templates/custom-goods.php';
@@ -134,6 +126,13 @@ class My_WC_Plugin
             ob_start();
             wp_safe_redirect(home_url('/index.php/custom-cart-details/'));
             exit;
+        }
+
+        if (is_page('registration-login')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/registration-login.php';
+            $category_listing = ob_get_clean();
+            return $content . $category_listing;
         }
 
         return $content;
