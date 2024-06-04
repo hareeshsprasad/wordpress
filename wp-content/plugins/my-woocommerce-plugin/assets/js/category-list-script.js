@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ).innerText = ` EV走行換算距離 ${productData.ev_mileage}`;
       document.getElementById(
         "hybrid"
-      ).innerText = ` ハイブリッド燃料消費率 ${productData.hybrid_fule_type} ${productData.drive_type}`;
+      ).innerText = ` ハイブリッド燃料消費率 ${productData.hybrid_fule_type}/L (${productData.drive_type})`;
       document.getElementById(
         "description"
       ).innerText = ` ${productData.product_description}`;
