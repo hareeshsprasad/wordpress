@@ -56,6 +56,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 
     </div>
     <?php
+    WC()->cart->empty_cart();
     require_once MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
     session_destroy();
     ?>

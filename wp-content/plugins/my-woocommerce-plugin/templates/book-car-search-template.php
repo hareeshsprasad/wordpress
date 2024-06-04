@@ -35,14 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     if (isset($_SESSION['data'])) {
         $data = $_SESSION['data'];
-        unset($_SESSION['data']); // Clear session data to reset the form inputs
+        // unset($_SESSION['data']); // Clear session data to reset the form inputs
     } else {
         $data = [];
     }
-    // $main_category = isset($data['main_category']) ? $data['main_category'] : '';
-    // $sub_category = isset($data['sub_category']) ? $data['sub_category'] : '';
-    // $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
-    // $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
+    $main_category = isset($data['main_category']) ? $data['main_category'] : '';
+    $sub_category = isset($data['sub_category']) ? $data['sub_category'] : '';
+    $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
+    $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
 }
 
 if ($data != null) {
