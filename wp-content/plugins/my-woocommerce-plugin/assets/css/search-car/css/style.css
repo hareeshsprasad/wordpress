@@ -110,14 +110,6 @@ button {
   cursor: pointer !important;
 }
 
-
-/* .stepper ul li:hover {
-  border: 1px solid #ff9634 !important;
-  background-color: #ff9634 !important;
-  color: #ffffff !important;
-  cursor: pointer !important;
-} */
-
 .stepper ul li.active {
   border: 1px solid #ff9634 !important;
   background-color: #ff9634 !important;
@@ -938,9 +930,9 @@ header .wp-block-group {
   margin-top: 0px !important;
 }
 
-.stepper ul li:hover {
-  background: transparent !important;
+.stepper ul li:hover{
   border: 1px solid #000 !important;
+  background-color: transparent !important;
   color: #000 !important;
   cursor: default !important;
 }

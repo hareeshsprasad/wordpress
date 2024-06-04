@@ -1,8 +1,8 @@
 <?php
 
-const CHILD_SEAT_ID = 141;
+const CHILD_SEAT_ID = 331;
 
-const ADULT_SEAT_ID = 192;
+const ADULT_SEAT_ID = 454;
 
 // Call the function to add or update the cart item
 $cart_response = add_or_update_cart_item();

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $_SESSION['visited_index'] = true;
 if (isset($_GET['change_car'])) {
     $_SESSION['change_car_key'] = sanitize_text_field($_GET['change_car']);
@@ -181,7 +182,9 @@ if ($data != null) {
                 $rent_to_date = new DateTime($rent_to);
                 $interval = $rent_from_date->diff($rent_to_date);
                 $interval = $interval->days + 1;
-                $total_rent_amount = $product->get_price() * $interval;
+                if ($product->get_price()) {
+                    $total_rent_amount = $product->get_price() * $interval;
+                }
                 ?>
                 <div class="sub_content_area2">
                     <!-- <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>

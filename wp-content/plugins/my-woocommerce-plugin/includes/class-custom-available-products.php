@@ -36,8 +36,14 @@ class Custom_Available_Product_Listing
         global $wpdb;
         if ($products_query->have_posts()) {
             while ($products_query->have_posts()) {
+                $price_available = true;
                 $products_query->the_post();
                 $product_id = get_the_ID();
+                $product = wc_get_product($product_id);
+                $product_price = $product->get_price();
+                if (!$product_price) {
+                    $price_available = false;
+                }
                 // echo "<pre> $product_id";
                 $rental_stock = get_post_meta($product_id, '_wcrp_rental_products_rental_stock', true);
                 $sql = $wpdb->prepare(
@@ -68,11 +74,13 @@ class Custom_Available_Product_Listing
                         $available_quantity = intval($rental_stock) - intval($total);
                     }
 
-                    if ($available_quantity > 0) {
+                    if ($available_quantity > 0 &&  $price_available) {
                         $available_products[] = $product_id;
                     }
                 } else {
-                    $available_products[] = $product_id;
+                    if ($price_available) {
+                        $available_products[] = $product_id;
+                    }
                 }
             }
             return $available_products;
