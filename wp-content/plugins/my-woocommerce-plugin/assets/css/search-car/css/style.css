@@ -402,6 +402,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background: #474747 !important;
 }
 
+.m_btm_btn_blacked_sm {
+  width: 100% !important;
+  border-radius: 15px !important;
+  border: 1px solid #474747 !important;
+  color: #ffffff !important;
+  padding: 10px 5px !important;
+  background: #474747 !important;
+}
+
+
+.m_btm_btn_blacked1_sm {
+  width: 100% !important;
+  border-radius: 15px !important;
+  border: 1px solid #474747 !important;
+  color: #ffffff !important;
+  padding: 10px 5px !important;
+  background: #474747 !important;
+}
+
 .m_btm_btn_line {
   width: 250px !important;
   border-radius: 15px !important;
@@ -560,7 +579,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .line-position {
   position: relative !important;
-  top: -10px !important;
+  top: 0px !important;
 }
 
 .brd-right {
@@ -930,7 +949,7 @@ header .wp-block-group {
   margin-top: 0px !important;
 }
 
-.stepper ul li:hover{
+.stepper ul li:hover {
   border: 1px solid #000 !important;
   background-color: transparent !important;
   color: #000 !important;
