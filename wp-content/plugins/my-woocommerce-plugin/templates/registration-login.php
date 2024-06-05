@@ -14,7 +14,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
         <h1 class="top_title-small">プラグインアウトドア<br>
             予約フォー</h1>
 
-        <div class="back back_hide"><a href="<?php echo home_url("index.php/custom-cart-details"); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
+        <div class="back back_hide"><a style="top:15px !important;" href="<?php echo home_url("index.php/custom-cart-details"); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
 
 
         <div class="sub_content_area">

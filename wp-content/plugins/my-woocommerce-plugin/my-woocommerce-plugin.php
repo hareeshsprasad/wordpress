@@ -89,6 +89,11 @@ class My_WC_Plugin
             wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
             wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/style.css');
         }
+
+        if (is_page('home-page')) {
+            wp_enqueue_style('custom-style', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/bootstrap.min.css');
+            wp_enqueue_style('custom-style-one', MY_WC_PLUGIN_URL . 'assets/css/search-car/css/landing-page.css');
+        }
     }
 
     public function enqueue_scripts()
@@ -131,6 +136,13 @@ class My_WC_Plugin
         if (is_page('registration-login')) {
             ob_start();
             include MY_WC_PLUGIN_PATH . 'templates/registration-login.php';
+            $category_listing = ob_get_clean();
+            return $content . $category_listing;
+        }
+
+        if (is_page('home-page')) {
+            ob_start();
+            include MY_WC_PLUGIN_PATH . 'templates/landing-page.php';
             $category_listing = ob_get_clean();
             return $content . $category_listing;
         }
