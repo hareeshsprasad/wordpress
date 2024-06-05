@@ -125,7 +125,7 @@ if ($data != null) {
                                 <option selected disabled>都道府県</option>
                                 <?php foreach ($categories as $category) : ?>
                                     <?php if ($category->slug !== 'uncategorized' && $category->slug !== 'add-ons' && $category->slug !== 'camping-goods') : ?>
-                                        <option value="<?php echo $category->term_id; ?>">
+                                        <option value="<?php echo $category->term_id; ?>" <?php echo ($main_category == $category->term_id) ? 'selected' : ''; ?>>
                                             <?php echo $category->name; ?>
                                         </option>
                                     <?php endif; ?>
@@ -139,7 +139,7 @@ if ($data != null) {
                                 if ($main_category) {
                                     $subcategories = Custom_Category_Listing::get_subcategories(intval($main_category));
                                     foreach ($subcategories as $subcategory) {
-                                        echo '<option value="' . $subcategory->term_id . '">' . $subcategory->name . '</option>';
+                                        echo '<option value="' . $subcategory->term_id . '" ' . ($sub_category == $subcategory->term_id ? 'selected' : '') . '>' . $subcategory->name . '</option>';
                                     }
                                 }
                                 ?>
@@ -148,7 +148,7 @@ if ($data != null) {
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" class="form-select mt-4 date-picker-input" aria-label="Default select example" style="height:50px" required>
+                            <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" class="form-select mt-4 date-picker-input" aria-label="Default select example" style="height:50px" value="<?php echo $rent_from; ?>" required>
                         </div>
                     </div>
 
@@ -156,7 +156,7 @@ if ($data != null) {
                         <div class="col-md-12">
                             <h2 class="sub_heading">返却する日時を選ぶ <span style="font-weight: 200">|</span></h2>
                             <div class="w-100 hr_blck"></div>
-                            <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" style="height:50px" required>
+                            <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" style="height:50px" value="<?php echo $rent_to; ?>" required>
                         </div>
                         <div id="error-message" style="color: red; float:left; display: none">
 
