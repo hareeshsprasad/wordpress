@@ -17,7 +17,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
         <h1 class="top_title-small">プラグインアウトドア<br>
             予約フォー</h1>
 
-        <div class="back back_hide"><a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
+        <div class="back back_hide"><a href="<?php echo esc_url(home_url('/index.php/book-your-car/')); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">戻る</a></div>
         <div class="stepper mt-3">
             <ul>
                 <li>1</li>

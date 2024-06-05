@@ -105,7 +105,7 @@ foreach ($cart_details as $cart_item_key => $cart_item) {
         <h1 class="top_title-small">プラグインアウトドア<br>
             予約フォー</h1>
         <div class="back back_hide"><a href="<?php echo esc_url(home_url('/index.php/goods/')); ?>">
-                <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>"> Back</a>
+                <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>"> 戻る</a>
         </div>
         <div class="stepper mt-3">
             <ul>

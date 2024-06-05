@@ -56,7 +56,7 @@ if (is_user_logged_in()) {
 ?>
 
     <body style="font-family: Arial, sans-serif;">
-        <div class="back back_hide"><a href="<?php echo home_url("index.php/custom-cart-details"); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">Back</a></div>
+        <div class="back back_hide"><a href="<?php echo home_url("index.php/custom-cart-details"); ?>"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/back.png'; ?>">戻る</a></div>
         <div class="stepper mt-3">
             <ul>
                 <li>1</li>
