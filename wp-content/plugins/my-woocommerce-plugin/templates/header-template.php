@@ -7,21 +7,23 @@ if (!defined('ABSPATH')) {
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
         <div class="container-fluid head_w"> <a class="navbar-brand" href="<?php echo esc_url(home_url('/index.php/home-page')); ?>"><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/BLK logo.png'); ?>" alt="BLK Logo"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content: end;">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a href="#">運営企業情報</a> </li>
-                    <li class="nav-item"><a href="#">サービスについて</a></li>
-                    <li class="nav-item"><a href="#">利用規約</a></li>
-                    <li class="nav-item"><a href="#">お知らせ</a></li>
-                    <li class="nav-item"><a href="#">お問い合わせ</a></li>
+                    <li class="nav-item"><a href="#">お知らせ</a> </li>
+                    <li class="nav-item"><a href="#"> ご利用ガイド</a></li>
+                    <li class="nav-item"><a href="#">車種　料金</a></li>
+                    <li class="nav-item"><a href="#">店舗情報</a></li>
+                    <li class="nav-item"><a href="#">サイト利用規約</a></li>
+                    <li class="nav-item"><a href="#">よくある問い合わせ</a></li>
+                    <li class="nav-item"><a href="#"> お問合せフォーム</a></li>
                     <?php
                     if (is_user_logged_in()) {
                     ?>
-                        <a href="<?php echo esc_url(home_url('/index.php/my-account')); ?>"><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/user.png'); ?>" alt="" style="height:20px;"></a>
+                        <a href="<?php echo esc_url(home_url('/index.php/my-account/orders/')); ?>"><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/user.png'); ?>" alt="" style="height:20px;"></a>
                     <?php
                     } else {
                     ?> <li>
-                            <a href="<?php echo wp_login_url() ?>"><button type="button" class="btn btn-outline-secondary curve_button">login</button></a>
+                            <a href="<?php echo wp_login_url() ?>">会員登録</a>
                         </li><?php
                             }
                                 ?>
@@ -131,8 +133,8 @@ if (!defined('ABSPATH')) {
         var snackbar = document.getElementById("snackbar");
         snackbar.className = "show";
         snackbar.innerHTML = message;
-        snackbar.style.position = "absolute";
-        snackbar.style.top = "800px";
+        snackbar.style.position = "fixed";
+        snackbar.style.bottom = "80px";
         snackbar.style.right = "0px";
         snackbar.style.height = "fit-content";
 

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $_SESSION['visited_index'] = true;
 if (isset($_GET['change_car'])) {
     $_SESSION['change_car_key'] = sanitize_text_field($_GET['change_car']);
@@ -13,6 +14,7 @@ $categories = Custom_Category_Listing::get_categories();
 $response = [];
 $data = null;
 custom_add_to_cart();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $main_category = isset($_POST['main_category']) ? sanitize_text_field($_POST['main_category']) : '';
     $sub_category = isset($_POST['sub_category']) ? sanitize_text_field($_POST['sub_category']) : '';
@@ -26,15 +28,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'rent_to' => $rent_to,
     ];
     $_SESSION['data'] = $data;
+
+    // Redirect to the same page to prevent form resubmission
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
 } else {
-    $data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
+    if (isset($_SESSION['data'])) {
+        $data = $_SESSION['data'];
+        // unset($_SESSION['data']); // Clear session data to reset the form inputs
+    } else {
+        $data = [];
+    }
     $main_category = isset($data['main_category']) ? $data['main_category'] : '';
     $sub_category = isset($data['sub_category']) ? $data['sub_category'] : '';
     $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
     $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
 }
+
 if ($data != null) {
     $response = Custom_Available_Product_Listing::availabe_Cars($data);
+
+    if (empty($response)) {
+?>
+        <script>
+            var message = '選択した日付範囲では利用可能な車がありません。';
+            var type = 'error';
+            notification(message, type);
+        </script>
+<?php
+    }
 }
 
 ?>
@@ -126,7 +148,7 @@ if ($data != null) {
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" class="form-select mt-4 date-picker-input" aria-label="Default select example" value="<?php echo $rent_from; ?>" style="height:50px" required>
+                            <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" class="form-select mt-4 date-picker-input" aria-label="Default select example" style="height:50px" value="<?php echo $rent_from; ?>" required>
                         </div>
                     </div>
 
@@ -134,7 +156,7 @@ if ($data != null) {
                         <div class="col-md-12">
                             <h2 class="sub_heading">返却する日時を選ぶ <span style="font-weight: 200">|</span></h2>
                             <div class="w-100 hr_blck"></div>
-                            <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" value="<?php echo $rent_to; ?>" style="height:50px" required>
+                            <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" style="height:50px" value="<?php echo $rent_to; ?>" required>
                         </div>
                         <div id="error-message" style="color: red; float:left; display: none">
 
@@ -150,16 +172,6 @@ if ($data != null) {
                 </div>
             </div>
         </form>
-        <?php if ($_REQUEST['submitted'] && empty($response)) : ?>
-            <!-- <div style="color: red; float:left;margin-top:20px;">
-                選択した店舗では、選択した日付範囲に利用できる車がありません。
-            </div> -->
-            <script>
-                var message = '選択した日付範囲では利用可能な車がありません。';
-                var type = 'error';
-                notification(message, type);
-            </script>
-        <?php endif ?>
         <?php if (!empty($response)) : ?>
             <div class=" sub_content_area2">
                 <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>
@@ -181,7 +193,9 @@ if ($data != null) {
                 $rent_to_date = new DateTime($rent_to);
                 $interval = $rent_from_date->diff($rent_to_date);
                 $interval = $interval->days + 1;
-                $total_rent_amount = $product->get_price() * $interval;
+                if ($product->get_price()) {
+                    $total_rent_amount = $product->get_price() * $interval;
+                }
                 ?>
                 <div class="sub_content_area2">
                     <!-- <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>
@@ -353,11 +367,11 @@ if ($data != null) {
                 </div>
     </div>
 <?php endforeach; ?>
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12 text-center mt-5 ">
-        <!-- <button type="button" class="btn btn-secondary btndark_big shadow px-5">選択する</button> -->
+        <button type="button" class="btn btn-secondary btndark_big shadow px-5">選択する</button>
     </div>
-</div>
+</div> -->
 <?php endif ?>
 </div>
 <?php

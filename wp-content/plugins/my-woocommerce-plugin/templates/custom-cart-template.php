@@ -268,12 +268,12 @@ function add_or_update_cart_item()
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-6 text-left_center">
-                                                    <a href="<?php echo esc_url(add_query_arg(['change_car' => $cart_item_key], home_url('/index.php/book-your-car/'))); ?>"><button type="button" class="btn btn-secondary btndark_big shadow px-5">変更する</button></a>
+                                                    <a href="<?php echo esc_url(add_query_arg(['change_car' => $cart_item_key], home_url('/index.php/book-your-car/'))); ?>"><button type="button" class="btn btn-secondary m_btm_btn_blacked_sm shadow px-5">変更する</button></a>
                                                 </div>
                                                 <div class="col-6 text-left_center">
                                                     <form method="post" action="">
                                                         <input type="hidden" name="remove_item_key" value="<?php echo $cart_item_key; ?>">
-                                                        <button type="submit" class="btn btn-secondary btndark_big shadow px-5">取り除く</button>
+                                                        <button type="submit" class="btn btn-secondary m_btm_btn_blacked_sm shadow px-5">取り除く</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -375,7 +375,13 @@ function add_or_update_cart_item()
                                                         </select>
                                                     </div>
                                                     <input type="hidden" id="item-base-price-<?php echo $cart_item_key; ?>" value="<?php echo $product_price; ?>">
-                                                    <div class="col-6 mt-3"> <button type="button" class="btn btn-secondary m_btm_btn_black_sm shadow w-100 update-cart-button" data-cart-item-key="<?php echo $cart_item_key; ?>">変更する</button></div>
+                                                    <div class="col-4 mt-3 mr-2"> <button type="button" class="btn btn-secondary m_btm_btn_blacked1_sm shadow w-100 update-cart-button" data-cart-item-key="<?php echo $cart_item_key; ?>">変更する</button></div>
+                                                    <div class="col-4 mt-3 ml-4">
+                                                        <form method="post" action="">
+                                                            <input type="hidden" name="remove_item_key" value="<?php echo $cart_item_key; ?>">
+                                                            <button type="submit" class="btn btn-secondary m_btm_btn_blacked1_sm shadow px-5">取り除く</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
