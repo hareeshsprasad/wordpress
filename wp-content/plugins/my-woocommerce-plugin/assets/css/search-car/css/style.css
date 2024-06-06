@@ -121,8 +121,11 @@ button {
 
 .sub_heading {
   font-size: 28px !important;
-  font-weight: 505 !important;
+  font-weight: 500 !important;
+  line-height: 42px !important;
+  letter-spacing: 3px;
 }
+
 
 .sub_content_area {
   margin-top: 70px !important;
@@ -138,7 +141,10 @@ button {
 
 .cont_box {
   border: 1px solid #000000 !important;
-  padding: 15px !important;
+  padding-left:30px !important;
+	padding-right:20px !important;
+	padding-top:20px !important;
+    padding-bottom:30px !important;
 }
 
 .form-select {
@@ -147,7 +153,7 @@ button {
   width: 100% !important;
   padding: .375rem 2.25rem .375rem .75rem !important;
   -moz-padding-start: calc(0.75rem - 3px) !important;
-  font-size: 1rem !important;
+  font-size: 28.8px !important;
   font-weight: 400 !important;
   line-height: 1.5 !important;
   color: #212529 !important;
@@ -163,10 +169,12 @@ button {
   -moz-appearance: none !important;
   appearance: none !important;
   padding: 11px !important;
+  padding-left: 35px !important;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  display: block !important;
+  	display: block !important
+	font-size:21px !important;
 }
 
 .responsive-img {
@@ -240,6 +248,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #000000 !important;
   border-radius: 20px !important;
   font-size: 18px !important;
+  height: 52px !important;
 }
 
 .line_btns:hover {
@@ -256,6 +265,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 20px !important;
   color: #ffffff !important;
   font-size: 18px !important;
+  height:52px !important;
 }
 
 .btndark_big {
@@ -263,7 +273,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #474747 !important;
   border-radius: 14px !important;
   color: #ffffff !important;
-  font-size: 25px !important;
+  font-size: 13px !important;
+  height:48px !important;	
 }
 
 .top_title-small {
@@ -314,7 +325,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex !important;
   list-style: none !important;
   padding: 0 !important;
-  justify-content: space-evenly !important;
+  justify-content: space-between !important;
   margin: 0 auto !important;
 }
 
@@ -362,6 +373,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
+  height:70px !important;
 }
 
 .form-check-input {
@@ -391,6 +403,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #ffffff !important;
   padding: 10px 5px !important;
   background: #474747 !important;
+	height:70px !important;
+}
+
+.m_btm_btn_black_checkout {
+  width: 350px !important;
+  border-radius: 15px !important;
+  border: 1px solid #474747 !important;
+  color: #ffffff !important;
+  padding: 10px 5px !important;
+  background: #474747 !important;
+	height:70px !important;
+}
+
+.m_btm_btn_line_checkout {
+  width: 350px !important;
+  border-radius: 15px !important;
+  border: 1px solid #000000 !important;
+  color: #000000 !important;
+  background: #ffffff !important;
+  padding: 10px 5px !important;
+		height:70px !important;
 }
 
 .m_btm_btn_black_sm {
@@ -400,6 +433,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #ffffff !important;
   padding: 10px 5px !important;
   background: #474747 !important;
+		height:70px !important;
 }
 
 .m_btm_btn_blacked_sm {
@@ -409,6 +443,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #ffffff !important;
   padding: 10px 5px !important;
   background: #474747 !important;
+  height:48.9px !important;
 }
 
 
@@ -419,6 +454,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #ffffff !important;
   padding: 10px 5px !important;
   background: #474747 !important;
+		height:70px !important;
 }
 
 .m_btm_btn_line {
@@ -428,6 +464,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #000000 !important;
   background: #ffffff !important;
   padding: 10px 5px !important;
+		height:70px !important;
 }
 
 .back a {
@@ -571,10 +608,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .drk-heading {
   background: #474747 !important;
   color: #ffffff !important;
-  padding: 10px !important;
-  font-size: 16px !important;
+  padding: 10px 30px !important;
+  font-size: 24px !important;
   border-radius: 10px !important;
-  margin-top: 20px !important;
+  margin-top: 50px !important;
+  height:60px !important;
 }
 
 .line-position {
@@ -591,6 +629,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 10px !important;
   width: 100% !important;
   text-align: center !important;
+  height:45px !important;
+  font-size:21px !important
 }
 
 .text-left-right {
@@ -893,9 +933,9 @@ header .wp-block-group {
 .date-picker-input::-webkit-calendar-picker-indicator {
   position: absolute !important;
   left: 20px !important;
-  top: 67% !important;
+  top: 63% !important;
   transform: translateY(-54%) !important;
-  font-size: 20px !important;
+  font-size: 24px !important;
 }
 
 .date-picker-input2 {
@@ -906,9 +946,9 @@ header .wp-block-group {
 .date-picker-input2::-webkit-calendar-picker-indicator {
   position: absolute !important;
   left: 20px !important;
-  top: 79% !important;
+  top: 78% !important;
   transform: translateY(-54%) !important;
-  font-size: 20px !important;
+  font-size: 24px !important;
 }
 
 .mt-20 {
@@ -917,6 +957,17 @@ header .wp-block-group {
 
 .mt-10 {
   margin-top: 10px !important;
+}
+
+.footer_links {
+    margin-left: 10px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+}
+
+.car_title{
+	font-size:28px !important;
+	margin-top:20px !important;
 }
 
 .ast-container {
@@ -937,7 +988,6 @@ header .wp-block-group {
 }
 
 .btndark {
-  height: 41px !important;
   padding: 0px !important;
 }
 
@@ -958,4 +1008,38 @@ header .wp-block-group {
 
 .mt-6 {
   margin-top: 4.5rem !important;
+}
+
+.fn-28{
+	font-size: 28px !important;
+    font-weight: bold;
+}
+
+.fn-24{
+	font-size: 24px !important;
+}
+
+.fn-20{
+	font-size: 20px !important;
+}
+
+.fn-22{
+	font-size: 22px !important;
+}
+
+.form-check-input[type=radio] {
+    border-radius: 50% !important;
+    height: 29px !important;
+    width: 29px !important;
+}
+
+.form-check .form-check-input {
+    float: left !important;
+    margin-left: -2.5em !important;
+    bottom: 1px !important;
+}
+
+
+.form-check-input:checked[type=radio] {
+    background-image: none !important;
 }

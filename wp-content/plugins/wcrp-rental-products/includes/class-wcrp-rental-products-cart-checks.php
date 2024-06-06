@@ -302,20 +302,19 @@ if (!class_exists('WCRP_Rental_Products_Cart_Checks')) {
 
 						// Show notice if the product has been updated since the item was added to cart and product updated restrictions is enabled, as rental pricing/availability may have changed and therefore a customer could checkout when an item is unavailable or a different price
 
-						// if ( 'yes' == $product_updated_restrictions ) {
+						if ('yes' == $product_updated_restrictions) {
 
-						// 	if ( get_the_modified_date( 'U', $cart_item['product_id'] ) > $cart_item['wcrp_rental_products_cart_item_timestamp'] ) { // Uses $cart_item['product_id'] as it's always the parent regardless of variation
+							if (get_the_modified_date('U', $cart_item['product_id']) > $cart_item['wcrp_rental_products_cart_item_timestamp']) { // Uses $cart_item['product_id'] as it's always the parent regardless of variation
 
-						// 		// translators: %s: product title
-						// 		wc_add_notice( wp_kses_post( sprintf( __( 'Sorry, "%s" has recently been updated and pricing/availability may have changed. Please remove the product from your cart and add again.', 'wcrp-rental-products' ), get_the_title( $product_id ) ) ), 'error' );
+								// translators: %s: product title
+								wc_add_notice(wp_kses_post(sprintf(__('Sorry, "%s" has recently been updated and pricing/availability may have changed. Please remove the product from your cart and add again.', 'wcrp-rental-products'), get_the_title($product_id))), 'error');
 
-						// 		remove_action( 'woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20 ); // This does not work for cart/checkout blocks, however the wc_add_notice above is enough, the proceed to checkout button is still there and lets you through to checkout but clicking place order just scrolls you up to the notice rather than placing the order, priority is 20 because it must match the priority where added in WooCommerce core
+								remove_action('woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20); // This does not work for cart/checkout blocks, however the wc_add_notice above is enough, the proceed to checkout button is still there and lets you through to checkout but clicking place order just scrolls you up to the notice rather than placing the order, priority is 20 because it must match the priority where added in WooCommerce core
 
-						// 		return false; // Means one notice will be displayed at time to deal with the cart rather than multiples (could be the same product with different dates and would add the same message)
+								return false; // Means one notice will be displayed at time to deal with the cart rather than multiples (could be the same product with different dates and would add the same message)
 
-						// 	}
-
-						// }
+							}
+						}
 
 						// Check availability
 

@@ -47,7 +47,7 @@ $cart_details = Custom_Cart_Details::cart_details();
             予約フォー</h1>
         <div class="back back_hide"><a href="#"><img src="images/back.png">Back</a></div>
         <div class="sub_content_area" style="margin-top: 90px;">
-            <h2 class="sub_heading mt-3">予約内容の照会・変更・取消 <span style="font-weight: 200">|</span></h2>
+            <h2 class="sub_heading mt-3">予約内容の照会・変更・取消 <span style="font-weight: 200; font-size:51px">|</span></h2>
             <div class="w-100 hr_blck"></div>
             <div class="container m-0 p-0 full_width">
                 <div class="row">

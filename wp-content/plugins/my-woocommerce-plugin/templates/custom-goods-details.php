@@ -1,10 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
-    // If not, redirect them to the index page
-    wp_safe_redirect(home_url('/index.php/'));
-    exit();
-}
+// if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
+//     // If not, redirect them to the index page
+//     wp_safe_redirect(home_url('/index.php/'));
+//     exit();
+// }
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
@@ -120,7 +120,7 @@ function goods_added_to_cart()
             if ($product) {
         ?>
                 <div class="sub_content_area">
-                    <h2 class="sub_heading"><?php echo $product->get_name(); ?><span style="font-weight: 200"> |</span></h2>
+                    <h2 class="sub_heading"><?php echo $product->get_name(); ?><span style="font-weight: 200;font-size:51px"> |</span></h2>
                     <div class="w-100 hr_blck"></div>
                     <div class="container m-0 p-0 full_width">
                         <div class="row">
@@ -147,9 +147,9 @@ function goods_added_to_cart()
                             </div>
 
                             <div class="col-md-12">
-                                <h4 class="mt-4">デイキャンプデビューにぴったりのセット！<br>
+                                <h4 class="mt-4 fn-24">デイキャンプデビューにぴったりのセット！<br>
                                     気軽にキャンプに出かけましょう！</h4>
-                                <div class="mt-2">Coleman(コールマン)</div>
+                                <div class="mt-2 fn-14">Coleman(コールマン)</div>
                                 <div class="sub-head2 mt-2"><b>¥</b><?php echo $product->get_price(); ?><span>(税込)</span> / 1泊2日</div>
                                 <div class="txt_highlight ul-auto mt-3 mb-3">
                                     <?php
@@ -171,12 +171,12 @@ function goods_added_to_cart()
 
                                 </div>
 
-                                <div>数量を選ぶ</div>
+                                <div class="fn-16">数量を選ぶ</div>
                                 <div class="row">
                                     <form action="" method="POST">
                                         <div style="display:flex;">
                                             <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
-                                            <div class="col-md-2 col-sm-2"> <select name="product_quanty" class="form-select mt-3" aria-label="Default select example">
+                                            <div class="col-md-2 col-sm-2"> <select name="product_quanty" class="goods-select mt-3" aria-label="Default select example">
                                                     <option selected>1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>

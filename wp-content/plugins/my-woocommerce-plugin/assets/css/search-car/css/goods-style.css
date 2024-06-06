@@ -128,9 +128,12 @@ button {
 }
 
 .sub_heading {
-    font-size: 28px !important;
-    font-weight: 505 !important;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  line-height: 42px !important;
+  letter-spacing: 3px;
 }
+
 
 .sub_content_area {
     margin-top: 70px !important;
@@ -149,12 +152,12 @@ button {
     padding: 15px !important;
 }
 
-.form-select {
+.goods-select {
     display: block !important;
     width: 100% !important;
     padding: .375rem 2.25rem .375rem .75rem !important;
     -moz-padding-start: calc(0.75rem - 3px) !important;
-    font-size: 1rem !important;
+    font-size: 16.4px !important;
     font-weight: 400 !important;
     line-height: 1.5 !important;
     color: #212529 !important;
@@ -169,8 +172,8 @@ button {
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
     appearance: none !important;
-    padding: 11px !important;
     padding-left: 40px !important;
+	height:52px !important;
 }
 
 .sub-head1 {
@@ -259,6 +262,7 @@ button {
     border-radius: 20px !important;
     color: #ffffff !important;
     font-size: 18px !important;
+	height:52px !important;
 }
 
 .btndark_big {
@@ -397,6 +401,7 @@ button {
     color: #ffffff !important;
     padding: 10px 5px !important;
     background: #474747 !important;
+	height:55px !important;
 }
 
 .m_btm_btn_line {
@@ -820,4 +825,22 @@ body .is-layout-constrained> :where(:not(.alignleft):not(.alignright):not(.align
     border: 1px solid #000 !important;
     color: #000 !important;
     cursor: default !important;
+}
+
+.fn-28{
+	font-size: 28px !important;
+    font-weight: bold;
+}
+
+.fn-24{
+	font-size: 24px !important;
+}
+
+.fn-14{
+	font-size: 14px !important;
+}
+
+
+.txt-box-curve{
+	height:55px !important;
 }

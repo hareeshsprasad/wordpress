@@ -1,5 +1,6 @@
 <?php
-
+session_start();
+// $_SESSION['visited_index'] = true;
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
@@ -14,7 +15,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
             <div class="container m-0 p-0 full_width">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="sub_heading">レンタルパッケージ<span style="font-weight: 200">|</span></h2>
+                        <h2 class="sub_heading">レンタルパッケージ<span style="font-weight: 200;font-size:51px">|</span></h2>
                         <div class="w-100 hr_blck"></div>
                     </div>
                 </div>
@@ -22,7 +23,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="d-flex clmn mt-4">
+                        <div class="d-flex clmn mt-4 mb-4">
                             <div class="top_main_left">
                                 <h3 class="font-24to-small">PHEV自動車</h3>
 
@@ -75,7 +76,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
 
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <h2 class="sub_heading">電化製品を活用した新たなプラグインアウトドア体験例<span style="font-weight: 200">|</span></h2>
+                        <h2 class="sub_heading">電化製品を活用した新たなプラグインアウトドア体験例<span  style="font-weight: 200;font-size:51px">|</span></h2>
                         <div class="w-100 hr_blck"></div>
 
 
@@ -141,7 +142,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
 
                 <div class="row mt-5">
                     <div class="col-md-12">
-                        <h2 class="sub_heading">ご利用の流れ<span style="font-weight: 200">|</span></h2>
+                        <h2 class="sub_heading">ご利用の流れ<span style="font-weight: 200;font-size:51px">|</span></h2>
                         <div class="w-100 hr_blck"></div>
 
 
