@@ -1,10 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
-    // If not, redirect them to the index page
-    wp_safe_redirect(home_url('/index.php/'));
-    exit();
-}
+// if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
+//     // If not, redirect them to the index page
+//     wp_safe_redirect(home_url('/index.php/'));
+//     exit();
+// }
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }

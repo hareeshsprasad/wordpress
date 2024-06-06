@@ -1,10 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
-    // If not, redirect them to the index page
-    wp_safe_redirect(home_url('/index.php/'));
-    exit();
-}
+// if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
+//     // If not, redirect them to the index page
+//     wp_safe_redirect(home_url('/index.php/'));
+//     exit();
+// }
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
@@ -228,7 +228,7 @@ function goods_added_to_cart()
         <div class="sub_content_area">
             <form action="" method="POST">
                 <div class="row">
-                    <div class="col-md-4 fnt15"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/search.png'; ?>">キーワード検索 </div>
+                    <div class="col-md-4 fn-24"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/search.png'; ?>">キーワード検索 </div>
                     <div class="col-md-8">
                         <div class="d-flex justify-content-between">
                             <div class="w-65"><input type="text" class="form-control txt-box-curve" name="keyword-search" id="keyword-search" value="<?php echo $search_keyword; ?>" placeholder="キャンプグッズ"></div>
@@ -238,7 +238,7 @@ function goods_added_to_cart()
                 </div>
 
                 <div class="row mt-3 p-60">
-                    <div class="col-md-4 fnt15"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/discount.png'; ?>">タグで絞る </div>
+                    <div class="col-md-4 fn-24"><img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/discount.png'; ?>">タグで絞る </div>
                     <div class="col-md-8">
                         <div class="expandable_box">
                             <div class="btn_box" style="border:none !important;">
@@ -277,7 +277,7 @@ function goods_added_to_cart()
                 ?>
                                     <div class="row mb-4 add-mt">
                                         <div class="col-md-12">
-                                            <h2 class="sub_heading"><?php echo $sCategories->name; ?><span style="font-weight: 200"> |</span></h2>
+                                            <h2 class="sub_heading"><?php echo $sCategories->name; ?><span style="font-weight: 200;font-size:51px"> |</span></h2>
                                             <div class="w-100 hr_blck"></div>
                                         </div>
                                     </div>
@@ -291,9 +291,9 @@ function goods_added_to_cart()
                                                 <div class="product_box">
                                                     <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
                                                     <a href="<?php echo home_url("index.php/goods-details/?product_id={$product->get_id()}"); ?>"><img class="w-100" src="<?php echo get_the_post_thumbnail_url($product->get_id()); ?>" alt="Car Image"></a>
-                                                    <h2 class="min_sub mt-2"><?php echo $product->get_name(); ?><span style="font-weight: 200"></span></h2>
+                                                    <h2 class="mt-2 fn-24"><?php echo $product->get_name(); ?><span style="font-weight: 200"></span></h2>
                                                     <div class="w-100 hr_blck"></div>
-                                                    <div class="d-flex justify-content-between mt-2">
+                                                    <div class="d-flex justify-content-between fn-24 mt-2">
                                                         <div><b>¥<?php echo $product->get_price(); ?></b> (税込)</div>
                                                         <div>
                                                             <div class="txt_highlight ul-auto">
@@ -317,12 +317,12 @@ function goods_added_to_cart()
                                                         </div>
                                                     </div>
 
-                                                    <div>
+                                                    <div class="fn-14">
                                                         <?php echo $product->get_description(); ?>
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-4"> <select name="product_quanty" class="form-select mt-3" aria-label="Default select example">
+                                                        <div class="col-4"> <select name="product_quanty" class=" mt-3  goods-select" aria-label="Default select example">
                                                                 <option selected value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>

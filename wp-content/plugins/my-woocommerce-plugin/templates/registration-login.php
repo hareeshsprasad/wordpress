@@ -26,7 +26,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
                         <div>会員登録をして予約する方はこちら</div>
                         <div class="mt-3"> <a href="<?php echo wp_registration_url() ?>"><button type="button" class="btn btn-secondary m_btm_btn_black2 shadow ">会員登録</button></a></div>
                         <div class="mt-4">既にIDをお持ちの方はこちら</div>
-                        <div class="mt-3"> <a href="<?php echo wp_login_url() ?>"><button type="button" class="btn btn-secondary orange-btn shadow ">ログイン</button></a></div>
+                        <div class="mt-3"> <a href="<?php echo wp_login_url(home_url("index.php/custom-cart-details")) ?>"><button type="button" class="btn btn-secondary orange-btn shadow ">ログイン</button></a></div>
                     </div>
                 </div>
             </div>

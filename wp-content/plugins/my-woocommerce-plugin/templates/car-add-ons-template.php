@@ -1,10 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
-    // If not, redirect them to the index page
-    wp_safe_redirect(home_url('/index.php/'));
-    exit();
-}
+// if (!isset($_SESSION['visited_index']) || $_SESSION['visited_index'] !== true) {
+//     // If not, redirect them to the index page
+//     wp_safe_redirect(home_url('/index.php/'));
+//     exit();
+// }
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
@@ -16,9 +16,9 @@ require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-price-calculation.php';
 $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
-$has_etc_device = false;
-$has_insurance = false;
-$no_add_ons = false;
+// $has_etc_device = false;
+// $has_insurance = false;
+// $no_add_ons = false;
 $has_validation_key = false;
 $check_add_on_key = isset($_SESSION['check_add_on_key']) ? $_SESSION['check_add_on_key'] : null;
 if ($check_add_on_key) {
@@ -32,15 +32,15 @@ if ($check_add_on_key) {
     }
 }
 $unique_car_id = isset($_SESSION['unique_car_id']) ? $_SESSION['unique_car_id'] : '';
-$car_features = wp_get_post_terms($_SESSION['car_id'], 'car_features');
-foreach ($car_features as $feature) {
-    if ($feature->slug === 'etc-on-board-device') {
-        $has_etc_device = true;
-    }
-    if ($feature->slug === 'insurance') {
-        $has_insurance = true;
-    }
-}
+// $car_features = wp_get_post_terms($_SESSION['car_id'], 'car_features');
+// foreach ($car_features as $feature) {
+//     if ($feature->slug === 'etc-on-board-device') {
+//         $has_etc_device = true;
+//     }
+//     if ($feature->slug === 'insurance') {
+//         $has_insurance = true;
+//     }
+// }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['action'])) {
         $is_add_on = false;
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <form action="" method="POST">
             <div class="sub_content_area">
-                <h2 class="sub_heading">オプション選択 <span style="font-weight: 200">|</span></h2>
+                <h2 class="sub_heading">オプション選択 <span style="font-weight: 200;font-size:51px">|</span></h2>
                 <div class="w-100 hr_blck"></div>
                 <div class="container m-0 p-0 full_width">
                     <?php if ($check_add_on_key && !$has_validation_key) : ?>
@@ -175,52 +175,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $product = wc_get_product($product_post->ID);
 
                                 // Add conditions for displaying add-ons
-                                $display_add_on = false;
-                                if ($has_etc_device && strpos($product->get_slug(), 'etc-card') !== false) {
-                                    $display_add_on = true;
-                                }
-                                if ($has_insurance && strpos($product->get_slug(), 'insurance') !== false) {
-                                    // exit;
-                                    $display_add_on = true;
-                                }
-                                if (!$has_insurance && strpos($product->get_slug(), 'insurance') == false && !$has_etc_device && strpos($product->get_name(), 'etc-card') == false) {
-                                    $no_add_ons = true;
-                                }
+                                // $display_add_on = false;
+                                // if ($has_etc_device && strpos($product->get_slug(), 'etc-card') !== false) {
+                                //     $display_add_on = true;
+                                // }
+                                // if ($has_insurance && strpos($product->get_slug(), 'insurance') !== false) {
+                                //     // exit;
+                                //     $display_add_on = true;
+                                // }
+                                // if (!$has_insurance && strpos($product->get_slug(), 'insurance') == false && !$has_etc_device && strpos($product->get_name(), 'etc-card') == false) {
+                                //     $no_add_ons = true;
+                                // }
 
-                                if ($display_add_on) :
+                                // if ($display_add_on) :
                             ?>
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6 mt-3">
-                                            <div class="fn-17"><?php echo $product->get_name(); ?></div>
+                                <div class="row">
+                                    <div class="col-12 col-lg-6 mt-3">
+                                        <div class="fn-28"><?php echo $product->get_name(); ?></div>
+                                        <?php if ($product->get_slug() === 'etc-card') : ?>
                                             <div class="mt-1">料金：　<?php echo wc_price($product->get_price()); ?> 円 ／ 1枚</div>
-                                        </div>
-                                        <div class="col-6 col-lg-3 mt-3">
-                                            <div class="radio_box">
-                                                <div>希望する</div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_yes" value="<?php echo $product->get_id(); ?>">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-lg-3 mt-3">
-                                            <div class="radio_box">
-                                                <div>希望しない</div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_no" value="" checked>
-                                                </div>
+                                        <?php endif ?>
+                                        <?php if ($product->get_slug() === 'insurance') : ?>
+                                            <div class="mt-1">料金：　<?php echo wc_price($product->get_price()); ?> 円 ／ 1日</div>
+                                            <div class="mt-1"><a href="<?php echo esc_url(home_url('/liability_compensation/')) ?>">免責保証について</a></div>
+                                        <?php endif ?>
+                                    </div>
+                                    <div class="col-6 col-lg-3 mt-3">
+                                        <div class="radio_box">
+                                            <div class="fn-24">希望する</div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_yes" value="<?php echo $product->get_id(); ?>">
                                             </div>
                                         </div>
                                     </div>
-                                <?php endif; ?>
+                                    <div class="col-6 col-lg-3 mt-3">
+                                        <div class="radio_box">
+                                            <div class="fn-24">希望しない</div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="product_option_<?php echo $index; ?>" id="option_<?php echo $index; ?>_no" value="" checked>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php endforeach; ?>
                         <?php endif ?>
-                        <?php if ($no_add_ons) : ?>
-                            <script>
-                                var message = '選択された車には追加製品がありません';
-                                var type = 'error';
-                                notification(message, type);
-                            </script>
-                        <?php endif ?>
+                        <!-- <script>
+                            var message = '選択された車には追加製品がありません';
+                            var type = 'error';
+                            notification(message, type);
+                        </script> -->
                     <?php endif ?>
                     <div class="row">
                         <input type="hidden" name="car_id" value="<?php echo $unique_car_id; ?>">
