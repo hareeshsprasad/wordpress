@@ -44,6 +44,7 @@ class My_WC_Plugin
         add_shortcode('checkout_page_header', 'checkout_page_header');
         add_shortcode('child_seat_count', 'child_seat_count');
         add_shortcode('checkout_page_footer', 'checkout_page_footer');
+        add_shortcode('static_page_footer', 'static_page_footer');
 
         add_action('template_redirect', [$this, 'redirect_to_custom_thankyou']);
     }
@@ -291,6 +292,11 @@ function child_seat_count()
 function checkout_page_footer()
 {
     include MY_WC_PLUGIN_PATH . 'templates/checkout-footer.php';
+}
+
+function static_page_footer()
+{
+    include MY_WC_PLUGIN_PATH . 'templates/footer-template.php';
 }
 
 // Initialize the plugin
