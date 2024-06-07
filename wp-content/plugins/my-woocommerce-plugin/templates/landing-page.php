@@ -76,7 +76,7 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
 
                 <div class="row mt-4">
                     <div class="col-md-12">
-                        <h2 class="sub_heading">電化製品を活用した新たなプラグインアウトドア体験例<span  style="font-weight: 200;font-size:51px">|</span></h2>
+                        <h2 class="sub_heading">電化製品を活用した新たなプラグインアウトドア体験例<span style="font-weight: 200;font-size:51px">|</span></h2>
                         <div class="w-100 hr_blck"></div>
 
 
@@ -97,17 +97,17 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
                     <div class="col-md-4 mb-4 ">
                         <div><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/img4.png'); ?>" class="w-100"></div>
                         <div style="border-left: 2px solid #ff3c00; margin-top: 15px;">
-                            <h3>アウトドアシアター</h3>
+                            <h3>青空ワーケーション</h3>
                         </div>
-                        <div>夜空の下で映像が楽しめる！</div>
+                        <div>Wi-Fiやモニターが使える！</div>
                     </div>
 
                     <div class="col-md-4 mb-4">
                         <div><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/img6.png'); ?>" class="w-100"></div>
                         <div style="border-left: 2px solid #ff3c00; margin-top: 15px;">
-                            <h3>アウトドアシアター</h3>
+                            <h3>外でもビールサーバー</h3>
                         </div>
-                        <div>夜空の下で映像が楽しめる！</div>
+                        <div>キンキンに冷えた生ビールが楽しめる！</div>
                     </div>
 
                 </div>
@@ -116,25 +116,25 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
                     <div class="col-md-4 ">
                         <div><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/img1.png'); ?>" class="w-100"></div>
                         <div style="border-left: 2px solid #ff3c00; margin-top: 15px;">
-                            <h3>アウトドアシアター</h3>
+                            <h3>手軽なコーヒメーカー</h3>
                         </div>
-                        <div>夜空の下で映像が楽しめる！</div>
+                        <div>家庭用調理器具で楽々調理！</div>
                     </div>
 
                     <div class="col-md-4 ">
                         <div><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/img3.png'); ?>" class="w-100"></div>
                         <div style="border-left: 2px solid #ff3c00; margin-top: 15px;">
-                            <h3>アウトドアシアター</h3>
+                            <h3>快適な宿泊環境</h3>
                         </div>
-                        <div>夜空の下で映像が楽しめる！</div>
+                        <div>ドライヤー等で普段通りの生活を！</div>
                     </div>
 
                     <div class="col-md-4 ">
                         <div><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/img5.png'); ?>" class="w-100"></div>
                         <div style="border-left: 2px solid #ff3c00; margin-top: 15px;">
-                            <h3>アウトドアシアター</h3>
+                            <h3>季節を問わないアウトドア体験</h3>
                         </div>
-                        <div>夜空の下で映像が楽しめる！</div>
+                        <div>扇風機やヒーターが使える！</div>
                     </div>
 
                 </div>

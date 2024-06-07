@@ -400,7 +400,7 @@ function add_or_update_cart_item()
                     <div style="font-family: Arial, sans-serif;">
                         <div class="child-seat">
                             <div style="display: flex; align-items: center; margin-bottom: 30px;">
-                                <div class="col-md-3 d-flex align-items-center">
+                                <div class="col-md-6 d-flex align-items-center">
                                     <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
                                     <span style="margin-left: 10px; font-size: 20px;">大人</span>
                                 </div>
@@ -417,7 +417,7 @@ function add_or_update_cart_item()
                             </div>
 
                             <div style="display: flex; align-items: center; margin-bottom: 30px;">
-                                <div class="col-md-3 d-flex align-items-center">
+                                <div class="col-md-6 d-flex align-items-center">
                                     <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
                                     <span style="margin-left: 10px; font-size: 20px;">子供（6歳以下）</span>
                                 </div>

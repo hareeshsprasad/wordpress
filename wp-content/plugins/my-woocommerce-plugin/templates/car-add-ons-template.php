@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 if (isset($_GET['change_add_on'])) {
     $_SESSION['check_add_on_key'] = sanitize_text_field($_GET['change_add_on']);
 }
-$data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
+$data = isset($_SESSION['rental_dates']) ? $_SESSION['rental_dates'] : [];
 require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-price-calculation.php';
@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <?php endif ?>
                                         <?php if ($product->get_slug() === 'insurance') : ?>
                                             <div class="mt-1">料金：　<?php echo wc_price($product->get_price()); ?> 円 ／ 1日</div>
-                                            <div class="mt-1"><a href="<?php echo esc_url(home_url('/liability_compensation/')) ?>">免責保証について</a></div>
+                                            <div class="mt-1"><a class="change_link" href="<?php echo esc_url(home_url('/liability_compensation/')) ?>">免責保証について</a></div>
                                         <?php endif ?>
                                     </div>
                                     <div class="col-6 col-lg-3 mt-3">
