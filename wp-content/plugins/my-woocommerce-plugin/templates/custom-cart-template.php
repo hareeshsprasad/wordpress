@@ -390,7 +390,7 @@ function add_or_update_cart_item()
                             </div>
                         </div>
                     <?php endforeach ?>
-                <?php endif ?>
+                
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <div class="drk-heading">選択されたキャンプグッズ</div>
@@ -440,6 +440,7 @@ function add_or_update_cart_item()
                         </div>
                     </div>
                 </div>
+                <?php endif ?>
                 <?php if (!empty($cart_details)) : ?>
                     <div class="row mt-3">
                         <div class="col-md-12">
