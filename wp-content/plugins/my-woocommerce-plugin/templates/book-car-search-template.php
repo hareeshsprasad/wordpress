@@ -475,6 +475,7 @@ function custom_add_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($cart_item_data['product_id'], $cart_item_data['quantity'], 0, array(), $cart_item_data);
             if ($response) {
+                $_SESSION['success'] = "success";
                 wp_safe_redirect(home_url('/index.php/car-add-ons/'));
                 // if ($has_etc_device || $has_insurance) {
                 //     wp_safe_redirect(home_url('/index.php/car-add-ons/'));
@@ -520,6 +521,7 @@ function custom_add_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
+                $_SESSION['success'] = "success";
                 wp_safe_redirect(home_url('/index.php/car-add-ons/'));
                 // if ($has_etc_device || $has_insurance) {
                 //     wp_safe_redirect(home_url('/index.php/car-add-ons/'));
@@ -553,6 +555,7 @@ function custom_add_to_cart()
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
+                $_SESSION['success'] = "success";
                 wp_safe_redirect(home_url('/index.php/car-add-ons/'));
                 // if ($has_etc_device || $has_insurance) {
                 //     wp_safe_redirect(home_url('/index.php/car-add-ons/'));

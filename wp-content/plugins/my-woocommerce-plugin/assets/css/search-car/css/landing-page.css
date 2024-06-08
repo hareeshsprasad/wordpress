@@ -442,13 +442,14 @@ button {
   background: #474747;
 }
 
-.m_btm_btn_line {
-  width: 250px;
+.m_btm_btn_line_landing {
+  width: 512px !important;
   border-radius: 15px;
   border: 1px solid #000000;
   color: #000000;
   background: #ffffff;
   padding: 10px 5px;
+  height: 67px !important;
 }
 
 .back a {
@@ -768,7 +769,7 @@ button {
     width: 100%;
     text-align: center;
     padding-top: 20px;
-	padding-bottom:40px;
+    padding-bottom: 40px;
   }
 
   .top_main_left {

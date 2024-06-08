@@ -10,6 +10,16 @@ if (!defined('ABSPATH')) {
 }
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-price-calculation.php';
+if ($_SESSION['success'] && $_SESSION['success'] === "success") {
+?>
+    <script>
+        var message = '商品をカートに追加しました';
+        var type = 'success';
+        notification(message, type);
+    </script>
+    <?php
+    unset($_SESSION['success']);
+}
 // Function definition 
 function function_alert($message)
 {
@@ -125,7 +135,7 @@ function goods_added_to_cart()
             $response = WC()->cart->add_to_cart($product_id, $product_quantity, 0, array(), $cart_item_data);
 
             if ($response) {
-?>
+    ?>
                 <script>
                     var message = '商品をカートに追加しました！';
                     var type = 'success';

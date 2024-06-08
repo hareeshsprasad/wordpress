@@ -246,8 +246,8 @@ require_once MY_WC_PLUGIN_PATH . 'templates/landing-page-header.php';
 
 
                 <div class="row justify-content-center mt-5">
-                    <div class="col-md-4 text-center mb-4"> <button type="button" class="btn btn-outline-secondary m_btm_btn_line shadow w-100 " style="border-radius: 24px;">よくある質問</button></div>
-                    <div class="col-md-4 text-center mb-4"> <button type="button" class="btn btn-outline-secondary m_btm_btn_line shadow  w-100 " style="border-radius: 24px;">キャンセルポリシー</button></div>
+                    <div class="col-md-6 text-center mb-4"> <button type="button" class="btn btn-outline-secondary m_btm_btn_line_landing shadow w-100 " style="border-radius: 24px;">よくある質問</button></div>
+                    <div class="col-md-6 text-center mb-4"> <button type="button" class="btn btn-outline-secondary m_btm_btn_line_landing shadow  w-100 " style="border-radius: 24px;">キャンセルポリシー</button></div>
 
                 </div>
 
