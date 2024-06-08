@@ -400,7 +400,8 @@ function add_or_update_cart_item()
                             </div>
                         </div>
                     <?php endforeach ?>
-
+                <?php endif ?>
+                <?php if (!WC()->cart->is_empty()) { ?>
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <div class="drk-heading">選択されたキャンプグッズ</div>
@@ -410,7 +411,7 @@ function add_or_update_cart_item()
                         <div style="font-family: Arial, sans-serif;">
                             <div class="child-seat">
                                 <div style="display: flex; align-items: center; margin-bottom: 30px;">
-                                    <div class="col-md-6 d-flex align-items-center">
+                                    <div class="col-md-3 d-flex align-items-center">
                                         <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
                                         <span style="margin-left: 10px; font-size: 20px;">大人</span>
                                     </div>
@@ -427,7 +428,7 @@ function add_or_update_cart_item()
                                 </div>
 
                                 <div style="display: flex; align-items: center; margin-bottom: 30px;">
-                                    <div class="col-md-6 d-flex align-items-center">
+                                    <div class="col-md-3 d-flex align-items-center">
                                         <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
                                         <span style="margin-left: 10px; font-size: 20px;">子供（6歳以下）</span>
                                     </div>
@@ -450,7 +451,7 @@ function add_or_update_cart_item()
                             </div>
                         </div>
                     </div>
-                <?php endif ?>
+                <?php } ?>
                 <?php if (!empty($cart_details)) : ?>
                     <div class="row mt-3">
                         <div class="col-md-12">
