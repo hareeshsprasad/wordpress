@@ -15,6 +15,16 @@ $data = isset($_SESSION['rental_dates']) ? $_SESSION['rental_dates'] : [];
 require_once MY_WC_PLUGIN_PATH . 'includes/class-car-add-ons.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-price-calculation.php';
+if ($_SESSION['success'] && $_SESSION['success'] === "success") {
+?>
+    <script>
+        var message = '商品をカートに追加しました';
+        var type = 'success';
+        notification(message, type);
+    </script>
+<?php
+    unset($_SESSION['success']);
+}
 $add_on_products = Car_Addons::get_products_by_category_name('add-ons');
 // $has_etc_device = false;
 // $has_insurance = false;
@@ -91,9 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $cart_item_data['unique_car_id'] = sanitize_text_field($_POST['car_id']);
                 if (class_exists('WC_Cart') && !$flag) {
                     $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
-                    // if ($response) {
-                    //     echo "<script> alert('message successfully sent')</script>";
-                    // }
+                    if ($response) {
+                        $_SESSION['success'] = "success";
+                    }
                 }
             }
         }

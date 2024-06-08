@@ -13,6 +13,16 @@ const CHILD_SEAT_SLUG = 'child-seat';
 $data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
 require_once MY_WC_PLUGIN_PATH . 'includes/class-cart-details.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+if ($_SESSION['success'] && $_SESSION['success'] === "success") {
+?>
+    <script>
+        var message = '商品をカートに追加しました';
+        var type = 'success';
+        notification(message, type);
+    </script>
+<?php
+    unset($_SESSION['success']);
+}
 // removing car and associated add-ons //
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_item_key'])) {
     $cart = WC()->cart;

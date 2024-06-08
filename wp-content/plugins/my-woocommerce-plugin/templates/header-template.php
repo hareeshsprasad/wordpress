@@ -135,7 +135,7 @@ if (!defined('ABSPATH')) {
         snackbar.innerHTML = message;
         snackbar.style.position = "fixed";
         snackbar.style.bottom = "80px";
-        snackbar.style.right = "0px";
+        snackbar.style.right = "50px";
         snackbar.style.height = "fit-content";
 
 
@@ -158,6 +158,6 @@ if (!defined('ABSPATH')) {
 
         setTimeout(function() {
             snackbar.className = snackbar.className.replace("show", "");
-        }, 3000);
+        }, 6000);
     }
 </script>
