@@ -8,7 +8,7 @@ class Custom_Price_calculation
 {
     public static function set_rent_amount($price)
     {
-        $data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
+        $data = isset($_SESSION['rental_dates']) ? $_SESSION['rental_dates'] : [];
         $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
         $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
         $rent_from_date = new DateTime($rent_from);

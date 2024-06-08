@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <header style="max-width:100% !important;">
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
         <div class="container-fluid head_w"> <a class="navbar-brand" href="<?php echo esc_url(home_url('/index.php/home-page')); ?>"><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/BLK logo.png'); ?>" alt="BLK Logo"></a>

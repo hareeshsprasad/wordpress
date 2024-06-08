@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-$_SESSION['visited_index'] = true;
 if (isset($_GET['change_car'])) {
     $_SESSION['change_car_key'] = sanitize_text_field($_GET['change_car']);
 }
@@ -13,40 +12,35 @@ require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 $categories = Custom_Category_Listing::get_categories();
 $response = [];
 $data = null;
-custom_add_to_cart();
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $main_category = isset($_POST['main_category']) ? sanitize_text_field($_POST['main_category']) : '';
     $sub_category = isset($_POST['sub_category']) ? sanitize_text_field($_POST['sub_category']) : '';
     $rent_from = isset($_POST['rent_from']) ? sanitize_text_field($_POST['rent_from']) : '';
     $rent_to = isset($_POST['rent_to']) ? sanitize_text_field($_POST['rent_to']) : '';
 
-    $data = [
+    $datas = [
         'main_category' => $main_category,
         'sub_category' => $sub_category,
         'rent_from' => $rent_from,
         'rent_to' => $rent_to,
     ];
-    $_SESSION['data'] = $data;
-
-    // Redirect to the same page to prevent form resubmission
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
-} else {
-    if (isset($_SESSION['data'])) {
-        $data = $_SESSION['data'];
-        // unset($_SESSION['data']); // Clear session data to reset the form inputs
-    } else {
-        $data = [];
-    }
-    $main_category = isset($data['main_category']) ? $data['main_category'] : '';
-    $sub_category = isset($data['sub_category']) ? $data['sub_category'] : '';
-    $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
-    $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
+    // $_SESSION['data'] = $datas;
 }
+// else {
+//     if (isset($_SESSION['data'])) {
+//         $data = $_SESSION['data'];
+//         // unset($_SESSION['data']); // Clear session data to reset the form inputs
+//     } else {
+//         $data = [];
+//     }
+//     $main_category = isset($data['main_category']) ? $data['main_category'] : '';
+//     $sub_category = isset($data['sub_category']) ? $data['sub_category'] : '';
+//     $rent_from = isset($data['rent_from']) ? $data['rent_from'] : '';
+//     $rent_to = isset($data['rent_to']) ? $data['rent_to'] : '';
+// }
 
-if ($data != null) {
-    $response = Custom_Available_Product_Listing::availabe_Cars($data);
+if ($datas != null) {
+    $response = Custom_Available_Product_Listing::availabe_Cars($datas);
 
     if (empty($response)) {
 ?>
@@ -67,6 +61,10 @@ if ($data != null) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Company info</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         (function(d) {
             var config = {
@@ -96,6 +94,68 @@ if ($data != null) {
             };
             s.parentNode.insertBefore(tk, s)
         })(document);
+        $(function() {
+            $('input[name="rent_from"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: false,
+                autoApply: true,
+                locale: {
+                    format: 'YYYY/MM/DD',
+                    weekLabel: 'W',
+                    daysOfWeek: ['日', '月', '火', '水', '木', '金', '土'],
+                    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    firstDay: 1
+                },
+                autoUpdateInput: false,
+                minDate: moment().startOf('day')
+            });
+
+            $('input[name="rent_from"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY/MM/DD'));
+                $('#rent_from_error').hide();
+            });
+
+            $('input[name="rent_from"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+            $('#car-select-form').on('submit', function(e) {
+                if (!$('input[name="rent_from"]').val()) {
+                    $('#rent_from_error').text('開始日を選択してください。').show();
+                    e.preventDefault();
+                }
+            });
+        });
+        $(function() {
+            $('input[name="rent_to"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: false,
+                autoApply: true,
+                locale: {
+                    format: 'YYYY/MM/DD',
+                    weekLabel: 'W',
+                    daysOfWeek: ['日', '月', '火', '水', '木', '金', '土'],
+                    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    firstDay: 1
+                },
+                autoUpdateInput: false,
+                minDate: moment().startOf('day')
+            });
+
+            $('input[name="rent_to"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY/MM/DD'));
+                $('#rent_to_error').hide();
+            });
+
+            $('input[name="rent_to"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+            $('#car-select-form').on('submit', function(e) {
+                if (!$('input[name="rent_to"]').val()) {
+                    $('#rent_to_error').text('終了日を選択してください。').show();
+                    e.preventDefault();
+                }
+            });
+        });
     </script>
 </head>
 
@@ -114,9 +174,9 @@ if ($data != null) {
                 <li>5</li>
             </ul>
         </div>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="car-select-form">
+        <form action="" method="post" id="car-select-form">
             <div class="sub_content_area">
-                <h2 class="sub_heading">出発する店舗と日時を選ぶ <span style="font-weight: 200">|</span></h2>
+                <h2 class="sub_heading">出発する店舗と日時を選ぶ <span style="font-weight: 200;font-size:51px">|</span></h2>
                 <div class="w-100 hr_blck"></div>
                 <div class="container m-0 p-0 full_width">
                     <div class="row">
@@ -148,24 +208,23 @@ if ($data != null) {
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="date" id="rent_from" name="rent_from" placeholder="choose the start date" class="form-select mt-4 date-picker-input" aria-label="Default select example" style="height:50px" value="<?php echo $rent_from; ?>" required>
+                            <input type="text" id="rent_from" name="rent_from" placeholder="開始日を選択してください" class="form-select mt-4 date-picker-input" aria-label="Default select example" style="height:80px !important" value="<?php echo $rent_from; ?>" required readonly>
+                            <div id="rent_from_error" class="error-message"></div>
                         </div>
                     </div>
 
                     <div class="row" style="margin-top: 70px;">
                         <div class="col-md-12">
-                            <h2 class="sub_heading">返却する日時を選ぶ <span style="font-weight: 200">|</span></h2>
+                            <h2 class="sub_heading">返却する日時を選ぶ <span style="font-weight: 200;font-size:51px">|</span></h2>
                             <div class="w-100 hr_blck"></div>
-                            <input type="date" id="rent_to" name="rent_to" placeholder="choose the end date" class="form-select mt-4 date-picker-input2" aria-label="Default select example" style="height:50px" value="<?php echo $rent_to; ?>" required>
+                            <input type="text" id="rent_to" name="rent_to" placeholder="終了日を選択してください" class="form-select mt-4 date-picker-input2" aria-label="Default select example" style="height:80px !important" value="<?php echo $rent_to; ?>" required readonly>
+                            <div id="rent_to_error" class="error-message"></div>
                         </div>
-                        <div id="error-message" style="color: red; float:left; display: none">
-
-                        </div>
+                        <div id="error-message" style="color: red; float:left; display: none"></div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12 text-center mt-5 ">
-                            <button type="submit" class="btn btn-secondary btndark_big shadow px-5">検索</button>
+                            <button type="submit" class="btn btn-secondary btndark_big_search shadow px-5">検索</button>
                         </div>
                     </div>
                     <input type="hidden" value="submitted" name="submitted">
@@ -174,7 +233,7 @@ if ($data != null) {
         </form>
         <?php if (!empty($response)) : ?>
             <div class=" sub_content_area2">
-                <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200">|</span></h2>
+                <h2 class="sub_heading">クルマの選択 <span style="font-weight: 200;font-size:51px">|</span></h2>
                 <div class="w-100 hr_blck"></div>
             </div>
             <?php foreach ($response as $product_id) : ?>
@@ -206,7 +265,7 @@ if ($data != null) {
                                 <div class="cont_box mt-4">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h4 class="txt-center"><?php echo $product->get_name(); ?></h4>
+                                            <h4 class="txt-center car_title"><?php echo $product->get_name(); ?></h4>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -231,7 +290,7 @@ if ($data != null) {
                                                     <div class="hr_blck mt-1"></div>
                                                 </div>
                                             </div>
-                                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                                            <form action="" method="POST">
                                                 <input type="hidden" id="wcrp-rental-products-cart-item-validation-<?php echo esc_html($rental_form_id); ?>" name="wcrp_rental_products_cart_item_validation">
                                                 <input type="hidden" id="wcrp-rental-products-cart-item-timestamp-<?php echo esc_html($rental_form_id); ?>" name="wcrp_rental_products_cart_item_timestamp" value="<?php echo esc_html(current_time('timestamp', false)); ?>">
                                                 <input type="hidden" id="wcrp-rental-products-cart-item-price-<?php echo esc_html($rental_form_id); ?>" name="wcrp_rental_products_cart_item_price" value="<?php echo $total_rent_amount ?>">
@@ -322,7 +381,7 @@ if ($data != null) {
                                                                     <div class="col-md-12 mt-2 p-45" id="description"> 上質感を高めながらいっそう流麗で洗練されたフォルム。精悍でスポーティな表情。そして、SUVとしての機動性とスタビリティの高さを表現した、シャープで立体的な六角形のリヤデザイン。走りへの欲求を掻き立てる、新たな造形に辿り着きました。 </div>
                                                                 </div>
                                                                 <div class="row mt-3">
-                                                                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                                                                    <form action="" method="POST">
                                                                         <input type="hidden" id="wcrp-rental-products-cart-item-validation" name="wcrp_rental_products_cart_item_validation">
                                                                         <input type="hidden" id="wcrp-rental-products-cart-item-timestamp" name="wcrp_rental_products_cart_item_timestamp">
                                                                         <input type="hidden" id="wcrp-rental-products-cart-item-price" name="wcrp_rental_products_cart_item_price">
@@ -367,39 +426,80 @@ if ($data != null) {
                 </div>
     </div>
 <?php endforeach; ?>
-<!-- <div class="row">
-    <div class="col-md-12 text-center mt-5 ">
-        <button type="button" class="btn btn-secondary btndark_big shadow px-5">選択する</button>
-    </div>
-</div> -->
 <?php endif ?>
 </div>
 <?php
+if (!empty($_REQUEST['hidden_form']) || !empty($_REQUEST['model_form'])) {
+    custom_add_to_cart();
+}
 function custom_add_to_cart()
 {
-    $has_etc_device = false;
-    $has_insurance = false;
-    $car_features = wp_get_post_terms($_REQUEST['product_id'], 'car_features');
-    foreach ($car_features as $feature) {
-        if ($feature->slug === 'etc-on-board-device') {
-            $has_etc_device = true;
-        }
-        if ($feature->slug === 'insurance') {
-            $has_insurance = true;
-        }
-    }
-    $cart_item_data = [];
+    // For changing the car from the cart page //
     $change_car_key = isset($_SESSION['change_car_key']) ? $_SESSION['change_car_key'] : null;
-    $cart = WC()->cart;
-    $cart_items = $cart->get_cart();
     if ($change_car_key && isset(WC()->cart->cart_contents[$change_car_key])) {
+        $_SESSION['car_id'] = $_REQUEST['product_id'];
+        $cart_item_data = [];
         $cart_item_data = &WC()->cart->cart_contents[$change_car_key];
         $cart_item_data['product_id'] = $_REQUEST['product_id'];
         $cart_item_data['quantity'] = 1;
+        $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
+        $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
         $cart_item_data['wcrp_rental_products_cart_item_price'] = !empty($_REQUEST['wcrp_rental_products_cart_item_price']) ? $_REQUEST['wcrp_rental_products_cart_item_price'] : "";
         $cart_item_data['wcrp_rental_products_rent_from'] = !empty($_REQUEST['wcrp_rental_products_rent_from']) ? $_REQUEST['wcrp_rental_products_rent_from'] : "";
         $cart_item_data['wcrp_rental_products_rent_to'] = !empty($_REQUEST['wcrp_rental_products_rent_to']) ? $_REQUEST['wcrp_rental_products_rent_to'] : "";
-    } else {
+        $cart_item_data['wcrp_rental_products_start_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_start_days_threshold']) ? $_REQUEST['wcrp_rental_products_start_days_threshold'] : 0;
+        $cart_item_data['wcrp_rental_products_return_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_return_days_threshold']) ? $_REQUEST['wcrp_rental_products_return_days_threshold'] : 0;
+        $cart_item_data['wcrp_rental_products_advanced_pricing'] = !empty($_REQUEST['wcrp_rental_products_advanced_pricing']) ? $_REQUEST['wcrp_rental_products_advanced_pricing'] : "off";
+        $_SESSION['rental_dates'] = array();
+        $_SESSION['rental_dates']['rent_from'] = $_REQUEST['wcrp_rental_products_rent_from'];
+        $_SESSION['rental_dates']['rent_to'] = $_REQUEST['wcrp_rental_products_rent_to'];
+        $cart = WC()->cart;
+        $cart_items = $cart->get_cart();
+        $unique_car_id = '';
+
+        foreach ($cart_items as $cart_item_key => $cart_item) {
+            if ($cart_item_key === $change_car_key && isset($cart_item['unique_car_id'])) {
+                $unique_car_id = $cart_item['unique_car_id'];
+                break;
+            }
+        }
+        $cart->remove_cart_item($change_car_key);
+        if ($unique_car_id) {
+            foreach ($cart_items as $cart_item_key => $cart_item) {
+                if (isset($cart_item['unique_car_id']) && $cart_item['unique_car_id'] === $unique_car_id) {
+                    $cart->remove_cart_item($cart_item_key);
+                }
+            }
+        }
+        unset($_SESSION['change_car_key']);
+        if (class_exists('WC_Cart')) {
+            $response = WC()->cart->add_to_cart($cart_item_data['product_id'], $cart_item_data['quantity'], 0, array(), $cart_item_data);
+            if ($response) {
+                wp_safe_redirect(home_url('/index.php/car-add-ons/'));
+                // if ($has_etc_device || $has_insurance) {
+                //     wp_safe_redirect(home_url('/index.php/car-add-ons/'));
+                //     exit;
+                // } else {
+                //     wp_safe_redirect(home_url('/index.php/goods/'));
+                //     exit;
+                // }
+            }
+        }
+    }
+    $has_car_in_cart = false; //For preventing the user to add a car to the cart if already another car in the cart //
+    $cart = WC()->cart;
+    $cart_items = $cart->get_cart();
+    foreach ($cart_items as $cart_item_key => $cart_item) {
+        if (isset($cart_item['wcrp_rental_products_cart_item_validation'])) {
+            $has_car_in_cart = true;
+        }
+    }
+    if ($has_car_in_cart) {
+        foreach ($cart_items as $cart_item_key => $cart_item) {
+            $cart->remove_cart_item($cart_item_key);
+        }
+        $_SESSION['car_id'] = $_REQUEST['product_id'];
+        $cart_item_data = [];
         $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
         $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
         $cart_item_data['wcrp_rental_products_cart_item_price'] = !empty($_REQUEST['wcrp_rental_products_cart_item_price']) ? $_REQUEST['wcrp_rental_products_cart_item_price'] : "";
@@ -411,51 +511,56 @@ function custom_add_to_cart()
         $unique_id = uniqid('car_');
         $cart_item_data['unique_car_id'] = $unique_id;
         $_SESSION['unique_car_id'] = $unique_id;
-    }
-
-    if (!empty($_REQUEST['hidden_form']) || !empty($_REQUEST['model_form'])) {
-        $_SESSION['car_id'] = $_REQUEST['product_id'];
-        $_SESSION['visited_index'] = true;
-        // Removing the existing car and associated add-ons and replace the existing car
-        if ($change_car_key && isset(WC()->cart->cart_contents[$change_car_key])) {
-            $cart = WC()->cart;
-            $cart_items = $cart->get_cart();
-            $unique_car_id = '';
-
-            foreach ($cart_items as $cart_item_key => $cart_item) {
-                if ($cart_item_key === $change_car_key && isset($cart_item['unique_car_id'])) {
-                    $unique_car_id = $cart_item['unique_car_id'];
-                    break;
-                }
-            }
-            $cart->remove_cart_item($change_car_key);
-            if ($unique_car_id) {
-                foreach ($cart_items as $cart_item_key => $cart_item) {
-                    if (isset($cart_item['unique_car_id']) && $cart_item['unique_car_id'] === $unique_car_id) {
-                        $cart->remove_cart_item($cart_item_key);
-                    }
-                }
-            }
-            unset($_SESSION['change_car_key']);
-            // $unique_id = uniqid('car_');
-            // $cart_item_data['unique_car_id'] = $unique_id;
-            // $_SESSION['unique_car_id'] = $unique_id;
-        }
-
         $product_id = $_REQUEST['product_id'];
         $quantity = 1;
-
+        $_SESSION['rental_dates'] = array();
+        $_SESSION['rental_dates']['rent_from'] = $_REQUEST['wcrp_rental_products_rent_from'];
+        $_SESSION['rental_dates']['rent_to'] = $_REQUEST['wcrp_rental_products_rent_to'];
         // Ensure WooCommerce is loaded
         if (class_exists('WC_Cart')) {
             $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
             if ($response) {
-                if ($has_etc_device || $has_insurance) {
-                    wp_safe_redirect(home_url('/index.php/car-add-ons/'));
-                    exit;
-                } else {
-                    wp_safe_redirect(home_url('/index.php/goods/'));
-                    exit;
-                }
+                wp_safe_redirect(home_url('/index.php/car-add-ons/'));
+                // if ($has_etc_device || $has_insurance) {
+                //     wp_safe_redirect(home_url('/index.php/car-add-ons/'));
+                //     exit;
+                // } else {
+                //     wp_safe_redirect(home_url('/index.php/goods/'));
+                //     exit;
+                // }
+            }
+        }
+    } else {  // for adding a  car to the cart for the first time //
+        $_SESSION['car_id'] = $_REQUEST['product_id'];
+        $cart_item_data = [];
+        $cart_item_data['wcrp_rental_products_cart_item_validation'] = !empty($_REQUEST['wcrp_rental_products_cart_item_validation']) ? $_REQUEST['wcrp_rental_products_cart_item_validation'] : "";
+        $cart_item_data['wcrp-rental-products-cart-item-timestamp'] = !empty($_REQUEST['wcrp_rental_products_cart_item_timestamp']) ? $_REQUEST['wcrp_rental_products_cart_item_timestamp'] : "";
+        $cart_item_data['wcrp_rental_products_cart_item_price'] = !empty($_REQUEST['wcrp_rental_products_cart_item_price']) ? $_REQUEST['wcrp_rental_products_cart_item_price'] : "";
+        $cart_item_data['wcrp_rental_products_rent_from'] = !empty($_REQUEST['wcrp_rental_products_rent_from']) ? $_REQUEST['wcrp_rental_products_rent_from'] : "";
+        $cart_item_data['wcrp_rental_products_rent_to'] = !empty($_REQUEST['wcrp_rental_products_rent_to']) ? $_REQUEST['wcrp_rental_products_rent_to'] : "";
+        $cart_item_data['wcrp_rental_products_start_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_start_days_threshold']) ? $_REQUEST['wcrp_rental_products_start_days_threshold'] : 0;
+        $cart_item_data['wcrp_rental_products_return_days_threshold'] = !empty($_REQUEST['wcrp_rental_products_return_days_threshold']) ? $_REQUEST['wcrp_rental_products_return_days_threshold'] : 0;
+        $cart_item_data['wcrp_rental_products_advanced_pricing'] = !empty($_REQUEST['wcrp_rental_products_advanced_pricing']) ? $_REQUEST['wcrp_rental_products_advanced_pricing'] : "off";
+        $unique_id = uniqid('car_');
+        $cart_item_data['unique_car_id'] = $unique_id;
+        $_SESSION['unique_car_id'] = $unique_id;
+        $product_id = $_REQUEST['product_id'];
+        $quantity = 1;
+        $_SESSION['rental_dates'] = array();
+        $_SESSION['rental_dates']['rent_from'] = $_REQUEST['wcrp_rental_products_rent_from'];
+        $_SESSION['rental_dates']['rent_to'] = $_REQUEST['wcrp_rental_products_rent_to'];
+        // Ensure WooCommerce is loaded
+        if (class_exists('WC_Cart')) {
+            $response = WC()->cart->add_to_cart($product_id, $quantity, 0, array(), $cart_item_data);
+            if ($response) {
+                wp_safe_redirect(home_url('/index.php/car-add-ons/'));
+                // if ($has_etc_device || $has_insurance) {
+                //     wp_safe_redirect(home_url('/index.php/car-add-ons/'));
+                //     exit;
+                // } else {
+                //     wp_safe_redirect(home_url('/index.php/goods/'));
+                //     exit;
+                // }
             }
         }
     }

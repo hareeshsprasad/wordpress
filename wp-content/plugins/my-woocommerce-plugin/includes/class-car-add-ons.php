@@ -13,9 +13,12 @@ class Car_Addons
             'taxonomy' => 'product_cat',
             'parent' => 0,
             'hide_empty' => false,
+            'orderby' => 'slug',
+            'order' => 'ASC',
         ];
         return get_terms($args);
     }
+
     public static function get_products_by_category_name($category_name)
     {
         $category = get_term_by('name', $category_name, 'product_cat');
@@ -32,6 +35,12 @@ class Car_Addons
                 ],
             ];
             $products = new WP_Query($args);
+
+            // Sort products by slug
+            usort($products->posts, function ($a, $b) {
+                return strcmp($a->post_name, $b->post_name);
+            });
+
             return $products->posts;
         }
 
