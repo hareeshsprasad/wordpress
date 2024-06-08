@@ -390,57 +390,58 @@ function add_or_update_cart_item()
                             </div>
                         </div>
                     <?php endforeach ?>
-                
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <div class="drk-heading">選択されたキャンプグッズ</div>
-                    </div>
-                </div>
-                <div>
-                    <div style="font-family: Arial, sans-serif;">
-                        <div class="child-seat">
-                            <div style="display: flex; align-items: center; margin-bottom: 30px;">
-                                <div class="col-md-3 d-flex align-items-center">
-                                    <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
-                                    <span style="margin-left: 10px; font-size: 20px;">大人</span>
-                                </div>
-                                <div class="col-md-3 ">
-                                    <select name="adult_count" id="adult_count" style="margin-left: 10px;padding: 5px;width: 90%;height: 40px;">
-                                        <option value="">オプションを選択してください</option>
-                                        <option value="1">1人</option>
-                                        <option value="2">2人</option>
-                                        <option value="3">3人</option>
-                                        <option value="4">4人</option>
-                                        <option value="5">5人</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div style="display: flex; align-items: center; margin-bottom: 30px;">
-                                <div class="col-md-3 d-flex align-items-center">
-                                    <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
-                                    <span style="margin-left: 10px; font-size: 20px;">子供（6歳以下）</span>
-                                </div>
-                                <div class="col-md-3">
-                                    <select name="child_count" id="child_count" style="margin-left: 10px;padding: 5px;width: 90%;height: 40px;">
-                                        <option value="">オプションを選択してください</option>
-                                        <option value="0">0人</option>
-                                        <option value="1">1人</option>
-                                        <option value="2">2人</option>
-                                        <option value="3">3人</option>
-                                        <option value="4">4人</option>
-                                        <option value="5">5人</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <ul style="list-style-type: disc; margin-left: 20px;">
-                                <li>6歳未満の幼児を同乗させる場合、チャイルドシートの使用が義務付けられています。</li>
-                                <li>オプション料金1台当たり1,100円（税込）</li>
-                            </ul>
+                <?php endif ?>
+                <?php if (!WC()->cart->is_empty()) { ?>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="drk-heading">選択されたキャンプグッズ</div>
                         </div>
                     </div>
-                </div>
-                <?php endif ?>
+                    <div>
+                        <div style="font-family: Arial, sans-serif;">
+                            <div class="child-seat">
+                                <div style="display: flex; align-items: center; margin-bottom: 30px;">
+                                    <div class="col-md-3 d-flex align-items-center">
+                                        <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
+                                        <span style="margin-left: 10px; font-size: 20px;">大人</span>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <select name="adult_count" id="adult_count" style="margin-left: 10px;padding: 5px;width: 90%;height: 40px;">
+                                            <option value="">オプションを選択してください</option>
+                                            <option value="1">1人</option>
+                                            <option value="2">2人</option>
+                                            <option value="3">3人</option>
+                                            <option value="4">4人</option>
+                                            <option value="5">5人</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; align-items: center; margin-bottom: 30px;">
+                                    <div class="col-md-3 d-flex align-items-center">
+                                        <span style="background-color: red;color: white;padding: 5px;width: 25%;text-align: center;">必須</span>
+                                        <span style="margin-left: 10px; font-size: 20px;">子供（6歳以下）</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select name="child_count" id="child_count" style="margin-left: 10px;padding: 5px;width: 90%;height: 40px;">
+                                            <option value="">オプションを選択してください</option>
+                                            <option value="0">0人</option>
+                                            <option value="1">1人</option>
+                                            <option value="2">2人</option>
+                                            <option value="3">3人</option>
+                                            <option value="4">4人</option>
+                                            <option value="5">5人</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <ul style="list-style-type: disc; margin-left: 20px;">
+                                    <li>6歳未満の幼児を同乗させる場合、チャイルドシートの使用が義務付けられています。</li>
+                                    <li>オプション料金1台当たり1,100円（税込）</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
                 <?php if (!empty($cart_details)) : ?>
                     <div class="row mt-3">
                         <div class="col-md-12">
