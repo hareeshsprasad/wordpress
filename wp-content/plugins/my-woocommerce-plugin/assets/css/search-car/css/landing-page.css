@@ -1,34 +1,6 @@
 @charset "utf-8";
+
 /* CSS Document */
-
-@font-face {
-  font-family: 'GenShinGothic';
-  src: url('../fonts/GenShinGothic-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GenShinGothic';
-  src: url('../fonts/GenShinGothic-Normal.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GenShinGothic';
-  src: url('../fonts/GenShinGothic-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GenShinGothic';
-  src: url('../fonts/GenShinGothic-Bold.woff2') format('woff2');
-  font-weight: bold;
-  font-style: normal;
-}
-
 body {
   font-family: 'GenShinGothic', sans-serif;
   font-weight: 300;
@@ -745,13 +717,99 @@ button {
   font-size: 24px
 }
 
+.fn-21 {
+  font-size: 21px !important;
+  font-weight: 500 !important;
+}
+
+.fn-21 span {
+  padding-left: 30px !important;
+}
+
+.fn-14 {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 24px !important;
+}
+
+.fn-23 {
+  font-size: 23px !important;
+  font-weight: 500 !important;
+  line-height: 34px !important;
+}
+
+.mt-6 {
+  margin-top: 60px !important;
+}
+
+.landing_desc {
+  background: #d9d9d9;
+  padding: 28px;
+  height: 95px
+}
+
+.fn-19 {
+  font-size: 19px !important;
+  font-weight: 400 !important;
+  line-height: 29px !important;
+}
+
+.fn-18 {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 27px !important;
+}
+
+
+.fn-17 {
+  font-size: 17px !important;
+}
+
+.fn-47 {
+  font-size: 47px !important;
+}
+
+.fn-20 {
+  font-size: 20px !important;
+}
+
+.mob_arrow {
+  display: none !important;
+}
+
+.arrow_pos_mob {
+  display: flex;
+  justify-content: center;
+  transform: rotate(90deg);
+  padding-top: 90px !important;
+}
+
 @media screen and (max-width: 1125px) {
   .font-24to-small {
     font-size: 16px
   }
+
+  .landing_desc {
+    background: #d9d9d9;
+    padding: 28px;
+    height: fit-content !important;
+  }
+
+  .m_btm_btn_line_landing {
+    width: 100% !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
+
+  .web_arrow {
+    display: none !important;
+  }
+
+  .mob_arrow {
+    display: block !important;
+  }
+
   .arrow_pos4 {
     display: none;
   }
@@ -936,6 +994,10 @@ button {
     display: flex;
     justify-content: center;
     align-items: center
+  }
+
+  .mn-ht {
+    justify-content: center;
   }
 }
 

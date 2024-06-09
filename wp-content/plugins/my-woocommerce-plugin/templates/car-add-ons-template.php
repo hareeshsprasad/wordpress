@@ -105,6 +105,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $_SESSION['success'] = "success";
                     }
                 }
+            } else {
+                $cart = WC()->cart;
+                $cart_details = $cart->get_cart();
+                foreach ($cart_details as $cart_item_key => $cart_item) {
+                    $product_id = $cart_item['product_id'];
+                    $product_categories = wp_get_post_terms($product_id, 'product_cat', array('fields' => 'slugs'));
+                    if (in_array('add-ons', $product_categories)) {
+                        $cart->remove_cart_item($cart_item_key);
+                        $_SESSION['removed'] = "success";
+                    }
+                }
             }
         }
     }

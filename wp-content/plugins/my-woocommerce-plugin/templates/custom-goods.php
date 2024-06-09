@@ -17,8 +17,18 @@ if ($_SESSION['success'] && $_SESSION['success'] === "success") {
         var type = 'success';
         notification(message, type);
     </script>
-    <?php
+<?php
     unset($_SESSION['success']);
+}
+if ($_SESSION['removed'] && $_SESSION['removed'] === "success") {
+?>
+    <script>
+        var message = 'ETCカードと減免補償制度をカートから削除しました';
+        var type = 'error';
+        notification(message, type);
+    </script>
+    <?php
+    unset($_SESSION['removed']);
 }
 // Function definition 
 function function_alert($message)

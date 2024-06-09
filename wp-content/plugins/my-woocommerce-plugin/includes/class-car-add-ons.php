@@ -21,7 +21,7 @@ class Car_Addons
 
     public static function get_products_by_category_name($category_name)
     {
-        $category = get_term_by('name', $category_name, 'product_cat');
+        $category = get_term_by('slug', $category_name, 'product_cat');
         if ($category && !is_wp_error($category)) {
             $args = [
                 'post_type' => 'product',
