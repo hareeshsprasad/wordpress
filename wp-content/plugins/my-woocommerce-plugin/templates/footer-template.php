@@ -37,11 +37,11 @@
             </div>
         </div>
     </div>
-	<div class="row mt-20">
-		<div class="col-md-12 d-flex justify-content-center">
-			<div><img src="http://52.195.235.189/wp-content/uploads/2024/06/fe689b003e197ec29acbaf795855f586.png" alt="logo" style="height:37px;width:117px"></div>
-		</div>
-	</div>
+    <div class="row mt-20">
+        <div class="col-md-12 d-flex justify-content-center">
+            <div><img src="<?php echo esc_url(MY_WC_PLUGIN_URL . 'assets/images/footer.png'); ?>" alt="logo" style="height:37px;width:117px"></div>
+        </div>
+    </div>
     <div class="row mt-20 d-flex justify-content-center">
         <div class="col-md-10">
             <div class="bottom_link">

@@ -23,6 +23,16 @@ if ($_SESSION['success'] && $_SESSION['success'] === "success") {
 <?php
     unset($_SESSION['success']);
 }
+if ($_SESSION['removed'] && $_SESSION['removed'] === "success") {
+?>
+    <script>
+        var message = 'ETCカードと減免補償制度をカートから削除しました';
+        var type = 'error';
+        notification(message, type);
+    </script>
+<?php
+    unset($_SESSION['removed']);
+}
 // removing car and associated add-ons //
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove_item_key'])) {
     $cart = WC()->cart;
@@ -404,7 +414,7 @@ function add_or_update_cart_item()
                 <?php if (!WC()->cart->is_empty()) { ?>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <div class="drk-heading">選択されたキャンプグッズ</div>
+                            <div class="drk-heading">助手席を選択してください</div>
                         </div>
                     </div>
                     <div>

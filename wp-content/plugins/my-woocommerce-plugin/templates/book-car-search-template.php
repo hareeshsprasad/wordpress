@@ -9,9 +9,17 @@ if (!defined('ABSPATH')) {
 }
 require_once MY_WC_PLUGIN_PATH . 'includes/class-custom-category-listing.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
+require_once MY_WC_PLUGIN_PATH . 'set-rental-days.php';
 $categories = Custom_Category_Listing::get_categories();
 $response = [];
 $data = null;
+$cart = WC()->cart;
+$cart_items = $cart->get_cart();
+// For removing the items in the cart if the user visits the car booking page after adding a car to the cart starts //
+foreach ($cart_items as $cart_item_key => $cart_item) {
+    $cart->remove_cart_item($cart_item_key);
+}
+// For removing the items in the cart if the user visits the car booking page after adding a car to the cart ends //
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $main_category = isset($_POST['main_category']) ? sanitize_text_field($_POST['main_category']) : '';
     $sub_category = isset($_POST['sub_category']) ? sanitize_text_field($_POST['sub_category']) : '';
@@ -94,67 +102,96 @@ if ($datas != null) {
             };
             s.parentNode.insertBefore(tk, s)
         })(document);
+        var numberOfDays = <?php echo json_encode($number_of_days); ?>;
         $(function() {
-            $('input[name="rent_from"]').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: false,
-                autoApply: true,
-                locale: {
-                    format: 'YYYY/MM/DD',
-                    weekLabel: 'W',
-                    daysOfWeek: ['日', '月', '火', '水', '木', '金', '土'],
-                    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                    firstDay: 1
-                },
-                autoUpdateInput: false,
-                minDate: moment().startOf('day')
-            });
+            function initializeDatePickers(numDays) {
+                $('#rent_from').daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: false,
+                    autoApply: true,
+                    locale: {
+                        format: 'YYYY/MM/DD',
+                        weekLabel: 'W',
+                        daysOfWeek: ['日', '月', '火', '水', '木', '金', '土'],
+                        monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                        firstDay: 1
+                    },
+                    autoUpdateInput: false,
+                    minDate: moment()
+                });
 
-            $('input[name="rent_from"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('YYYY/MM/DD'));
-                $('#rent_from_error').hide();
-            });
+                $('#rent_from').on('apply.daterangepicker', function(ev, picker) {
+                    var startDate = picker.startDate.format('YYYY/MM/DD');
+                    $(this).val(startDate);
 
-            $('input[name="rent_from"]').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-            $('#car-select-form').on('submit', function(e) {
-                if (!$('input[name="rent_from"]').val()) {
-                    $('#rent_from_error').text('開始日を選択してください。').show();
-                    e.preventDefault();
-                }
-            });
-        });
-        $(function() {
-            $('input[name="rent_to"]').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: false,
-                autoApply: true,
-                locale: {
-                    format: 'YYYY/MM/DD',
-                    weekLabel: 'W',
-                    daysOfWeek: ['日', '月', '火', '水', '木', '金', '土'],
-                    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                    firstDay: 1
-                },
-                autoUpdateInput: false,
-                minDate: moment().startOf('day')
-            });
+                    $('#rent_to').prop('disabled', false);
 
-            $('input[name="rent_to"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('YYYY/MM/DD'));
-                $('#rent_to_error').hide();
-            });
+                    var minDateForRentTo = picker.startDate.clone();
+                    var maxDateForRentTo = picker.startDate.clone().add(numDays - 1, 'days');
 
-            $('input[name="rent_to"]').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-            $('#car-select-form').on('submit', function(e) {
-                if (!$('input[name="rent_to"]').val()) {
-                    $('#rent_to_error').text('終了日を選択してください。').show();
-                    e.preventDefault();
-                }
-            });
+                    $('#rent_to').daterangepicker({
+                        singleDatePicker: true,
+                        showDropdowns: false,
+                        autoApply: true,
+                        locale: {
+                            format: 'YYYY/MM/DD',
+                            weekLabel: 'W',
+                            daysOfWeek: ['日', '月', '火', '水', '木', '金', '土'],
+                            monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                            firstDay: 1
+                        },
+                        autoUpdateInput: false,
+                        minDate: minDateForRentTo,
+                        maxDate: maxDateForRentTo
+                    });
+
+                    if ($('#rent_to').val()) {
+                        var rentToDate = moment($('#rent_to').val(), 'YYYY/MM/DD');
+                        if (rentToDate.isBefore(minDateForRentTo) || rentToDate.isAfter(maxDateForRentTo)) {
+                            $('#rent_to').val('');
+                        }
+                    }
+                });
+
+                $('#rent_to').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY/MM/DD'));
+                });
+
+                $('#rent_from').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                    $('#rent_to').val('').prop('disabled', true);
+                });
+
+                $('#rent_to').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                });
+
+                $('#rent_to').on('focus', function() {
+                    if (!$('#rent_from').val()) {
+                        var message = 'choose the start date first';
+                        var type = 'error';
+                        notification(message, type);
+                    }
+                });
+
+                $('#car-select-form').on('submit', function(e) {
+                    if (!$('input[name="rent_from"]').val()) {
+                        var message = '開始日を選択してください。';
+                        var type = 'error';
+                        notification(message, type);
+                        e.preventDefault();
+                    }
+                    if (!$('input[name="rent_to"]').val()) {
+                        var message = '終了日を選択してください';
+                        var type = 'error';
+                        notification(message, type);
+                        e.preventDefault();
+                    }
+                });
+            }
+
+            // Initialize the date pickers with the number of days from PHP
+            initializeDatePickers(numberOfDays);
         });
     </script>
 </head>
