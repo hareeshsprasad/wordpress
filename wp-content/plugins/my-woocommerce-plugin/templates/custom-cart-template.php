@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 const CHILD_SEAT_SLUG = 'child-seat';
-$data = isset($_SESSION['data']) ? $_SESSION['data'] : [];
+$data = isset($_SESSION['rental_dates']) ? $_SESSION['rental_dates'] : [];
 require_once MY_WC_PLUGIN_PATH . 'includes/class-cart-details.php';
 require_once MY_WC_PLUGIN_PATH . 'templates/header-template.php';
 if ($_SESSION['success'] && $_SESSION['success'] === "success") {
