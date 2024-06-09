@@ -2,7 +2,24 @@ document.addEventListener("DOMContentLoaded", function () {
   // displaying car pop-up //
   var modal = document.getElementById("exampleModal");
   var backBtn = document.getElementsByClassName("back-btn")[0];
-
+  document
+    .getElementById("car-select-form")
+    .addEventListener("submit", function (event) {
+      var location = document.getElementById("main-category").value;
+      var store = document.getElementById("sub-category").value;
+      if (location === "") {
+        var message = "場所を選択してください";
+        var type = "error";
+        notification(message, type);
+        event.preventDefault();
+      }
+      if (store === "") {
+        var message = "店舗を選択してください";
+        var type = "error";
+        notification(message, type);
+        event.preventDefault();
+      }
+    });
   document.querySelectorAll(".details-button").forEach((button) => {
     button.addEventListener("click", function (event) {
       event.preventDefault();
@@ -114,5 +131,5 @@ function notification(message, type = "success") {
 
   setTimeout(function () {
     snackbar.className = snackbar.className.replace("show", "");
-  }, 3000);
+  }, 6000);
 }

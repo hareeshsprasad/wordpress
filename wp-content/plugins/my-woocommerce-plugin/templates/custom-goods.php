@@ -354,7 +354,7 @@ function goods_added_to_cart()
                                                                 <option value="9">9</option>
                                                                 <option value="10">10</option>
                                                             </select></div>
-                                                        <div class="col-8 mt-3"> <button type="submit" class="btn btn-secondary m_btm_btn_blacked shadow w-100">検索する</button></div>
+                                                        <div class="col-8 mt-3"> <button type="submit" class="btn btn-secondary m_btm_btn_blacked3 shadow w-100">検索する</button></div>
                                                     </div>
                                                 </div>
                                             </form>

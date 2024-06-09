@@ -168,7 +168,7 @@ if ($datas != null) {
 
                 $('#rent_to').on('focus', function() {
                     if (!$('#rent_from').val()) {
-                        var message = 'choose the start date first';
+                        var message = '最初に開始日を選択してください';
                         var type = 'error';
                         notification(message, type);
                     }
@@ -218,8 +218,8 @@ if ($datas != null) {
                 <div class="container m-0 p-0 full_width">
                     <div class="row">
                         <div class="col-md-6">
-                            <select class="form-select mt-4" aria-label="Default select example" id="main-category" name="main_category" required>
-                                <option selected disabled>都道府県</option>
+                            <select class="form-select mt-4" aria-label="Default select example" id="main-category" name="main_category">
+                                <option value="" selected disabled>都道府県</option>
                                 <?php foreach ($categories as $category) : ?>
                                     <?php if ($category->slug !== 'uncategorized' && $category->slug !== 'add-ons' && $category->slug !== 'camping-goods') : ?>
                                         <option value="<?php echo $category->term_id; ?>" <?php echo ($main_category == $category->term_id) ? 'selected' : ''; ?>>
@@ -230,8 +230,8 @@ if ($datas != null) {
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <select class="form-select mt-4" aria-label="Default select example" id="sub-category" name="sub_category" required>
-                                <option selected disabled>店舗</option>
+                            <select class="form-select mt-4" aria-label="Default select example" id="sub-category" name="sub_category">
+                                <option value="" selected disabled>店舗</option>
                                 <?php
                                 if ($main_category) {
                                     $subcategories = Custom_Category_Listing::get_subcategories(intval($main_category));

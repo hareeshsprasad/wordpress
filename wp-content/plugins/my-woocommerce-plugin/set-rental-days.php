@@ -1,2 +1,2 @@
 <?php
-$number_of_days = 7;
+$number_of_days = 60;
